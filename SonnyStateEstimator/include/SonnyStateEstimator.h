@@ -30,8 +30,9 @@ public:
     /**
      * @brief Initializes the estimator with the robot model.
      * @param model_path The path to the robot model file.
+     * @param dt The time step for the state estimation process.
      */
-    void init(QString model_path); 
+    void init(QString model_path, double dt); 
 
     /**
      * @brief Runs the state estimation process.

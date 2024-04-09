@@ -24,7 +24,7 @@ int main() {
     
     // Initialize the estimator
     QString path = "../model.json"; 
-    estimator.init(path);
+    estimator.init(path, 0.0025);
 
     // Open the file containing motor data
     QString input_path = "../inputdata.txt";
