@@ -12,10 +12,10 @@ from .fi_logger import Logger
 
 # if add to Robot-RCS project, uncomment this line!!!
 from .fi_fsa_predefine import (FSAFunctionResult,
-                                                 FSAControlWord,
-                                                 FSAErrorCode,
-                                                 FSAModeOfOperation,
-                                                 FSAFlagState)
+                               FSAControlWord,
+                               FSAErrorCode,
+                               FSAModeOfOperation,
+                               FSAFlagState)
 
 
 class FSA:
