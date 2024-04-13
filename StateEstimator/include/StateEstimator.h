@@ -1,5 +1,5 @@
-#ifndef SONNYSTATEESTIMATOR_H
-#define SONNYSTATEESTIMATOR_H
+#ifndef STATEESTIMATOR_H
+#define STATEESTIMATOR_H
 
 #include <Eigen/Dense>
 #include <rbdl/rbdl.h>
@@ -85,4 +85,4 @@ private:
 
 }; 
 
-#endif // SONNYSTATEESTIMATOR_H
+#endif // STATEESTIMATOR_H

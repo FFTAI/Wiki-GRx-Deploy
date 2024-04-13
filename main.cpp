@@ -3,7 +3,7 @@
 #include <string>
 #include <Eigen/Dense>
 #include <thread>
-#include "SonnyStateEstimator.h"
+#include "StateEstimator.h"
 #include <QString>
 
 // Define a struct to hold motor data
@@ -19,7 +19,7 @@ std::vector<MotorData> readMotorData(const std::string& file_path);
 int main() {
     double time = 0.0;
     int count = 0;
-    // Create an instance of the SonnyStateEstimator
+    // Create an instance of the StateEstimator
     Estimator estimator;
     
     // Initialize the estimator
