@@ -1,0 +1,7 @@
+README.md
+setup.py
+robot_rcs_base.egg-info/PKG-INFO
+robot_rcs_base.egg-info/SOURCES.txt
+robot_rcs_base.egg-info/dependency_links.txt
+robot_rcs_base.egg-info/requires.txt
+robot_rcs_base.egg-info/top_level.txt

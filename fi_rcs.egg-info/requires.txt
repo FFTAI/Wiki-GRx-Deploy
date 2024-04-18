@@ -1,4 +1,0 @@
-numpy
-pyserial==3.5
-pygame
-nuitka

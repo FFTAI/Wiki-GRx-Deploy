@@ -1,0 +1,6 @@
+numpy
+torch
+pyserial==3.5
+pygame
+matplotlib
+nuitka

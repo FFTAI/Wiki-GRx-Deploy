@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<robot name="/home/fugo/Documents/SonnyV1/protos/Robot.urdf" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <link name="upper_body">
+  </link>
+  <joint name="base_link_upper_body_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="upper_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="hip">
+  </link>
+  <joint name="upper_body_hip_joint" type="fixed">
+    <parent link="upper_body"/>
+    <child link="hip"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="R_hip_roll_motor" type="revolute">
+    <parent link="hip"/>
+    <child link="R_hip_roll"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0.0038 -0.10468 0" rpy="0 0 0"/>
+  </joint>
+  <link name="R_hip_roll">
+  </link>
+  <joint name="R_hip_yaw_motor" type="revolute">
+    <parent link="R_hip_roll"/>
+    <child link="R_hip_yaw"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0.05 0 -0.0525" rpy="0 0 0"/>
+  </joint>
+  <link name="R_hip_yaw">
+  </link>
+  <joint name="R_hip_pitch_motor" type="revolute">
+    <parent link="R_hip_yaw"/>
+    <child link="R_hip_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 -0.097" rpy="0 0 0"/>
+  </joint>
+  <link name="R_hip_pitch">
+  </link>
+  <joint name="R_knee_pitch_motor" type="revolute">
+    <parent link="R_hip_pitch"/>
+    <child link="R_knee_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-3.14" upper="3.14" velocity="50"/>
+    <origin xyz="0 0 -0.33" rpy="0 0 0"/>
+  </joint>
+  <link name="R_knee_pitch">
+  </link>
+  <joint name="R_foot_pitch_motor" type="revolute">
+    <parent link="R_knee_pitch"/>
+    <child link="R_foot_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 -0.32" rpy="0 0 0"/>
+  </joint>
+  <link name="R_foot_pitch">
+  </link>
+  <joint name="R_foot_roll_motor" type="revolute">
+    <parent link="R_foot_pitch"/>
+    <child link="R_foot_roll"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="R_foot_roll">
+    <visual>
+      <origin xyz="0 0 -0.016" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.08 0.032"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.016" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.08 0.032"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="L_hip_roll_motor" type="revolute">
+    <parent link="hip"/>
+    <child link="L_hip_roll"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0.0038 0.10468 0" rpy="0 0 0"/>
+  </joint>
+  <link name="L_hip_roll">
+  </link>
+  <joint name="L_hip_yaw_motor" type="revolute">
+    <parent link="L_hip_roll"/>
+    <child link="L_hip_yaw"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0.05 0 -0.0525" rpy="0 0 0"/>
+  </joint>
+  <link name="L_hip_yaw">
+  </link>
+  <joint name="L_hip_pitch_motor" type="revolute">
+    <parent link="L_hip_yaw"/>
+    <child link="L_hip_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 -0.097" rpy="0 0 0"/>
+  </joint>
+  <link name="L_hip_pitch">
+  </link>
+  <joint name="L_knee_pitch_motor" type="revolute">
+    <parent link="L_hip_pitch"/>
+    <child link="L_knee_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-3.14" upper="3.14" velocity="50"/>
+    <origin xyz="0 0 -0.33" rpy="0 0 0"/>
+  </joint>
+  <link name="L_knee_pitch">
+  </link>
+  <joint name="L_foot_pitch_motor" type="revolute">
+    <parent link="L_knee_pitch"/>
+    <child link="L_foot_pitch"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 -0.32" rpy="0 0 0"/>
+  </joint>
+  <link name="L_foot_pitch">
+  </link>
+  <joint name="L_foot_roll_motor" type="revolute">
+    <parent link="L_foot_pitch"/>
+    <child link="L_foot_roll"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="200" lower="-1.57" upper="1.57" velocity="50"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="L_foot_roll">
+    <visual>
+      <origin xyz="0 0 -0.016" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.08 0.032"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.016" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.08 0.032"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="accelerometer">
+  </link>
+  <joint name="base_link_accelerometer_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="accelerometer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="gyro">
+  </link>
+  <joint name="base_link_gyro_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gyro"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="inertial unit">
+  </link>
+  <joint name="base_link_inertial unit_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="inertial unit"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>
