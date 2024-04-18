@@ -5,7 +5,7 @@
 ## 文件结构说明
 
 - robot_rcs.cpython-311-x86_64-linux-gnu.so Robot-RCS 的基础核心代码库
-- parallel_ankle.cpython-311-x86_64-linux-gnu.so 针对 GR1 的并联脚踝代码库
+- parallel_ankle.cpython-311-x86_64-linux-gnu.so 针对 GR1T1 的并联脚踝代码库
 - robot_rcs_base: Robot-RCS 使用的示例代码
     - config: 配置文件存放文件夹
     - webots: webots仿真环境文件夹
