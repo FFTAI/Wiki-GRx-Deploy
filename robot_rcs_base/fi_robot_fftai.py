@@ -47,6 +47,12 @@ class RobotFFTAI(RobotBase):
         super().init()
 
         # sensor
+        # Note :
+        # init of sensor_usb_imu was done in super().init()
+        # for i in range(self.number_of_sensor_usb_imu):
+        #     if self.sensor_usb_imu[i] is not None:
+        #         self.sensor_usb_imu[i].init()
+
         for i in range(self.number_of_sensor_fi_fse):
             if self.sensor_fi_fse[i] is not None:
                 self.sensor_fi_fse[i].init()
@@ -56,6 +62,12 @@ class RobotFFTAI(RobotBase):
                 self.sensor_fi_fse[i].comm()
 
         # actuator
+        # Note :
+        # init of actuator was done in super().init()
+        # for i in range(self.number_of_actuator):
+        #     if self.actuators[i] is not None:
+        #         self.actuators[i].init()
+
         for i in range(self.number_of_actuator):
             if self.actuators[i] is not None:
                 self.actuators[i].comm(enable=gl_robot_config.parameters["actuator"]["comm_enable"][i],

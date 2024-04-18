@@ -6,7 +6,6 @@ import time
 from threading import Thread
 
 from robot_rcs.callback.fi_callback import CallbackSystemExit
-from robot_rcs.comm.fi_comm_manager_v3 import CommManagerV3
 from robot_rcs.control_system.fi_control_system import ControlSystem
 
 from robot_rcs.predefine.fi_flag_state import FlagState
