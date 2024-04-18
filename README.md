@@ -7,16 +7,18 @@
 - robot_rcs.cpython-311-x86_64-linux-gnu.so Robot-RCS 的基础核心代码库
 - parallel_ankle.cpython-311-x86_64-linux-gnu.so 针对 GR1T1 的并联脚踝代码库
 - robot_rcs_base: Robot-RCS 使用的示例代码
-    - config: 配置文件存放文件夹
-    - webots: webots仿真环境文件夹
-        - controllers/webots_gr1t1/webots_gr1t1.py: webots GR1T1 控制器入口
-    - fi_robot_interface.py 傅利叶智能机器人接口类，用于选定初始化的机器人类型
-    - fi_robot_fftai.py 傅利叶智能机器人基础类
-    - fi_robot_gr1t1.py 傅利叶智能机器人 GR1T1 类，继承自 fi_robot_fftai.py 【提供基本站立复位功能示例代码】
-    - fi_robot_gr1t1_algorithm.py 傅利叶智能机器人 GR1T1 算法类，进行基本的站立控制算法计算
-    - fi_robot_gr1t1_customize.py 傅利叶智能机器人 GR1T1 定制类，继承自 fi_robot_gr1t1.py 【供用户修改】
-    - fi_robot_gr1t1_customize_algorithm.py 傅利叶智能机器人 GR1T1 定制算法类 【供用户修改】
-    - fi_webots_gr1t1.py 傅利叶智能机器人 GR1T1 webots仿真类，用于仿真环境的初始化和控制 【供用户修改】
+    - 基础部分：
+        - config: 配置文件存放文件夹
+        - webots: webots仿真环境文件夹
+            - controllers/webots_gr1t1/webots_gr1t1.py: webots GR1T1 控制器入口
+        - fi_robot_interface.py 傅利叶智能机器人接口类，用于选定初始化的机器人类型
+        - fi_robot_fftai.py 傅利叶智能机器人基础类
+        - fi_robot_gr1t1.py 傅利叶智能机器人 GR1T1 类，继承自 fi_robot_fftai.py 【提供基本站立复位功能示例代码】
+        - fi_robot_gr1t1_algorithm.py 傅利叶智能机器人 GR1T1 算法类，进行基本的站立控制算法计算
+    - 定制部分：
+        - fi_robot_gr1t1_customize.py 傅利叶智能机器人 GR1T1 定制类，继承自 fi_robot_gr1t1.py 【供用户修改】
+        - fi_robot_gr1t1_customize_algorithm.py 傅利叶智能机器人 GR1T1 定制算法类 【供用户修改】
+        - fi_webots_gr1t1.py 傅利叶智能机器人 GR1T1 webots仿真类，用于仿真环境的初始化和控制 【供用户修改】
 - main_mp.py: 主程序入口
     - 实机调用方法：`python main_mp.py ./robot_rcs_base/config/config_GR1T1.json`
 
