@@ -26,8 +26,8 @@ from robot_rcs_base.fi_robot_interface import RobotInterface
 
 def main(argv):
     # 调用脚本，设置 /dev/ttyUSB0 权限
-    Logger().print_trace("sudo chmod 777 /dev/ttyUSB0")
-    os.system("sudo chmod 777 /dev/ttyUSB0")
+    # Logger().print_trace("sudo chmod 777 /dev/ttyUSB0")
+    # os.system("sudo chmod 777 /dev/ttyUSB0")
 
     # 初始化通信接口
     dynalinkhs_init()

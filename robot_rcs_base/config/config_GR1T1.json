@@ -16,8 +16,8 @@
     "use_sim": false
   },
   "operator": {
-    "use_joystick": true,
-    "joystick_connected": true,
+    "use_joystick": false,
+    "joystick_connected": false,
     "joystick_type": "XBOX",
     "use_keyboard": false,
     "keyboard_connected": false
@@ -32,6 +32,17 @@
     "use_fd_aios_v1": false,
     "use_fd_aios_v2": false,
     "use_fi_fsa": true
+  },
+  "sensor_usb_imu": {
+    "usb": [
+      "/dev/ttyUSB0"
+    ],
+    "comm_enable": [
+      true
+    ],
+    "comm_frequency": [
+      100
+    ]
   },
   "sensor_abs_encoder": {
     "type": "FIFSEV1",

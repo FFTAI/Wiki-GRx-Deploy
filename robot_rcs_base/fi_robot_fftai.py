@@ -36,22 +36,20 @@ class RobotFFTAI(RobotBase):
         ])
 
     def init(self) -> int:
-        # Note 2024-01-26:
-        # download PD value should before init() actuator,
-        # init() actuator will create child thread to handle receive message if using non-block mode.
-        Logger().print_trace("RobotFFTAI init() download joint pd value")
-        for i in range(self.number_of_joint):
-            if self.joints[i] is not None:
-                self.joints[i].download_control_pid()
-
-        super().init()
-
         # sensor
-        # Note :
-        # init of sensor_usb_imu was done in super().init()
-        # for i in range(self.number_of_sensor_usb_imu):
-        #     if self.sensor_usb_imu[i] is not None:
-        #         self.sensor_usb_imu[i].init()
+        # 调用脚本，设置 usb(/dev/ttyUSB0) 权限
+        for i in range(self.number_of_sensor_usb_imu):
+            Logger().print_trace("sudo chmod 777 " + gl_robot_config.parameters["sensor_usb_imu"]["usb"][i])
+            os.system("sudo chmod 777 " + gl_robot_config.parameters["sensor_usb_imu"]["usb"][i])
+
+        for i in range(self.number_of_sensor_usb_imu):
+            if self.sensor_usb_imus[i] is not None:
+                self.sensor_usb_imus[i].init()
+
+        for i in range(self.number_of_sensor_usb_imu):
+            if self.sensor_usb_imus[i] is not None:
+                self.sensor_usb_imus[i].comm(enable=gl_robot_config.parameters["sensor_usb_imu"]["comm_enable"][i],
+                                             frequency=gl_robot_config.parameters["sensor_usb_imu"]["comm_frequency"][i])
 
         for i in range(self.number_of_sensor_fi_fse):
             if self.sensor_fi_fse[i] is not None:
@@ -61,12 +59,18 @@ class RobotFFTAI(RobotBase):
             if self.sensor_fi_fse[i] is not None:
                 self.sensor_fi_fse[i].comm()
 
+        # Note 2024-01-26:
+        # download PD value should before init() actuator,
+        # init() actuator will create child thread to handle receive message if using non-block mode.
+        Logger().print_trace("RobotFFTAI init() download joint pd value")
+        for i in range(self.number_of_joint):
+            if self.joints[i] is not None:
+                self.joints[i].download_control_pid()
+
         # actuator
-        # Note :
-        # init of actuator was done in super().init()
-        # for i in range(self.number_of_actuator):
-        #     if self.actuators[i] is not None:
-        #         self.actuators[i].init()
+        for i in range(self.number_of_actuator):
+            if self.actuators[i] is not None:
+                self.actuators[i].init()
 
         for i in range(self.number_of_actuator):
             if self.actuators[i] is not None:
