@@ -8,7 +8,6 @@ from threading import Thread
 from robot_rcs.callback.fi_callback import CallbackSystemExit
 from robot_rcs.comm.fi_comm_manager_v3 import CommManagerV3
 from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs.comm.fi_dynalinkhs_interface import DynalinkHSInterface
 
 from robot_rcs.predefine.fi_flag_state import FlagState
 from robot_rcs.predefine.fi_function_result import FunctionResult
@@ -23,7 +22,7 @@ from robot_rcs.process.fi_process_comm import process_comm_children_to_parent_up
 
 from robot_rcs.process.fi_process_ota import process_ota_init
 
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
+from robot_rcs_base.fi_robot_interface import RobotInterface
 
 
 def main(argv):
@@ -60,28 +59,7 @@ def main(argv):
 
 
 def dynalinkhs_init():
-    # iap
-    DynalinkHSInterface().dynalinkhs_iap.boot_mode = ControlSystemWorkState.LINUX_EXE
-    DynalinkHSInterface().dynalinkhs_iap.work_state = ControlSystemWorkState.LINUX_EXE
-
-    # app
-    DynalinkHSInterface().dynalinkhs_app.hardware_version = 0x0000000A
-    # DynalinkHSInterface().dynalinkhs_app.software_version = 0x0015028F
-    # DynalinkHSInterface().dynalinkhs_app.release_version = 0x00140C02
-    DynalinkHSInterface().dynalinkhs_app.software_version = 0x02170202
-    DynalinkHSInterface().dynalinkhs_app.release_version = 0x00000002
-    DynalinkHSInterface().dynalinkhs_app.chip_serial_number_1 = 0x1FF1E800
-    DynalinkHSInterface().dynalinkhs_app.chip_serial_number_2 = 0x1FF1E804
-    DynalinkHSInterface().dynalinkhs_app.chip_serial_number_3 = 0x1FF1E808
-
-    DynalinkHSInterface().dynalinkhs_app.robot_type = 0x4D340000  # 0x4C340000
-    DynalinkHSInterface().dynalinkhs_app.robot_mechanism_type = 0x0015028F
-    # DynalinkHSInterface().dynalinkhs_app.robot_serial_number_1 = 0x04010101
-    # DynalinkHSInterface().dynalinkhs_app.robot_serial_number_2 = 0x64010101
-    DynalinkHSInterface().dynalinkhs_app.robot_serial_number_1 = 0x04020102
-    DynalinkHSInterface().dynalinkhs_app.robot_serial_number_2 = 0x66020101
-
-    DynalinkHSInterface().dynalinkhs_app.robot_sensor_can_asu_calibrate_flag = FlagState.SET
+    pass
 
 
 def thread_robot_control(args):

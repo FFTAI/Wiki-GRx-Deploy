@@ -5,7 +5,8 @@
   "robot": {
     "type": "GR1",
     "mechanism": "T1",
-    "control_period": 0.01
+    "control_period": 0.01,
+    "input_and_calculate_period": 0
   },
   "comm": {
     "enable": false,
