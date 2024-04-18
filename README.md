@@ -71,6 +71,8 @@ pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## Nuitka 打包程序
 
+如果希望将程序打包成可执行文件，并进行发布，可以使用 Nuitka 进行打包。
+
 1. 安装 python 3.11 版本：
     - 因为 nuitka 最高只支持 python 3.11 版本，所以需要安装 python 3.11 版本。
 
