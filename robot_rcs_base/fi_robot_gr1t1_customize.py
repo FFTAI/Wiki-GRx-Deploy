@@ -31,7 +31,7 @@ from robot_rcs.joint.fi_joint_group import JointGroup
 import robot_rcs.robot.fi_robot_tool as fi_robot_tool
 from robot_rcs.robot.fi_robot_base import RobotBaseTasks
 
-from .parallel_ankle import ParallelAnkle
+from parallel_ankle import ParallelAnkle
 from .fi_robot_gr1t1 import RobotGR1T1
 from .fi_robot_gr1t1_customize_algorithm import RobotGR1T1AlgorithmCustomizeControlModel
 
