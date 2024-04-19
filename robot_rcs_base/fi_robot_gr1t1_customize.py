@@ -1,42 +1,25 @@
-import os
-import math
-import time
-
 import numpy
-import json
 from enum import Enum
-from typing import List
 
 from robot_rcs.logger.fi_logger import Logger
-from robot_rcs.robot_config.fi_robot_config import gl_robot_config
-from robot_rcs.callback.fi_callback import CallbackSystemExit
 
 from robot_rcs.predefine.fi_function_result import FunctionResult
 from robot_rcs.predefine.fi_flag_state import FlagState
 from robot_rcs.predefine.fi_joint_control_mode import JointControlMode
-from robot_rcs.predefine.fi_robot_type import RobotType
 from robot_rcs.predefine.fi_robot_work_space import RobotWorkSpace
-from robot_rcs.predefine.fi_task_stage import TaskStage
 
-from robot_rcs.comm.fi_dynalinkhs_interface import DynalinkHSInterface
 from robot_rcs.operator.fi_operator_joystick_interface import OperatorJoystickInterface
-
-from robot_rcs.sensor.fi_sensor_usb_imu_hipnuc import SensorUSBIMUHipnuc
-from robot_rcs.sensor.fi_sensor_fi_fse import SensorFIFSE
-from robot_rcs.actuator.fi_actuator_fi_fsa import ActuatorFIFSA
-from robot_rcs.actuator.fi_actuator_fi_fsa_group import ActuatorFIFSAGroup
-from robot_rcs.joint.fi_joint_rotary import JointRotary
-from robot_rcs.joint.fi_joint_group import JointGroup
 
 import robot_rcs.robot.fi_robot_tool as fi_robot_tool
 from robot_rcs.robot.fi_robot_base import RobotBaseTasks
 
 from parallel_ankle import ParallelAnkle
+
 from .fi_robot_gr1t1 import RobotGR1T1
 from .fi_robot_gr1t1_customize_algorithm import RobotGR1T1AlgorithmCustomizeControlModel
 
 
-class RobotGR1Tasks(Enum):
+class RobotGR1CustomizeTasks(Enum):
     ############################################
     # NOTE:
     # Add your own task related code here
@@ -55,7 +38,7 @@ class RobotGR1T1Customize(RobotGR1T1):
             # NOTE:
             # Add your own task related code here
             ############################################
-            RobotGR1Tasks.TASK_CUSTOMIZE,
+            RobotGR1CustomizeTasks.TASK_CUSTOMIZE,
         ])
 
         ############################################
@@ -64,41 +47,14 @@ class RobotGR1T1Customize(RobotGR1T1):
         self.algorithm_customize_control_model = RobotGR1T1AlgorithmCustomizeControlModel()
         ############################################
 
-    def control_loop_update_command(self):
-        func_result = super(RobotGR1T1Customize, self).control_loop_update_command()
+    def control_loop_update_state(self):
+        super(RobotGR1T1Customize, self).control_loop_update_state()
 
-        if func_result == FunctionResult.SUCCESS:
-            return FunctionResult.SUCCESS
-        else:
-            pass
-
-        # update command and state...
-        if self.flag_task_command_update == FlagState.SET:
-
-            ############################################
-            # NOTE:
-            # Add your own task related code here
-            if self.task_command == RobotGR1Tasks.TASK_CUSTOMIZE:
-                if self.task_state != self.task_command:
-                    self.algorithm_customize_control_model.flag_inited = False
-            ############################################
-
-            else:
-                return FunctionResult.FAIL
-
-            # update state information
-            self.task_state_last = self.task_state
-            self.task_state = self.task_command
-
-            # update command information
-            self.task_command_last = self.task_command
-            self.task_command = RobotBaseTasks.TASK_NONE
-
-            # clear flag
-            self.flag_task_command_update = FlagState.CLEAR
-
-        else:
-            pass
+        ############################################
+        # NOTE:
+        # Add your own task related code here
+        pass
+        ############################################
 
         return FunctionResult.SUCCESS
 
@@ -108,8 +64,7 @@ class RobotGR1T1Customize(RobotGR1T1):
         ############################################
         # NOTE:
         # Add your own task related code here
-        if self.task_state == RobotGR1Tasks.TASK_CUSTOMIZE:
-            self.flag_task_in_process = FlagState.SET
+        if self.task_command == RobotGR1CustomizeTasks.TASK_CUSTOMIZE:
             self.algorithm_customize_control()
         ############################################
 
@@ -119,17 +74,16 @@ class RobotGR1T1Customize(RobotGR1T1):
         return FunctionResult.SUCCESS
 
     def control_loop_update_communication_joystick_button_triangle(self):
-        # ^ button press
-        if OperatorJoystickInterface().instance.get_button_triangle() == 1:
-            ############################################
-            # NOTE:
-            # Add your own task related code here
-            self.task_command = RobotGR1Tasks.TASK_CUSTOMIZE
-            ############################################
+        if OperatorJoystickInterface() is not None:
+            # ^ button press
+            if OperatorJoystickInterface().instance.get_button_triangle() == 1:
+                ############################################
+                # NOTE:
+                # Add your own task related code here
+                self.task_command = RobotGR1CustomizeTasks.TASK_CUSTOMIZE
+                ############################################
 
-            self.flag_task_command_update = FlagState.SET
-
-            Logger().print_trace("task command: " + str(self.task_command.name))
+                Logger().print_trace("task command: " + str(self.task_command.name))
 
     def algorithm_customize_control(self):
 
@@ -214,4 +168,3 @@ class RobotGR1T1Customize(RobotGR1T1):
             Logger().print_trace_error("algorithm_stand_control() unknown work_space")
 
         return FunctionResult.SUCCESS
-

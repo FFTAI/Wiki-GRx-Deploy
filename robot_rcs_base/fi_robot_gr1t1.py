@@ -1,15 +1,12 @@
 import os
-import math
 import time
 
 import numpy
 import json
 from enum import Enum
-from typing import List
 
 from robot_rcs.logger.fi_logger import Logger
 from robot_rcs.robot_config.fi_robot_config import gl_robot_config
-from robot_rcs.callback.fi_callback import CallbackSystemExit
 
 from robot_rcs.predefine.fi_function_result import FunctionResult
 from robot_rcs.predefine.fi_flag_state import FlagState
@@ -27,14 +24,15 @@ from robot_rcs.joint.fi_joint_rotary import JointRotary
 from robot_rcs.joint.fi_joint_group import JointGroup
 
 import robot_rcs.robot.fi_robot_tool as fi_robot_tool
-from robot_rcs.robot.fi_robot_base import RobotBaseTasks
+from robot_rcs.robot.fi_robot_fftai import RobotFFTAI
 
 from parallel_ankle import ParallelAnkle
-from .fi_robot_fftai import RobotFFTAI
+
 from .fi_robot_gr1t1_algorithm import RobotGR1T1AlgorithmStandControlModel
 
 
 class RobotGR1Tasks(Enum):
+    TASK_NONE = 0x000000
     TASK_SET_HOME = 0xAAAAAA
     TASK_STAND = 0xBBBBBB
 
@@ -237,6 +235,7 @@ class RobotGR1T1(RobotFFTAI):
 
         # task
         self.tasks = [
+            RobotGR1Tasks.TASK_NONE,
             RobotGR1Tasks.TASK_SET_HOME,
             RobotGR1Tasks.TASK_STAND,
         ]
@@ -244,14 +243,52 @@ class RobotGR1T1(RobotFFTAI):
         # control algorithm
         self.algorithm_stand_control_model = RobotGR1T1AlgorithmStandControlModel()
 
-        # flag
-        self.flag_actuator_communication_time_out = \
-            numpy.ones(shape=self.number_of_actuator) \
-            * FlagState.CLEAR
-        self.actuator_communication_check_count = \
-            numpy.zeros(shape=self.number_of_actuator)
+    def init(self) -> int:
+        # sensor
+        # 调用脚本，设置 usb(/dev/ttyUSB0) 权限
+        for i in range(self.number_of_sensor_usb_imu):
+            Logger().print_trace("sudo chmod 777 " + gl_robot_config.parameters["sensor_usb_imu"]["usb"][i])
+            os.system("sudo chmod 777 " + gl_robot_config.parameters["sensor_usb_imu"]["usb"][i])
 
-    def prepare(self):
+        for i in range(self.number_of_sensor_usb_imu):
+            if self.sensor_usb_imus[i] is not None:
+                self.sensor_usb_imus[i].init()
+
+        for i in range(self.number_of_sensor_usb_imu):
+            if self.sensor_usb_imus[i] is not None:
+                self.sensor_usb_imus[i].comm(enable=gl_robot_config.parameters["sensor_usb_imu"]["comm_enable"][i],
+                                             frequency=gl_robot_config.parameters["sensor_usb_imu"]["comm_frequency"][i])
+
+        for i in range(self.number_of_sensor_fi_fse):
+            if self.sensor_fi_fse[i] is not None:
+                self.sensor_fi_fse[i].init()
+
+        for i in range(self.number_of_sensor_fi_fse):
+            if self.sensor_fi_fse[i] is not None:
+                self.sensor_fi_fse[i].comm()
+
+        # Note 2024-01-26:
+        # download PD value should before init() actuator,
+        # init() actuator will create child thread to handle receive message if using non-block mode.
+        Logger().print_trace("RobotFFTAI init() download joint pd value")
+        for i in range(self.number_of_joint):
+            if self.joints[i] is not None:
+                self.joints[i].download_control_pid()
+
+        # actuator
+        for i in range(self.number_of_actuator):
+            if self.actuators[i] is not None:
+                self.actuators[i].init()
+
+        for i in range(self.number_of_actuator):
+            if self.actuators[i] is not None:
+                self.actuators[i].comm(enable=gl_robot_config.parameters["actuator"]["comm_enable"][i],
+                                       block=gl_robot_config.parameters["actuator"]["comm_block"][i],
+                                       use_fast=gl_robot_config.parameters["actuator"]["comm_use_fast"][i])
+
+        return FunctionResult.SUCCESS
+
+    def prepare(self) -> int:
         Logger().print_trace("RobotGR1 prepare()")
 
         # read stored abs encoder angle
@@ -360,8 +397,56 @@ class RobotGR1T1(RobotFFTAI):
 
         Logger().print_trace("Finish joint home position calibration !")
 
-    def control_loop_update_state_robot(self):
-        super(RobotGR1T1, self).control_loop_update_state_robot()
+        return FunctionResult.SUCCESS
+
+    def control_loop_update_state(self) -> int:
+        # sensor
+        # Note 2024-01-26:
+        # no need to read fi_fse sensor in every loop
+        # fi_fse
+        # for i in range(self.number_of_sensor_fi_fse):
+        #     self.sensor_fi_fse[i].upload()
+        #
+        # print("self.sensor_fi_fse = ", self.sensor_fi_fse[5].measured_angle)
+
+        # imu
+        for i in range(self.number_of_sensor_usb_imu):
+            self.sensor_usb_imus[i].upload()
+
+        # IMU x 轴朝向 x，y 轴朝向 y
+        # roll x, pitch y
+        for i in range(self.number_of_sensor_usb_imu):
+            self.sensor_usb_imu_group_measured_angle[0 + i * 3: 3 + i * 3] = \
+                self.sensor_usb_imus[i].get_measured_angle() * self.sensor_usb_imus_angle_direction[i]
+            self.sensor_usb_imu_group_measured_angular_velocity[0 + i * 3: 3 + i * 3] = \
+                self.sensor_usb_imus[i].get_measured_angular_velocity() * self.sensor_usb_imus_angular_velocity_direction[i]
+            self.sensor_usb_imu_group_measured_linear_acceleration[0 + i * 3: 3 + i * 3] = \
+                self.sensor_usb_imus[i].get_measured_acceleration()
+
+            # ypr -> quat
+            self.sensor_usb_imu_group_measured_quat[0 + i * 4: 4 + i * 4] = \
+                fi_robot_tool.radian_ypr_to_quat_continuous(self.sensor_usb_imu_group_measured_angle[0 + i * 3: 3 + i * 3] * numpy.pi / 180,
+                                                            self.sensor_usb_imu_group_measured_quat[0 + i * 4: 4 + i * 4])
+
+        # actuator
+        self.actuator_group.upload()
+
+        for i in range(self.number_of_actuator):
+            self.actuator_group_measured_position[i] = self.actuators[i].measured_position
+            self.actuator_group_measured_velocity[i] = self.actuators[i].measured_velocity
+            self.actuator_group_measured_kinetic[i] = self.actuators[i].measured_kinetic
+            self.actuator_group_measured_current[i] = self.actuators[i].measured_current
+
+        # joint
+        self.joint_group.update()
+
+        for i in range(self.number_of_joint):
+            self.joint_group_measured_position[i] = self.joints[i].measured_position
+            self.joint_group_measured_velocity[i] = self.joints[i].measured_velocity
+            self.joint_group_measured_kinetic[i] = self.joints[i].measured_kinetic
+
+        self.joint_group_measured_position_radian = self.joint_group_measured_position * numpy.pi / 180.0
+        self.joint_group_measured_velocity_radian = self.joint_group_measured_velocity * numpy.pi / 180.0
 
         # joint -> joint urdf
         self.joint_urdf_group_measured_position = self.joint_group_measured_position.copy()
@@ -412,54 +497,14 @@ class RobotGR1T1(RobotFFTAI):
 
         return FunctionResult.SUCCESS
 
-    def control_loop_update_command(self):
-        func_result = super(RobotGR1T1, self).control_loop_update_command()
-
-        if func_result == FunctionResult.SUCCESS:
-            return FunctionResult.SUCCESS
-        else:
+    def control_loop_algorithm(self) -> int:
+        if self.task_command == RobotGR1Tasks.TASK_NONE:
             pass
 
-        # update command and state...
-        if self.flag_task_command_update == FlagState.SET:
-
-            if self.task_command == RobotGR1Tasks.TASK_SET_HOME:
-                pass
-
-            elif self.task_command == RobotGR1Tasks.TASK_STAND:
-                if self.task_state != self.task_command:
-                    self.algorithm_stand_control_model.variable_stage = TaskStage.STAGE_0
-                else:
-                    self.algorithm_stand_control_model.variable_stage = TaskStage.STAGE_1
-
-            else:
-                return FunctionResult.FAIL
-
-            # update state information
-            self.task_state_last = self.task_state
-            self.task_state = self.task_command
-
-            # update command information
-            self.task_command_last = self.task_command
-            self.task_command = RobotBaseTasks.TASK_NONE
-
-            # clear flag
-            self.flag_task_command_update = FlagState.CLEAR
-
-        else:
-            pass
-
-        return FunctionResult.SUCCESS
-
-    def control_loop_algorithm(self):
-        super(RobotGR1T1, self).control_loop_algorithm()
-
-        if self.task_state == RobotGR1Tasks.TASK_SET_HOME:
-            self.flag_task_in_process = FlagState.SET
+        elif self.task_command == RobotGR1Tasks.TASK_SET_HOME:
             self.algorithm_set_home()
 
-        elif self.task_state == RobotGR1Tasks.TASK_STAND:
-            self.flag_task_in_process = FlagState.SET
+        elif self.task_command == RobotGR1Tasks.TASK_STAND:
             self.algorithm_stand_control()
 
         else:
@@ -467,13 +512,38 @@ class RobotGR1T1(RobotFFTAI):
 
         return FunctionResult.SUCCESS
 
-    def control_loop_update_communication_joystick_button_circle(self):
-        # o button press
-        if OperatorJoystickInterface().instance.get_button_circle() == 1:
-            self.task_command = RobotGR1Tasks.TASK_STAND
-            self.flag_task_command_update = FlagState.SET
+    def control_loop_output(self) -> int:
 
-            Logger().print_trace("task command: " + str(self.task_command.name))
+        # send command to joint
+        if self.work_space == RobotWorkSpace.ACTUATOR_SPACE:
+            self.actuator_group.download()
+
+        if self.work_space == RobotWorkSpace.JOINT_SPACE or \
+                self.work_space == RobotWorkSpace.TASK_SPACE:
+            self.joint_group.download()
+
+        return FunctionResult.SUCCESS
+
+    def control_loop_update_communication(self) -> int:
+
+        if OperatorJoystickInterface() is not None:
+            if OperatorJoystickInterface().instance.get_button_triangle() == 1:
+                pass
+
+            if OperatorJoystickInterface().instance.get_button_circle() == 1:
+                self.task_command = RobotGR1Tasks.TASK_STAND
+
+                Logger().print_trace("task command: " + str(self.task_command.name))
+
+            if OperatorJoystickInterface().instance.get_button_square() == 1:
+                self.task_command = RobotGR1Tasks.TASK_SET_HOME
+
+                Logger().print_trace("task command: " + str(self.task_command.name))
+
+            if OperatorJoystickInterface().instance.get_button_cross() == 1:
+                pass
+
+        return FunctionResult.SUCCESS
 
     def algorithm_set_home(self):
         Logger().print_trace("algorithm_set_home")
@@ -498,8 +568,7 @@ class RobotGR1T1(RobotFFTAI):
             file.write(json_fi_fses_angle_value)
 
         # change task_command and task_state
-        self.task_command = RobotBaseTasks.TASK_NONE
-        self.task_state = RobotBaseTasks.TASK_NONE
+        self.task_command = RobotGR1Tasks.TASK_NONE
 
         return FunctionResult.SUCCESS
 
@@ -532,11 +601,6 @@ class RobotGR1T1(RobotFFTAI):
             target_position[4] = joint_measured_position_value[4]
             target_position[5] = joint_measured_position_value[5]
 
-            # calculate error, switch back to servo_off
-            Logger().print_trace("calculate error, switch back to TASK_SERVO_OFF")
-            self.task_command = RobotBaseTasks.TASK_SERVO_OFF
-            self.flag_task_command_update = FlagState.SET
-
         try:
             target_position[10], \
                 target_position[11], \
@@ -552,11 +616,6 @@ class RobotGR1T1(RobotFFTAI):
 
             target_position[11] = joint_measured_position_value[11]
             target_position[10] = joint_measured_position_value[10]
-
-            # calculate error, switch back to servo_off
-            Logger().print_trace("calculate error, switch back to TASK_SERVO_OFF")
-            self.task_command = RobotBaseTasks.TASK_SERVO_OFF
-            self.flag_task_command_update = FlagState.SET
 
         target_position[4] = target_position[4] / numpy.pi * 180
         target_position[5] = target_position[5] / numpy.pi * 180
