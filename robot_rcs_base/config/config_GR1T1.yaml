@@ -17,7 +17,7 @@ comm:
 operator:
   use_joystick: false
   joystick_connected: false
-  joystick_type: XBOX
+  joystick_type: "XBOX"
   use_keyboard: false
   keyboard_connected: false
 
