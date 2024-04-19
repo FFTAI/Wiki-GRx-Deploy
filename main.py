@@ -77,7 +77,7 @@ def thread_robot_control(args):
 
     while True:
         if RobotInterface().instance is None:
-            Logger().print_trace_error("main_mp.py thread_robot_control The robot model has not been initialized!!!")
+            Logger().print_trace_error("main.py thread_robot_control The robot model has not been initialized!!!")
             break
 
         # control period calculation

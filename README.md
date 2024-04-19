@@ -19,8 +19,8 @@
         - fi_robot_gr1t1_customize.py 傅利叶智能机器人 GR1T1 定制类，继承自 fi_robot_gr1t1.py 【供用户修改】
         - fi_robot_gr1t1_customize_algorithm.py 傅利叶智能机器人 GR1T1 定制算法类 【供用户修改】
         - fi_webots_gr1t1.py 傅利叶智能机器人 GR1T1 webots仿真类，用于仿真环境的初始化和控制 【供用户修改】
-- main_mp.py: 主程序入口
-    - 实机调用方法：`python main_mp.py ./robot_rcs_base/config/config_GR1T1.json`
+- main.py: 主程序入口
+    - 实机调用方法：`python main.py ./robot_rcs_base/config/config_GR1T1.json`
 
 ## 开发环境搭建
 
@@ -48,7 +48,7 @@ pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 2. 运行程序：
     - 运行主程序
     ```
-    python main_mp.py ./robot_rcs_base/config/config_GR1T1.json
+    python main.py ./robot_rcs_base/config/config_GR1T1.json
     ```
 
 3. 位置校准：
@@ -101,12 +101,12 @@ pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 5. 运行 nuitka 打包程序：
     - 运行 nuitka 打包程序，将代码打包成可执行文件。
     ```
-    nuitka3 --standalone --onefile --plugin-enable=numpy,torch main_mp.py
+    nuitka3 --standalone --onefile --plugin-enable=numpy,torch main.py
     ```
     - Nuitka 目前已经支持 numpy 和 torch 的打包，可以直接使用 nuitka 打包程序。
    ```
    Nuitka-Plugins:WARNING: numpy: This plugin has been deprecated, do not enable it anymore.
    Nuitka-Plugins:WARNING: torch: This plugin has been deprecated, do not enable it anymore.
 
-   nuitka3 --standalone --onefile main_mp.py
+   nuitka3 --standalone --onefile main.py
    ```
