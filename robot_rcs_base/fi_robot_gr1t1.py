@@ -6,7 +6,7 @@ import json
 from enum import Enum
 
 from robot_rcs.logger.fi_logger import Logger
-from robot_rcs.robot_config.fi_robot_config import gl_robot_config
+from robot_rcs.config.fi_robot_config import gl_robot_config
 
 from robot_rcs.predefine.fi_function_result import FunctionResult
 from robot_rcs.predefine.fi_flag_state import FlagState

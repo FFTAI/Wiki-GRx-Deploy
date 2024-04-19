@@ -1,5 +1,5 @@
 from robot_rcs.logger.fi_logger import Logger
-from robot_rcs.robot_config.fi_robot_config import gl_robot_config
+from robot_rcs.config.fi_robot_config import gl_robot_config
 from robot_rcs.predefine.fi_robot_type import RobotType
 
 from robot_rcs.robot.fi_robot_interface import RobotInterface

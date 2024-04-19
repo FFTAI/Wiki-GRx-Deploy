@@ -8,6 +8,7 @@ setup(
 
     packages=find_packages(),
     install_requires=[
+        'pyyaml',
         'numpy',
         'torch',
         # for IMU

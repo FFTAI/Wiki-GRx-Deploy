@@ -13,7 +13,7 @@ from robot_rcs.predefine.fi_function_result import FunctionResult
 from robot_rcs.predefine.fi_control_system_work_state import ControlSystemWorkState
 
 from robot_rcs.logger.fi_logger import Logger
-from robot_rcs.robot_config.fi_robot_config import gl_robot_config
+from robot_rcs.config.fi_robot_config import gl_robot_config
 
 from robot_rcs.process.fi_process_comm import process_comm_init
 from robot_rcs.process.fi_process_comm import process_comm_parent_to_children_update
