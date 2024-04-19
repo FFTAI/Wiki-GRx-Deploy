@@ -47,17 +47,6 @@ class RobotGR1T1Customize(RobotGR1T1):
         self.algorithm_customize_control_model = RobotGR1T1AlgorithmCustomizeControlModel()
         ############################################
 
-    def control_loop_update_state(self):
-        super(RobotGR1T1Customize, self).control_loop_update_state()
-
-        ############################################
-        # NOTE:
-        # Add your own task related code here
-        pass
-        ############################################
-
-        return FunctionResult.SUCCESS
-
     def control_loop_algorithm(self):
         super(RobotGR1T1Customize, self).control_loop_algorithm()
 
