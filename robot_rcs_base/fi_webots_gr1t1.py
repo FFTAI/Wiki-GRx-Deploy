@@ -42,13 +42,9 @@ class WebotsGR1T1(WebotsRobot):
             # head
             "head_yaw", "head_roll", "head_pitch",
             # left arm
-            "l_upper_arm_pitch", "l_upper_arm_roll", "l_upper_arm_yaw",
-            "l_lower_arm_pitch",
-            "l_wrist_yaw", "l_wrist_roll", "l_wrist_pitch",
+            "l_upper_arm_pitch", "l_upper_arm_roll", "l_upper_arm_yaw", "l_lower_arm_pitch", "l_wrist_yaw", "l_wrist_roll", "l_wrist_pitch",
             # right arm
-            "r_upper_arm_pitch", "r_upper_arm_roll", "r_upper_arm_yaw",
-            "r_lower_arm_pitch",
-            "r_wrist_yaw", "r_wrist_roll", "r_wrist_pitch",
+            "r_upper_arm_pitch", "r_upper_arm_roll", "r_upper_arm_yaw", "r_lower_arm_pitch", "r_wrist_yaw", "r_wrist_roll", "r_wrist_pitch",
         ]
 
         self.num_of_joints = 6 + 6 + 3 + 3 + 7 + 7
@@ -62,13 +58,9 @@ class WebotsGR1T1(WebotsRobot):
             # head
             "head_yaw", "head_roll", "head_pitch",
             # left arm
-            "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw",
-            "l_elbow_pitch",
-            "l_wrist_yaw", "l_wrist_roll", "l_wrist_pitch",
+            "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow_pitch", "l_wrist_yaw", "l_wrist_roll", "l_wrist_pitch",
             # right arm
-            "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw",
-            "r_elbow_pitch",
-            "r_wrist_yaw", "r_wrist_roll", "r_wrist_pitch",
+            "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow_pitch", "r_wrist_yaw", "r_wrist_roll", "r_wrist_pitch",
         ]
         self.joints_kp = [
             0, 0, 0, 0, 0, 0,
@@ -106,13 +98,9 @@ class WebotsGR1T1(WebotsRobot):
             # head
             "head_yaw_sensor", "head_roll_sensor", "head_pitch_sensor",
             # left arm
-            "l_shoulder_pitch_sensor", "l_shoulder_roll_sensor", "l_shoulder_yaw_sensor",
-            "l_elbow_pitch_sensor",
-            "l_wrist_yaw_sensor", "l_wrist_roll_sensor", "l_wrist_pitch_sensor",
+            "l_shoulder_pitch_sensor", "l_shoulder_roll_sensor", "l_shoulder_yaw_sensor", "l_elbow_pitch_sensor", "l_wrist_yaw_sensor", "l_wrist_roll_sensor", "l_wrist_pitch_sensor",
             # right arm
-            "r_shoulder_pitch_sensor", "r_shoulder_roll_sensor", "r_shoulder_yaw_sensor",
-            "r_elbow_pitch_sensor",
-            "r_wrist_yaw_sensor", "r_wrist_roll_sensor", "r_wrist_pitch_sensor",
+            "r_shoulder_pitch_sensor", "r_shoulder_roll_sensor", "r_shoulder_yaw_sensor", "r_elbow_pitch_sensor", "r_wrist_yaw_sensor", "r_wrist_roll_sensor", "r_wrist_pitch_sensor",
         ]
 
         self.num_of_imus = 1
