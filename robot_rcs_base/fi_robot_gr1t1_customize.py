@@ -86,6 +86,13 @@ class RobotGR1T1Customize(RobotGR1T1):
                 Logger().print_trace("task command: " + str(self.task_command.name))
 
     def algorithm_customize_control(self):
+        body_speed_lin_max = 0.50
+        body_speed_ang_max = 0.35
+        commands = numpy.array([
+            body_speed_lin_max * -OperatorJoystickInterface().instance.get_axis_left()[1],
+            body_speed_lin_max * -OperatorJoystickInterface().instance.get_axis_left()[0],
+            body_speed_ang_max * -OperatorJoystickInterface().instance.get_axis_right()[0],
+        ])
 
         ############################################
         # NOTE:
