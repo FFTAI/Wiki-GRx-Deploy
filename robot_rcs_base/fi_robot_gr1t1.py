@@ -344,7 +344,7 @@ class RobotGR1T1(RobotFFTAI):
         joint_urdf_radian_offset[0:self.number_of_sensor_fi_fse] = \
             absencoder_radian_offset[0:self.number_of_sensor_fi_fse].copy()
 
-        print("joint_urdf_angle_offset111111 = \n",
+        print("joint_urdf_angle_offset = \n",
               numpy.round(joint_urdf_angle_offset, 3))
 
         joint_urdf_radian_offset[4], \
@@ -361,7 +361,7 @@ class RobotGR1T1(RobotFFTAI):
         joint_angle_offset = joint_urdf_radian_offset / numpy.pi * 180.0
 
         # joint_angle_offset[6+6+0] = 0
-        print("joint_angle_offset2222 = \n",
+        print("joint_angle_offset = \n",
               numpy.round(joint_angle_offset, 3))
 
         # read current joint position
@@ -530,7 +530,7 @@ class RobotGR1T1(RobotFFTAI):
 
     def control_loop_update_communication(self) -> int:
 
-        if OperatorJoystickInterface() is not None:
+        if OperatorJoystickInterface().instance is not None:
             if OperatorJoystickInterface().instance.get_button_triangle() == 1:
                 pass
 
