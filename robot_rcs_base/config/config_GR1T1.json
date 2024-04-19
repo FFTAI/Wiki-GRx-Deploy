@@ -37,6 +37,20 @@
     "usb": [
       "/dev/ttyUSB0"
     ],
+    "angle_direction": [
+      [
+        1,
+        1,
+        1
+      ]
+    ],
+    "angular_velocity_direction": [
+      [
+        1,
+        1,
+        1
+      ]
+    ],
     "comm_enable": [
       true
     ],

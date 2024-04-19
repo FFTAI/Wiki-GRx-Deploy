@@ -44,15 +44,19 @@ class RobotGR1T1(RobotFFTAI):
 
         # sensor
         self.number_of_sensor_usb_imu = 1
-        self.sensor_usb_imus = [
-            SensorUSBIMUHipnuc(usb="/dev/ttyUSB0"),
-        ]
-        self.sensor_usb_imus_angle_direction = [
-            numpy.array([1.0, 1.0, 1.0])
-        ]
-        self.sensor_usb_imus_angular_velocity_direction = [
-            numpy.array([1.0, 1.0, 1.0])
-        ]
+        self.sensor_usb_imus = []
+        self.sensor_usb_imus_angle_direction = []
+        self.sensor_usb_imus_angular_velocity_direction = []
+        for i in range(self.number_of_sensor_usb_imu):
+            self.sensor_usb_imus.append(
+                SensorUSBIMUHipnuc(usb=gl_robot_config.parameters["sensor_usb_imu"]["usb"][i])
+            )
+            self.sensor_usb_imus_angle_direction.append(
+                numpy.array(gl_robot_config.parameters["sensor_usb_imu"]["angle_direction"][i])
+            )
+            self.sensor_usb_imus_angular_velocity_direction.append(
+                numpy.array(gl_robot_config.parameters["sensor_usb_imu"]["angular_velocity_direction"][i])
+            )
 
         self.sensor_usb_imu_group_measured_quat = numpy.zeros(self.number_of_sensor_usb_imu * 4)
         self.sensor_usb_imu_group_measured_angle = numpy.zeros(self.number_of_sensor_usb_imu * 3)
