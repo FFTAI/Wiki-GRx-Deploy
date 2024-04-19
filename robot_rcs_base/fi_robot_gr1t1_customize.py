@@ -94,6 +94,8 @@ class RobotGR1T1Customize(RobotGR1T1):
             body_speed_ang_max * -OperatorJoystickInterface().instance.get_axis_right()[0],
         ])
 
+        # Note 2024-04-19:
+        # use joint values matching the urdf file
         joint_measured_position_value = self.joint_urdf_group_measured_position.copy() * numpy.pi / 180.0  # unit : rad
         joint_measured_velocity_value = self.joint_urdf_group_measured_velocity.copy() * numpy.pi / 180.0  # unit : rad/s
 
