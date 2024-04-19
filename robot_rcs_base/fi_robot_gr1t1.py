@@ -621,7 +621,6 @@ class RobotGR1T1(RobotFFTAI):
         target_position[5] = target_position[5] / numpy.pi * 180
         target_position[10] = target_position[10] / numpy.pi * 180
         target_position[11] = target_position[11] / numpy.pi * 180
-        # print("target2: ",target_position )
 
         if work_space == RobotWorkSpace.ACTUATOR_SPACE:
             self.work_space = work_space

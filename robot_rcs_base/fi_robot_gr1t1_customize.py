@@ -92,7 +92,7 @@ class RobotGR1T1Customize(RobotGR1T1):
         # NOTE:
         # Add your own task related code here
         work_space, control_mode, target_position = \
-            self.algorithm_stand_control_model.run(
+            self.algorithm_customize_control_model.run(
                 joint_measured_position_value,
                 joint_measured_velocity_value
             )
@@ -116,11 +116,6 @@ class RobotGR1T1Customize(RobotGR1T1):
             target_position[4] = joint_measured_position_value[4]
             target_position[5] = joint_measured_position_value[5]
 
-            # calculate error, switch back to servo_off
-            Logger().print_trace("calculate error, switch back to TASK_SERVO_OFF")
-            self.task_command = RobotBaseTasks.TASK_SERVO_OFF
-            self.flag_task_command_update = FlagState.SET
-
         try:
             target_position[10], \
                 target_position[11], \
@@ -137,16 +132,10 @@ class RobotGR1T1Customize(RobotGR1T1):
             target_position[11] = joint_measured_position_value[11]
             target_position[10] = joint_measured_position_value[10]
 
-            # calculate error, switch back to servo_off
-            Logger().print_trace("calculate error, switch back to TASK_SERVO_OFF")
-            self.task_command = RobotBaseTasks.TASK_SERVO_OFF
-            self.flag_task_command_update = FlagState.SET
-
         target_position[4] = target_position[4] / numpy.pi * 180
         target_position[5] = target_position[5] / numpy.pi * 180
         target_position[10] = target_position[10] / numpy.pi * 180
         target_position[11] = target_position[11] / numpy.pi * 180
-        # print("target2: ",target_position )
 
         if work_space == RobotWorkSpace.ACTUATOR_SPACE:
             self.work_space = work_space

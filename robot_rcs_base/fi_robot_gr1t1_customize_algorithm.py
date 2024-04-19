@@ -46,6 +46,7 @@ class RobotGR1T1AlgorithmCustomizeControlModel:
 
     def run(self,
             joint_measured_position_value,  # rad
+            joint_measured_velocity_value,  # rad/s
             ):
         ############################################
         # NOTE:
