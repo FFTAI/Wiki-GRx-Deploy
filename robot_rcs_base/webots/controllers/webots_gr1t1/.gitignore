@@ -1,9 +1,0 @@
-# notice : to refresh the git cache, do the following command in 'Git Bash'
-# git rm -r --cached .
-# git add .
-
-# folder
-/log/
-
-# files
-*.csv

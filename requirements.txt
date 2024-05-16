@@ -1,0 +1,10 @@
+pyyaml
+numpy
+torch
+# for IMU
+# https://pyserial.readthedocs.io/en/latest/pyserial_api.html
+pyserial==3.5  # python3.8 无法使用 pyserial==2.7
+# for joystick
+pygame
+matplotlib
+nuitka
