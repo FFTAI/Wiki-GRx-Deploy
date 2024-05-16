@@ -30,7 +30,7 @@ def main(argv):
         # - imu: quat, euler angle, angular velocity, linear acceleration
         # - joint: position, velocity, torque (in urdf)
         # - base: linear velocity, height
-        # print("state_dict = \n", state_dict)
+        print("state_dict = \n", state_dict)
 
         # algorithm (user customized...)
 
