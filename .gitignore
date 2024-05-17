@@ -1,2 +1,6 @@
+/build/
 /log/
 /*.egg-info/
+
+INFO_NLOHMANN.txt
+robot_data_nlohmann.txt
