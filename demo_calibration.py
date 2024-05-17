@@ -136,11 +136,11 @@ def main(argv):
         break
 
 
-robot_set_home_command = 0x020109  # defined inside the RobotInterface() lib.
+robot_calibration_command = 0x020109  # defined inside the RobotInterface() lib.
 
 
-def algorithm_set_home():
-    global robot_set_home_command
+def algorithm_calibration():
+    global robot_calibration_command
 
     # Notice:
     # Be careful when uncomment this, this will change the home position!!!
@@ -152,7 +152,7 @@ def algorithm_set_home():
 
     # set command
     RobotInterface().instance.flag_task_state_update = 1  # set update command flag
-    RobotInterface().instance.task_command = robot_set_home_command  # set home command
+    RobotInterface().instance.task_command = robot_calibration_command  # calibration command (set home command)
 
     pass
 
