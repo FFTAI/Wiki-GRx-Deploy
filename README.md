@@ -30,6 +30,10 @@ which should be set with the machine power on and the joint fixed at the pin pos
 
 After you have finished the calibration process, you can run the demo code in this repository.
 
+```
+python demo_calibration.py config_xxx.yaml
+```
+
 ## GR1
 ### GR1-T1
 
