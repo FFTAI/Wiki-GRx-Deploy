@@ -24,12 +24,22 @@ def main(argv):
         time_start_of_robot_control_loop_in_s = time.time()
 
         # update state
+        """
+        state:
+        - imu:
+          - quat
+          - euler angle (rpy) [deg]
+          - angular velocity [deg/s]
+          - linear acceleration [m/s^2]
+        - joint (in urdf):
+          - position [deg]
+          - velocity [deg/s]
+          - torque [Nm]
+        - base:
+          - position xyz [m]
+          - linear velocity xyz [m/s]
+        """
         state_dict = RobotInterface().instance.control_loop_intf_get_state()
-
-        # state:
-        # - imu: quat, euler angle, angular velocity, linear acceleration
-        # - joint: position, velocity, torque (in urdf)
-        # - base: linear velocity, height
         # print("state_dict = \n", state_dict)
 
         # parse state
@@ -40,17 +50,19 @@ def main(argv):
         joint_position = state_dict["joint_position"]
         joint_velocity = state_dict["joint_velocity"]
         joint_kinetic = state_dict["joint_kinetic"]
-        base_lin_vel = state_dict["base_estimate_linear_velocity"]
-        base_height = state_dict["base_estimate_height"]
+        base_xyz = state_dict["base_estimate_xyz"]
+        base_vel_xyz = state_dict["base_estimate_xyz_vel"]
 
         # algorithm (user customized...)
         algorithm_set_home()
 
-        # control:
-        # - control_mode
-        # - position
-        # - kp
-        # - kd
+        """
+        control:
+        - control_mode
+        - position
+        - kp
+        - kd
+        """
         control_dict.update({
             # control mode:
             # - 4: position control
