@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 
@@ -145,8 +146,13 @@ def algorithm_set_home():
     # Be careful when uncomment this, this will change the home position!!!
     # Besure when running this algorithm, the robot is in home position.
 
-    # RobotInterface().instance.flag_task_state_update = 1  # set update command flag
-    # RobotInterface().instance.task_command = robot_set_home_command  # set home command
+    # backup the last sensor_offset.txt
+    if os.path.exists("sensor_offset.txt"):
+        os.rename("sensor_offset.txt", "sensor_offset.txt.bak")
+
+    # set command
+    RobotInterface().instance.flag_task_state_update = 1  # set update command flag
+    RobotInterface().instance.task_command = robot_set_home_command  # set home command
 
     pass
 
