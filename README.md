@@ -1,4 +1,5 @@
 # Wiki-GRx
+![](pictures/1.png)
 
 ## Setup Environment
 
