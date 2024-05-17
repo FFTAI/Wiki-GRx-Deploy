@@ -1,5 +1,6 @@
 import sys
 import time
+import numpy
 
 from robot_rcs.control_system.fi_control_system import ControlSystem
 from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
@@ -55,7 +56,11 @@ def main(argv):
         joint_measured_position = joint_position
 
         # algorithm (user customized...)
-        joint_target_position = algorithm_stand(joint_measured_position)
+        joint_target_position, finish_flag = algorithm_stand(joint_measured_position)
+
+        if finish_flag is True:
+            print("stand movement finish!")
+            break
 
         # control:
         # - control_mode
@@ -109,9 +114,11 @@ def main(argv):
                 0.02, 0.02, 0.02, 0.02, 0.005, 0.005, 0.005,
             ],
             # position (in urdf):
-            # - unit: degree
+            # - unit: deg
             "position": joint_target_position
         })
+
+        # print(numpy.round(joint_target_position, 1))
 
         # output control
         RobotInterface().instance.control_loop_intf_set_control(control_dict)
@@ -128,30 +135,49 @@ def main(argv):
         else:
             time_to_sleep_in_s = 0
 
-        time_to_sleep_mark_in_s = time.time()
-        while True:
-            time_offset_in_s = time.time() - time_to_sleep_mark_in_s
-            if time_offset_in_s >= time_to_sleep_in_s:
-                break
+        time.sleep(time_to_sleep_in_s)
 
 
-def algorithm_stand(joint_measured_position) -> list:
-    joint_target_position = [
-        # left leg
-        0, 0, 0, 0, 0, 0,
-        # right leg
-        0, 0, 0, 0, 0, 0,
-        # waist
-        0, 0, 0,
-        # head
-        0, 0, 0,
-        # left arm
-        0, 0, 0, 0, 0, 0, 0,
-        # right arm
-        0, 0, 0, 0, 0, 0, 0,
-    ]
+move_count = 0
+move_period = 100
+joint_start_position = None
 
-    return joint_target_position
+
+def algorithm_stand(joint_measured_position) -> (list, int):
+    global move_count, joint_start_position
+
+    if joint_start_position is None:
+        joint_start_position = numpy.array(joint_measured_position)
+        print("joint_start_position = \n", numpy.round(joint_start_position, 1))
+
+    joint_end_position = numpy.array([
+        0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
+        0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
+        0.0, 0.0, 0.0,  # waist (3)
+        0.0, 0.0, 0.0,  # head (3)
+        0.0, 0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # left arm (7)
+        0.0, -0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # right arm (7)
+    ]) / numpy.pi * 180
+
+    # update move ratio
+    move_ratio = min(move_count / move_period, 1)
+
+    # update target position
+    joint_target_position = joint_start_position + \
+                            (joint_end_position - joint_start_position) * move_ratio
+
+    # update count
+    move_count += 1
+
+    # print info
+    print("move_ratio = ", numpy.round(move_ratio * 100, 1), "%")
+
+    if move_ratio < 1:
+        finish_flag = False
+    else:
+        finish_flag = True
+
+    return joint_target_position, finish_flag
 
 
 if __name__ == "__main__":

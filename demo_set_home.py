@@ -44,6 +44,7 @@ def main(argv):
         base_height = state_dict["base_estimate_height"]
 
         # algorithm (user customized...)
+        algorithm_set_home()
 
         # control:
         # - control_mode
@@ -56,48 +57,45 @@ def main(argv):
             # - 5: PD control
             "control_mode": [
                 # left leg
-                5, 5, 5, 5, 5, 5,
+                4, 4, 4, 4, 4, 4,
                 # right leg
-                5, 5, 5, 5, 5, 5,
+                4, 4, 4, 4, 4, 4,
                 # waist
-                5, 5, 5,
+                4, 4, 4,
                 # head
-                5, 5, 5,
+                4, 4, 4,
                 # left arm
-                5, 5, 5, 5, 5, 5, 5,
+                4, 4, 4, 4, 4, 4, 4,
                 # right arm
-                5, 5, 5, 5, 5, 5, 5,
+                4, 4, 4, 4, 4, 4, 4,
             ],
-            # kp, kd:
-            # - in position control mode: kp is position kp, kd is velocity kp
-            # - in PD control mode: kp is position kp, kd is velocity kd
             "kp": [
                 # left leg
-                200, 200, 200, 200, 200, 200,
+                1.04, 0.25, 0.7, 0.7, 0.1, 0.1,
                 # right leg
-                200, 200, 200, 200, 200, 200,
+                1.04, 0.25, 0.7, 0.7, 0.1, 0.1,
                 # waist
-                200, 200, 200,
+                0.25, 0.25, 0.25,
                 # head
-                200, 200, 200,
+                0.005, 0.005, 0.005,
                 # left arm
-                200, 200, 200, 200, 200, 200, 200,
+                0.2, 0.2, 0.2, 0.2, 0.005, 0.005, 0.005,
                 # right arm
-                200, 200, 200, 200, 200, 200, 200,
+                0.2, 0.2, 0.2, 0.2, 0.005, 0.005, 0.005,
             ],
             "kd": [
                 # left leg
-                10, 10, 10, 10, 10, 10,
+                0.04, 0.14, 0.4, 0.4, 0.005, 0.005,
                 # right leg
-                10, 10, 10, 10, 10, 10,
+                0.04, 0.14, 0.4, 0.4, 0.005, 0.005,
                 # waist
-                10, 10, 10,
+                0.14, 0.14, 0.14,
                 # head
-                10, 10, 10,
+                0.005, 0.005, 0.005,
                 # left arm
-                10, 10, 10, 10, 10, 10, 10,
+                0.02, 0.02, 0.02, 0.02, 0.005, 0.005, 0.005,
                 # right arm
-                10, 10, 10, 10, 10, 10, 10,
+                0.02, 0.02, 0.02, 0.02, 0.005, 0.005, 0.005,
             ],
             # position (in urdf):
             # - unit: degree
@@ -120,26 +118,25 @@ def main(argv):
         # output control
         RobotInterface().instance.control_loop_intf_set_control(control_dict)
 
-        # control loop wait time
-        time_end_of_robot_control_loop_in_s = time.time()
-        time_of_robot_control_loop_in_s = time_end_of_robot_control_loop_in_s \
-                                          - time_start_of_robot_control_loop_in_s
+        # sleep some time and exit
+        time.sleep(10)
+        break
 
-        # wait for next control period
-        time_to_sleep_in_s = target_control_period_in_s - time_of_robot_control_loop_in_s
-        if time_to_sleep_in_s >= 0:
-            pass
-        else:
-            time_to_sleep_in_s = 0
 
-        time.sleep(time_to_sleep_in_s)
+robot_set_home_command = 0x020109  # defined inside the RobotInterface() lib.
 
-        # TODO: allow use more accurate control frequency
-        # time_to_sleep_mark_in_s = time.time()
-        # while True:
-        #     time_offset_in_s = time.time() - time_to_sleep_mark_in_s
-        #     if time_offset_in_s >= time_to_sleep_in_s:
-        #         break
+
+def algorithm_set_home():
+    global robot_set_home_command
+
+    # Notice:
+    # Be careful when uncomment this, this will change the home position!!!
+    # Besure when running this algorithm, the robot is in home position.
+
+    # RobotInterface().instance.flag_task_state_update = 1  # set update command flag
+    # RobotInterface().instance.task_command = robot_set_home_command  # set home command
+
+    pass
 
 
 if __name__ == "__main__":

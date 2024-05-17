@@ -4,7 +4,7 @@ system: "LINUX"
 robot:
   type: "GR1"
   mechanism: "T1"
-  control_period: 0.01
+  control_period: 0.0025  # 400Hz
   input_and_calculate_period: 0
 
 comm:
