@@ -32,6 +32,17 @@ def main(argv):
         # - base: linear velocity, height
         print("state_dict = \n", state_dict)
 
+        # parse state
+        imu_quat = state_dict["imu_quat"]
+        imu_euler_angle = state_dict["imu_euler_angle"]
+        imu_angular_velocity = state_dict["imu_angular_velocity"]
+        imu_acceleration = state_dict["imu_acceleration"]
+        joint_position = state_dict["joint_position"]
+        joint_velocity = state_dict["joint_velocity"]
+        joint_kinetic = state_dict["joint_kinetic"]
+        base_lin_vel = state_dict["base_estimate_linear_velocity"]
+        base_height = state_dict["base_estimate_height"]
+
         # algorithm (user customized...)
 
         # control:

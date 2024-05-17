@@ -4,7 +4,7 @@ system: "LINUX"
 robot:
   type: "GR1"
   mechanism: "T1"
-  control_period: 0.002  # do not change if not necessary
+  control_period: 0.01
   input_and_calculate_period: 0
 
 comm:
@@ -15,8 +15,8 @@ comm:
   use_sim: false
 
 operator:
-  use_joystick: false
-  joystick_connected: false
+  use_joystick: true
+  joystick_connected: true
   joystick_type: "XBOX"
   use_keyboard: false
   keyboard_connected: false

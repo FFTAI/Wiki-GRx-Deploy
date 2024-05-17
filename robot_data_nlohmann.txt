@@ -78,7 +78,7 @@ Type        DOF         q_index     Axes
 6DoF        6           0           0 0 0 1 0 0
 Revolute    1           0           1 0 0 0 0 0
 Revolute    1           0           0 0 1 0 0 0
-Revolute    1           0           0 1 0 0 0 0
+Revolute    1           32          0 1 0 0 0 0
 Revolute    1           0           0 1 0 0 0 0
 Revolute    1           0           0 1 0 0 0 0
 Revolute    1           0           1 0 0 0 0 0
