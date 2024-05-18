@@ -58,7 +58,7 @@ sensor_abs_encoder:
     # waist
     "192.168.137.190", "192.168.137.191", "192.168.137.192",
   ]
-  data_path: "sensor_offset.txt"
+  data_path: "sensor_offset.json"
 
 fi_fse:
   version: "v1"
