@@ -55,7 +55,7 @@ def main(argv):
         base_vel_xyz = state_dict["base_estimate_xyz_vel"]
 
         # algorithm (user customized...)
-        algorithm_set_home()
+        algorithm_calibration()
 
         """
         control:

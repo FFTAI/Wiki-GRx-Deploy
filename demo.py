@@ -1,11 +1,19 @@
 import sys
 import time
 
-from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
-
 
 def main(argv):
+    # version information
+    from robot_rcs.version.version import version as robot_rcs_version
+    from robot_rcs_gr.version.version import version as robot_rcs_gr_version
+
+    print("robot_rcs_version = ", robot_rcs_version)
+    print("robot_rcs_gr_version = ", robot_rcs_gr_version)
+
+    # import robot_rcs and robot_rcs_gr
+    from robot_rcs.control_system.fi_control_system import ControlSystem
+    from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
+
     # TODO: upgrade to 1000Hz
     """
     control frequency
@@ -65,15 +73,13 @@ def main(argv):
         - kd
         """
         control_dict.update({
-            """
-            control mode:
-            - 4: position control
-            - 5: PD control
-            
-            kp, kd:
-            - in position control mode: kp is position kp, kd is velocity kp
-            - in PD control mode: kp is position kp, kd is velocity kd
-            """
+            # control mode:
+            # - 4: position control
+            # - 5: PD control
+            #
+            # kp, kd:
+            # - in position control mode: kp is position kp, kd is velocity kp
+            # - in PD control mode: kp is position kp, kd is velocity kd
             "control_mode": [
                 # left leg
                 5, 5, 5, 5, 5, 5,

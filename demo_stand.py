@@ -74,6 +74,10 @@ def main(argv):
             # control mode:
             # - 4: position control
             # - 5: PD control
+            #
+            # kp, kd:
+            # - in position control mode: kp is position kp, kd is velocity kp
+            # - in PD control mode: kp is position kp, kd is velocity kd
             "control_mode": [
                 # left leg
                 4, 4, 4, 4, 4, 4,
