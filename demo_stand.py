@@ -150,7 +150,7 @@ move_period = 100
 joint_start_position = None
 
 
-def algorithm_stand(joint_measured_position) -> (list, int):
+def algorithm_stand(joint_measured_position) -> tuple[numpy.ndarray, int]:
     global move_count, joint_start_position
 
     if joint_start_position is None:
