@@ -35,7 +35,7 @@ After you have finished the machine physical calibration process (move all joint
 you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
 
 ```
-python demo_calibration.py config_xxx.yaml
+python demo_calibration.py ./config/config_xxx.yaml
 ```
 
 ---
@@ -49,7 +49,7 @@ python demo_calibration.py config_xxx.yaml
 run demo with following command:
 
 ```
-python demo_xxx.py config_GR1_T1.yaml
+python demo_xxx.py ./config/config_GR1_T1.yaml
 ```
 
 #### GR1-T2
@@ -57,7 +57,7 @@ python demo_xxx.py config_GR1_T1.yaml
 run demo with following command:
 
 ```
-python demo_xxx.py config_GR1_T2.yaml
+python demo_xxx.py ./config/config_GR1_T2.yaml
 ```
 
 --- 
@@ -114,7 +114,7 @@ The control loop is configured to run indefinitely, continuously adjusting the r
 To run the demo, execute the script using the command:
 
 ```
-python demo.py config_xxx.yaml
+python demo.py ./config/config_xxx.yaml
 ```
 
 ### demo_rl_walk.py
@@ -179,7 +179,7 @@ This framework provides a robust foundation for further development and refineme
 To run the demo, execute the script using the command:
 
 ```
-python demo_rl_walk.py config_xxx.yaml
+python demo_rl_walk.py ./config/config_xxx.yaml
 ```
 
 #### Training Procedure
