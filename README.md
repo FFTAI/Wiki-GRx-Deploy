@@ -171,6 +171,14 @@ This framework provides a robust foundation for further development and refineme
         - The predicted actions are converted to the joint target positions.
         - The positions are adjusted based on the default joint positions and are returned as a list.
 
+#### Running the Demo
+
+To run the demo, execute the script using the command:
+
+```
+python demo_rl_walk.py config_xxx.yaml
+```
+
 #### Training Procedure
 
 The training code for allowing the robot to walk is in https://gitee.com/FourierIntelligence/wiki-grx-gym.
