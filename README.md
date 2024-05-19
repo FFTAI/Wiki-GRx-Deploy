@@ -35,9 +35,13 @@ After you have finished the calibration process, you can run the demo code in th
 python demo_calibration.py config_xxx.yaml
 ```
 
-## GR1
+---
 
-### GR1-T1
+## GRx Series Robot
+
+### GR1
+
+#### GR1-T1
 
 run demo with following command:
 
@@ -45,13 +49,15 @@ run demo with following command:
 python demo_xxx.py config_GR1_T1.yaml
 ```
 
-### GR1-T2
+#### GR1-T2
 
 run demo with following command:
 
 ```
 python demo_xxx.py config_GR1_T2.yaml
 ```
+
+--- 
 
 ## Demos
 
