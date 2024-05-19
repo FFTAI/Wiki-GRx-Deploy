@@ -68,16 +68,16 @@ The control loop is configured to run indefinitely, continuously adjusting the r
 
 #### Detailed Explanation
 
-- Imports and Setup:
+1. Imports and Setup:
     - The script begins by importing necessary modules: sys, time, and specific versions of robot_rcs and robot_rcs_gr.
     - It prints out the versions of these imported modules to ensure the correct versions are being used.
 
-- Control System Initialization:
+2. Control System Initialization:
     - ControlSystem and RobotInterface classes are imported, which are pivotal for managing the robot's control systems and interfacing with the hardware.
-    - A target control frequency of 50Hz is defined, meaning the control loop will execute 50 times per second.
-    - The control system is set to development mode using ControlSystem().dev_mode().
+    - A target control frequency of `50Hz` is defined, meaning the control loop will execute 50 times per second.
+    - The control system is set to development mode using `ControlSystem().dev_mode()`.
 
-- Main Control Loop:
+3. Main Control Loop:
     - Two dictionaries, state_dict and control_dict, are initialized to store the current state of the robot and the control commands respectively.
     - State Update:
       The robot's current state is obtained through RobotInterface().instance.control_loop_intf_get_state().
@@ -113,6 +113,67 @@ To run the demo, execute the script using the command:
 ```
 python demo.py config_xxx.yaml
 ```
+
+### demo_rl_walk.py
+
+This demo code outlines a sophisticated control loop for a robotic system, incorporating reinforcement learning to determine target joint positions.
+It ensures real-time control with accurate sensor feedback and adaptable timing management.
+This framework provides a robust foundation for further development and refinement of robotic control systems.
+
+#### Detailed Explanation
+
+1. Imports and Setup
+    - Module Imports:
+        - The script imports essential Python libraries such as os, sys, time, and torch for neural network operations.
+        - It also imports specific versions of the robot_rcs and robot_rcs_gr modules, which include essential components for the robot control system and interface.
+
+    - Version Information:
+        - The script prints out the version information of the imported robot_rcs and robot_rcs_gr modules for validation.
+
+    - Control System Initialization:
+        - The control system and robot interface are initialized through the ControlSystem and RobotInterface classes.
+        - The target control frequency is set to `50Hz`, defining the robot control loop's execution rate.
+        - The control system is set to development mode using `ControlSystem().dev_mode()`.
+
+2. Main Control Loop
+    - State Update:
+        - Within the control loop, the robot’s current state is obtained using RobotInterface().instance.control_loop_intf_get_state().
+        - The state dictionary includes detailed information on the robot’s IMU data (quaternion, Euler angles, angular velocity, linear acceleration), joint data (position, velocity, torque), and base data (position and velocity).
+
+    - RL Algorithm (algorithm_rl_walk):
+        - The RL-based walking algorithm algorithm_rl_walk is used to calculate the joint target positions.
+        - The function considers sensory inputs such as IMU data and joint measurements to compute the desired joint positions.
+
+    - Control Commands:
+        - The control commands are updated in control_dict which includes:
+        - Control Mode (set to 4 for position control).
+        - Proportional Gain (kp) and Derivative Gain (kd) values for various joints.
+        - The desired joint positions as returned from the RL algorithm.
+
+    - Control Execution:
+        - The updated control commands are sent to the robot via RobotInterface().instance.control_loop_intf_set_control(control_dict).
+
+    - Timing Management:
+        - The script calculates the duration of each control loop cycle and determines the required sleep time to maintain the 50Hz control frequency.
+        - A conditional ensures the script adjusts if the loop takes longer than expected.
+
+3. RL Algorithm Functions
+    - Load Actor Model:
+        - If the actor model is not already loaded, the script loads it from a specified file using torch.load.
+        - The actor is an instance of the ActorCriticMLP class, which predicts actions based on observations.
+
+    - Compute Observations and Actions:
+        - The function computes various tensors for IMU data, joint positions, and velocities.
+        - An observation tensor is created which includes the command, projected gravity, IMU angular velocity, controlled joint positions and velocities, and the last action.
+        - The actor uses these observations to predict the next action (target joint positions).
+
+    - Update Joint Target Positions:
+        - The predicted actions are converted to the joint target positions.
+        - The positions are adjusted based on the default joint positions and are returned as a list.
+
+#### Training Procedure
+
+The training code for allowing the robot to walk is in https://gitee.com/FourierIntelligence/wiki-grx-gym.
 
 ---
 
