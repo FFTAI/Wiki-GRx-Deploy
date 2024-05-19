@@ -21,6 +21,8 @@
 Till now, if no error presents, the environment for develop Fourier GRx robot is ready.
 You can now run the demos in the repository.
 
+---
+
 ## Calibration
 
 The first step to run the demo code, is to make sure the `sensor_offset.txt` is with your machine encoder value,
