@@ -42,6 +42,11 @@ python demo_calibration.py ./config/config_xxx.yaml
 
 ## GRx Series Robot
 
+Different robot models have different configurations, and the demo code is divided into different parts according to the robot model.
+But all config files are all in the `config` folder.
+
+When you run the demo code, you should specify the config file in the command line.
+
 ### GR1
 
 #### GR1-T1
