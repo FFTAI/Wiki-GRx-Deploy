@@ -25,7 +25,7 @@ You can now run the demos in the repository.
 
 ## Calibration
 
-The first step to run the demo code, is to make sure the `sensor_offset.txt` is with your machine encoder value,
+The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,
 instead of the value in this repository.
 
 Every machine has its own home position encoder value,
