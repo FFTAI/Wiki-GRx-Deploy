@@ -108,4 +108,4 @@ To run the demo, execute the script using the command:
 python demo.py config_xxx.yaml
 ```
 
-### More Info of Robot_RCS and Robot_RCS_GR
+### More Info about Robot_RCS and Robot_RCS_GR
