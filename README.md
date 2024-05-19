@@ -189,12 +189,15 @@ python demo_rl_walk.py ./config/config_xxx.yaml
 
 #### Training Procedure
 
-The training code for getting the policy `.pt` file, allowing the robot to walk is from repository: https://gitee.com/FourierIntelligence/wiki-grx-gym.
+The training code for getting the policy `.pt` file, allowing the robot to walk is from repository:
+- Gitee: https://gitee.com/FourierIntelligence/wiki-grx-gym.
+- Github: https://github.com/FFTAI/Wiki-GRx-Gym.
 
 ---
 
 ### More Info about Robot_RCS and Robot_RCS_GR
 
-More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document: https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
+More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document: 
+- https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
 
 (Still in progress...)
