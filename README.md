@@ -31,7 +31,7 @@ instead of the value in this repository.
 Every machine has its own home position encoder value,
 which should be set with the machine power on and the joint fixed at the pin position.
 
-After you have finished the machine physical calibration process (move all joints to the pin position), 
+After you have finished the machine physical calibration process (move all joints to the pin position),
 you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
 
 ```
@@ -190,5 +190,6 @@ The training code for getting the policy `.pt` file, allowing the robot to walk 
 
 ### More Info about Robot_RCS and Robot_RCS_GR
 
-(Still in progress...)
 More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document: https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
+
+(Still in progress...)
