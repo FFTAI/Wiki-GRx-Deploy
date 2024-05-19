@@ -189,3 +189,5 @@ The training code for getting the policy `.pt` file, allowing the robot to walk 
 ---
 
 ### More Info about Robot_RCS and Robot_RCS_GR
+
+More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document: https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
