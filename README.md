@@ -31,7 +31,8 @@ instead of the value in this repository.
 Every machine has its own home position encoder value,
 which should be set with the machine power on and the joint fixed at the pin position.
 
-After you have finished the calibration process, you can run the demo code in this repository.
+After you have finished the machine physical calibration process (move all joints to the pin position), 
+you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
 
 ```
 python demo_calibration.py config_xxx.yaml
