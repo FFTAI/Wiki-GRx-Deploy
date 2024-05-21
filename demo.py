@@ -25,13 +25,6 @@ from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must b
 
 
 def main(argv):
-    # version information
-    from robot_rcs.version.version import version as robot_rcs_version
-    from robot_rcs_gr.version.version import version as robot_rcs_gr_version
-
-    print("robot_rcs_version = ", robot_rcs_version)
-    print("robot_rcs_gr_version = ", robot_rcs_gr_version)
-
     # TODO: upgrade to 1000Hz
     """
     control frequency
@@ -42,6 +35,10 @@ def main(argv):
 
     # dev mode
     ControlSystem().dev_mode()
+
+    # print version info
+    info_dict = ControlSystem().get_info()
+    print(info_dict)
 
     state_dict = {}
     control_dict = {}

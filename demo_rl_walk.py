@@ -246,6 +246,8 @@ def algorithm_rl_walk(imu_quat,
     joint_measured_position_tensor = joint_measured_position_tensor / 180.0 * torch.pi  # unit : rad
     joint_measured_velocity_tensor = joint_measured_velocity_tensor / 180.0 * torch.pi  # unit : rad/s
 
+    joint_offset_position_tensor = joint_measured_position_tensor - joint_default_position
+
     # load actor
     if actor is None:
         from robot_rcs.rl.rl_actor_critic_mlp import ActorCriticMLP
@@ -269,8 +271,7 @@ def algorithm_rl_walk(imu_quat,
         last_action = torch.zeros((1, num_actions), dtype=torch.float32)
         for i in range(len(index_joint_controlled)):
             index = index_joint_controlled[i]
-            last_action[0, i] = joint_measured_position_tensor[0, index]
-            last_action[0, i] -= joint_default_position[0, index]
+            last_action[0, i] = joint_offset_position_tensor[0, index]
 
     # command
     command = torch.tensor([[0.0, 0.0, 0.0]], dtype=torch.float32)
@@ -283,7 +284,7 @@ def algorithm_rl_walk(imu_quat,
     joint_controlled_velocity_tensor = torch.zeros((1, num_actions), dtype=torch.float32)
     for i in range(len(index_joint_controlled)):
         index = index_joint_controlled[i]
-        joint_controlled_position_tensor[0, i] = joint_measured_position_tensor[0, index]
+        joint_controlled_position_tensor[0, i] = joint_offset_position_tensor[0, index]
         joint_controlled_velocity_tensor[0, i] = joint_measured_velocity_tensor[0, index]
 
     # actor-critic

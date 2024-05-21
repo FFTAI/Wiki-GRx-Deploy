@@ -45,7 +45,7 @@ sensor_usb_imu:
     true
   ]
   comm_frequency: [
-    100
+    500
   ]
 
 sensor_abs_encoder:
