@@ -19,21 +19,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 import os
 import sys
 import time
+import numpy
 import torch
-
-# version information
-from robot_rcs.version.version import version as robot_rcs_version
-from robot_rcs_gr.version.version import version as robot_rcs_gr_version
 
 # import robot_rcs and robot_rcs_gr
 from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
+from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
 
 
 def main(argv):
-    print("robot_rcs_version = ", robot_rcs_version)
-    print("robot_rcs_gr_version = ", robot_rcs_gr_version)
-
     # TODO: upgrade to 1000Hz
     """
     control frequency
@@ -69,7 +63,7 @@ def main(argv):
           - position xyz [m]
           - linear velocity xyz [m/s]
         """
-        state_dict = RobotInterface().instance.control_loop_intf_get_state()
+        state_dict = ControlSystem().robot_control_loop_get_state()
         # print("state_dict = \n", state_dict)
 
         # parse state
@@ -86,11 +80,25 @@ def main(argv):
         joint_measured_position = joint_position
         joint_measured_velocity = joint_velocity
 
+        # print("imu_quat", imu_quat)
+        # print("imu_angular_velocity", imu_angular_velocity)
+        # print("joint_measured_position", joint_measured_position)
+        # print("joint_measured_velocity", joint_measured_velocity)
+
         # algorithm (user customized...)
         joint_target_position = algorithm_rl_walk(imu_quat,
                                                   imu_angular_velocity,
                                                   joint_measured_position,
                                                   joint_measured_velocity)
+
+        # joint_target_position = numpy.array([
+        #     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
+        #     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
+        #     0.0, 0.0, 0.0,  # waist (3)
+        #     0.0, 0.0, 0.0,  # head (3)
+        #     0.0, 0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # left arm (7)
+        #     0.0, -0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # right arm (7)
+        # ]) / numpy.pi * 180
 
         """
         control:
@@ -155,7 +163,7 @@ def main(argv):
         })
 
         # output control
-        RobotInterface().instance.control_loop_intf_set_control(control_dict)
+        ControlSystem().robot_control_loop_set_control(control_dict)
 
         # control loop wait time
         time_end_of_robot_control_loop_in_s = time.time()
@@ -184,6 +192,14 @@ def main(argv):
 command = torch.tensor([[0.0, 0.0, 0.0]])
 actor = None
 last_action = None
+action_max = torch.tensor([[
+    0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
+    0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
+]]) + 60 / 100 * torch.pi / 3
+action_min = torch.tensor([[
+    -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
+    -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
+]]) - 60 / 100 * torch.pi / 3
 joint_default_position = torch.tensor([[
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
@@ -199,7 +215,8 @@ num_joint = 32
 num_actor_obs = 39
 num_critic_obs = 168
 num_actions = 10
-index_joint_controlled = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10]
+index_joint_controlled = [0, 1, 2, 3, 4,
+                          6, 7, 8, 9, 10]
 
 
 def quat_rotate_inverse(q, v):
@@ -225,14 +242,15 @@ def algorithm_rl_walk(imu_quat,
     joint_measured_position_tensor = torch.tensor(joint_measured_position, dtype=torch.float32).unsqueeze(0)
     joint_measured_velocity_tensor = torch.tensor(joint_measured_velocity, dtype=torch.float32).unsqueeze(0)
 
-    joint_measured_position_tensor = joint_measured_position_tensor / 180.0 * torch.pi
-    joint_measured_velocity_tensor = joint_measured_velocity_tensor / 180.0 * torch.pi
+    imu_angular_velocity_tensor = imu_angular_velocity_tensor / 180.0 * torch.pi  # unit : rad/s
+    joint_measured_position_tensor = joint_measured_position_tensor / 180.0 * torch.pi  # unit : rad
+    joint_measured_velocity_tensor = joint_measured_velocity_tensor / 180.0 * torch.pi  # unit : rad/s
 
     # load actor
     if actor is None:
         from robot_rcs.rl.rl_actor_critic_mlp import ActorCriticMLP
 
-        model_file_path = os.path.dirname(os.path.abspath(__file__)) + "/data/model_0.pt"
+        model_file_path = os.path.dirname(os.path.abspath(__file__)) + "/data/model_4000.pt"
         print("algorithm_rl_walk model_file_path = ", model_file_path)
 
         model = torch.load(model_file_path, map_location=torch.device("cpu"))
@@ -279,20 +297,25 @@ def algorithm_rl_walk(imu_quat,
 
     action = actor(observation)
 
+    # clip action
+    action = torch.max(action, action_min)
+    action = torch.min(action, action_max)
+
     # record action
     last_action = action
 
     joint_target_position = torch.zeros((1, num_joint), dtype=torch.float32)
     for i in range(len(index_joint_controlled)):
         index = index_joint_controlled[i]
-        joint_target_position[0, index] = action[0, i] / 180.0 * torch.pi
+        joint_target_position[0, index] = action[0, i]
     joint_target_position += joint_default_position
 
     # parse to numpy
     joint_target_position = joint_target_position.detach().numpy()
+    joint_target_position = joint_target_position / numpy.pi * 180.0
     joint_target_position = joint_target_position[0]
 
-    print("algorithm_rl_walk joint_target_position = \n", joint_target_position)
+    # print("algorithm_rl_walk joint_target_position = \n", joint_target_position)
 
     return joint_target_position
 

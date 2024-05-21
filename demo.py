@@ -19,6 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 import sys
 import time
 
+# import robot_rcs and robot_rcs_gr
+from robot_rcs.control_system.fi_control_system import ControlSystem
+from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
+
 
 def main(argv):
     # version information
@@ -27,10 +31,6 @@ def main(argv):
 
     print("robot_rcs_version = ", robot_rcs_version)
     print("robot_rcs_gr_version = ", robot_rcs_gr_version)
-
-    # import robot_rcs and robot_rcs_gr
-    from robot_rcs.control_system.fi_control_system import ControlSystem
-    from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
 
     # TODO: upgrade to 1000Hz
     """
@@ -67,7 +67,7 @@ def main(argv):
           - position xyz [m]
           - linear velocity xyz [m/s]
         """
-        state_dict = RobotInterface().instance.control_loop_intf_get_state()
+        state_dict = ControlSystem().robot_control_loop_get_state()
         # print("state_dict = \n", state_dict)
 
         # parse state
@@ -159,7 +159,7 @@ def main(argv):
         })
 
         # output control
-        RobotInterface().instance.control_loop_intf_set_control(control_dict)
+        ControlSystem().robot_control_loop_set_control(control_dict)
 
         # control loop wait time
         time_end_of_robot_control_loop_in_s = time.time()

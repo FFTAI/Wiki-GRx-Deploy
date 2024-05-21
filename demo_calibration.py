@@ -22,7 +22,7 @@ import time
 
 # import robot_rcs and robot_rcs_gr
 from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface
+from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
 
 
 def main(argv):
@@ -59,7 +59,7 @@ def main(argv):
           - position xyz [m]
           - linear velocity xyz [m/s]
         """
-        state_dict = RobotInterface().instance.control_loop_intf_get_state()
+        state_dict = ControlSystem().robot_control_loop_get_state()
         # print("state_dict = \n", state_dict)
 
         # parse state
@@ -152,7 +152,7 @@ def main(argv):
         })
 
         # output control
-        RobotInterface().instance.control_loop_intf_set_control(control_dict)
+        ControlSystem().robot_control_loop_set_control(control_dict)
 
         # sleep some time and exit
         time.sleep(10)
@@ -170,8 +170,8 @@ def algorithm_calibration():
     # Besure when running this algorithm, the robot is in home position.
 
     # backup the last sensor_offset.txt
-    if os.path.exists("sensor_offset.txt"):
-        os.rename("sensor_offset.txt", "sensor_offset.txt.bak")
+    if os.path.exists("sensor_offset.json"):
+        os.rename("sensor_offset.json", "sensor_offset.json.bak")
 
     # set command
     RobotInterface().instance.flag_task_state_update = 1  # set update command flag
