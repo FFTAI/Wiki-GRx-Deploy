@@ -289,9 +289,9 @@ def algorithm_rl_walk(imu_quat,
 
     # actor-critic
     observation = torch.cat((
-        command,
-        project_gravity_tensor,
         imu_angular_velocity_tensor,
+        project_gravity_tensor,
+        command,
         joint_controlled_position_tensor,
         joint_controlled_velocity_tensor,
         last_action), dim=1)
