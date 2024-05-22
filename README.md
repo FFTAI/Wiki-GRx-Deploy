@@ -38,6 +38,16 @@ you can run the demo code in this repository, this demo code will record its abs
 python demo_calibration.py ./config/config_xxx.yaml
 ```
 
+## Info level
+
+The print level of the information are separated into 5 levels:
+
+- Info Level: white color word, for general information.
+- Highlight Level: green color word, for important information.
+- Debug Level: red color word, for debug information.
+- Warning Level: blue color word, yellow background, for warning information.
+- Error Level: white color word, red background, for error information.
+
 ---
 
 ## GRx Series Robot
@@ -190,6 +200,7 @@ python demo_rl_walk.py ./config/config_xxx.yaml
 #### Training Procedure
 
 The training code for getting the policy `.pt` file, allowing the robot to walk is from repository:
+
 - Gitee: https://gitee.com/FourierIntelligence/wiki-grx-gym.
 - Github: https://github.com/FFTAI/Wiki-GRx-Gym.
 
@@ -197,7 +208,8 @@ The training code for getting the policy `.pt` file, allowing the robot to walk 
 
 ### More Info about Robot_RCS and Robot_RCS_GR
 
-More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document: 
+More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document:
+
 - https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
 
 (Still in progress...)
