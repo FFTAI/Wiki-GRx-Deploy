@@ -195,11 +195,11 @@ last_action = None
 action_max = torch.tensor([[
     0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
     0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
-]]) + 60 / 100 * torch.pi / 3
+]]) + 60 / 180 * torch.pi / 3
 action_min = torch.tensor([[
     -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
     -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
-]]) - 60 / 100 * torch.pi / 3
+]]) - 60 / 180 * torch.pi / 3
 joint_default_position = torch.tensor([[
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
