@@ -99,7 +99,8 @@ The control loop is configured to run indefinitely, continuously adjusting the r
     - Two dictionaries, state_dict and control_dict, are initialized to store the current state of the robot and the control commands respectively.
     - State Update:
       The robot's current state is obtained through RobotInterface().instance.control_loop_intf_get_state().
-      This state includes various parameters such as IMU data (quaternion, Euler angles, angular velocity, linear acceleration), joint data (position, velocity, torque), and base data (position, velocity).
+      This state includes various parameters such as IMU data (quaternion, Euler angles, angular velocity, linear acceleration), joint data (position, velocity, torque), and base data (position,
+      velocity).
     - Control Commands:
       The control commands are updated in control_dict. This includes setting control modes, proportional gain (kp), derivative gain (kd), and desired positions for each joint of the robot.
       The control modes are set as PD (Proportional-Derivative) control, indicated by the mode value 5.
@@ -156,7 +157,8 @@ This framework provides a robust foundation for further development and refineme
 2. Main Control Loop
     - State Update:
         - Within the control loop, the robot’s current state is obtained using RobotInterface().instance.control_loop_intf_get_state().
-        - The state dictionary includes detailed information on the robot’s IMU data (quaternion, Euler angles, angular velocity, linear acceleration), joint data (position, velocity, torque), and base data (position and velocity).
+        - The state dictionary includes detailed information on the robot’s IMU data (quaternion, Euler angles, angular velocity, linear acceleration), joint data (position, velocity, torque), and
+          base data (position and velocity).
 
     - RL Algorithm (algorithm_rl_walk):
         - The RL-based walking algorithm algorithm_rl_walk is used to calculate the joint target positions.
@@ -213,3 +215,8 @@ More information about Robot_RCS and Robot_RCS_GR framework can be found in the 
 - https://github.com/FFTAI/fftai.github.io?tab=readme-ov-file.
 
 (Still in progress...)
+
+---
+
+Thank you for your interest in the Fourier Intelligence GRx Robot Model Repository.
+We hope you find this resource helpful in your robotics projects!
