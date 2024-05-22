@@ -1,4 +1,4 @@
-# Wiki-GRx
+# Wiki-GRx-Deploy
 
 ![](pictures/1.png)
 
@@ -218,5 +218,5 @@ More information about Robot_RCS and Robot_RCS_GR framework can be found in the 
 
 ---
 
-Thank you for your interest in the Fourier Intelligence GRx Robot Model Repository.
+Thank you for your interest in the Fourier Intelligence GRx Robot Repositories.
 We hope you find this resource helpful in your robotics projects!
