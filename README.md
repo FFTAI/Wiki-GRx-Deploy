@@ -199,14 +199,22 @@ To run the demo, execute the script using the command:
 python demo_rl_walk.py ./config/config_xxx.yaml
 ```
 
-#### Training Procedure
-
-The training code for getting the policy `.pt` file, allowing the robot to walk is from repository:
-
-- Gitee: https://gitee.com/FourierIntelligence/wiki-grx-gym.
-- Github: https://github.com/FFTAI/Wiki-GRx-Gym.
-
 ---
+
+### PD Conversion
+
+The actuators on GR1T1 and GR1T2 are with FSA v1 firmware, which only supports position, velocity, and current control.
+So, if you want to use the PD control, you should convert the PD control parameters to the position control parameters.
+Which means you should convert the PD control's kp and kd to the position control loop's kp and velocity control loop's kp.
+
+We provide a script to convert the PD control parameters to the position control parameters in the `tools` folder named `pd_conversion.py`.
+
+You can input the PD control's kp and kd in your simulation environment,
+and then use this script to do the conversion.
+
+```
+python pd_conversion.py
+```
 
 ### More Info about Robot_RCS and Robot_RCS_GR
 
