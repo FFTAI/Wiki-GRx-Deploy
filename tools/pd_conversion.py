@@ -133,7 +133,26 @@ def GR1T2_pd_dict() -> dict:
     return pd_dict
 
 
+def GR1T1_soft_pd_dict() -> dict:
+    pd_dict = {
+        "l_hip_roll": [FSAType.FSATYPE_802030, 57, 5.7],
+        "l_hip_yaw": [FSAType.FSATYPE_601750, 43, 4.3],
+        "l_hip_pitch": [FSAType.FSATYPE_1307E, 114, 11.4],
+        "l_knee_pitch": [FSAType.FSATYPE_1307E, 114, 11.4],
+        "l_ankle_pitch": [FSAType.FSATYPE_36B36E, 15.3, 1.5],
+        "l_ankle_roll": [FSAType.FSATYPE_36B36E, 15.3, 1.5],
+        "r_hip_roll": [FSAType.FSATYPE_802030, 57, 5.7],
+        "r_hip_yaw": [FSAType.FSATYPE_601750, 43, 4.3],
+        "r_hip_pitch": [FSAType.FSATYPE_1307E, 114, 11.4],
+        "r_knee_pitch": [FSAType.FSATYPE_1307E, 114, 11.4],
+        "r_ankle_pitch": [FSAType.FSATYPE_36B36E, 15.3, 1.5],
+        "r_ankle_roll": [FSAType.FSATYPE_36B36E, 15.3, 1.5],
+    }
+
+    return pd_dict
+
+
 if __name__ == "__main__":
-    pid_dict_converted = pd_conversion(GR1T1_pd_dict())
+    pid_dict_converted = pd_conversion(GR1T1_soft_pd_dict())
     for key, value in pid_dict_converted.items():
         print(key, numpy.array(value))
