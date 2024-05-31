@@ -46,7 +46,8 @@ The print level of the information are separated into 5 levels:
 - Highlight Level: green color word, for important information.
 - Debug Level: red color word, for debug information.
 - Warning Level: blue color word, yellow background, for warning information.
-- Error Level: white color word, red background, for error information.
+- Error Level: white color word, red background, for error information. (**Should stop the program and check the error.**
+  )
 
 ---
 
