@@ -79,7 +79,7 @@ python demo_xxx.py ./config/config_GR1_T2.yaml
 
 ## Demos
 
-For more demos description, please refer to the `DEMOS.md` file.
+For more demo details, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
 
