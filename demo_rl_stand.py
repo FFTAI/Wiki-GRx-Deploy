@@ -3,7 +3,7 @@ Copyright (C) [2024] [Fourier Intelligence Ltd.]
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -20,9 +20,7 @@ import sys
 import time
 import numpy
 
-# import robot_rcs and robot_rcs_gr
-from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
+from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
 
 def main(argv):
@@ -37,8 +35,14 @@ def main(argv):
     dev mode will need 1 second to make sure all process and threads is ready,
     and to allow the developer to run control algorithm on the robot.
     """
-    ControlSystem().dev_mode()
+    ControlSystem().developer_mode()
 
+    # servo on
+    from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
+    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_ON)
+    time.sleep(1)
+
+    # prepare dict
     state_dict = {}
     control_dict = {}
 

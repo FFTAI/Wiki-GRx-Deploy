@@ -3,7 +3,7 @@ Copyright (C) [2024] [Fourier Intelligence Ltd.]
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
+the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
@@ -22,9 +22,7 @@ import time
 import numpy
 import torch
 
-# import robot_rcs and robot_rcs_gr
-from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
+from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
 
 def main(argv):
@@ -37,8 +35,14 @@ def main(argv):
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    ControlSystem().dev_mode()
+    ControlSystem().developer_mode()
 
+    # servo on
+    from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
+    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_ON)
+    time.sleep(1)
+
+    # prepare dict
     state_dict = {}
     control_dict = {}
 
@@ -193,13 +197,13 @@ command = torch.tensor([[0.0, 0.0, 0.0]])
 actor = None
 last_action = None
 action_max = torch.tensor([[
-    0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
-    0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple model
-]]) + 60 / 180 * torch.pi / 3
+    0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
+    0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
+]]) + 60 / 100 * torch.pi / 3
 action_min = torch.tensor([[
-    -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
-    -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple model
-]]) - 60 / 180 * torch.pi / 3
+    -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
+    -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
+]]) - 60 / 100 * torch.pi / 3
 joint_default_position = torch.tensor([[
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
@@ -289,9 +293,9 @@ def algorithm_rl_walk(imu_quat,
 
     # actor-critic
     observation = torch.cat((
-        imu_angular_velocity_tensor,
-        project_gravity_tensor,
         command,
+        project_gravity_tensor,
+        imu_angular_velocity_tensor,
         joint_controlled_position_tensor,
         joint_controlled_velocity_tensor,
         last_action), dim=1)

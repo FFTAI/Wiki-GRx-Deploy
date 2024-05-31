@@ -2,10 +2,16 @@ device_connected: true
 cpu: "X64"
 system: "LINUX"
 robot:
-  type: "GR1"
+  name: "GR1"
   mechanism: "T1"
   control_period: 0.01
   input_and_calculate_period: 0
+
+  # right now, the state estimator is not very accurate, suggest to disable it
+  # unless you know what you are doing
+  state_estimator:
+    enable: false
+    path: "/state_estimator/model_gr1_t1.json"
 
 comm:
   enable: false
@@ -102,20 +108,6 @@ actuator:
     true, true, true, true, false, false, false,
     # right arm
     true, true, true, true, false, false, false,
-  ]
-  comm_block: [
-    # left leg
-    false, false, false, false, false, false,
-    # right leg
-    false, false, false, false, false, false,
-    # waist
-    false, false, false,
-    # head
-    false, false, false,
-    # left arm
-    false, false, false, false, false, false, false,
-    # right arm
-    false, false, false, false, false, false, false,
   ]
   comm_use_fast: [
     # left leg

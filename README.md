@@ -25,42 +25,18 @@ You can now run the demos in the repository.
 
 ## Calibration
 
-[//]: # (> **Notification**:)
+The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,
+instead of the value in this repository (may be different from your machine).
 
-[//]: # (> - If you first run the codes of this repository, and have not calibrated before, be sure to delete the `sensor_offset.json` file already in this repository!)
+Every machine has its own home position encoder value,
+which should be set with the machine power on and the joint fixed at the pin position.
 
-[//]: # (> - If not, the demo code will use the value in the `sensor_offset.json` file, which may cause the robot to move to an unexpected position.)
+After you have finished the machine physical calibration process (move all joints to the pin position),
+you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
 
-[//]: # ()
-
-[//]: # (The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,)
-
-[//]: # (instead of the value in this repository.)
-
-[//]: # ()
-
-[//]: # (Every machine has its own home position encoder value,)
-
-[//]: # (which should be set with the machine power on and the joint fixed at the pin position.)
-
-[//]: # ()
-
-[//]: # (After you have finished the machine physical calibration process &#40;move all joints to the pin position&#41;,)
-
-[//]: # (you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.)
-
-[//]: # (```)
-
-[//]: # (python demo_set_home.py ./config/config_xxx.yaml)
-
-[//]: # (```)
-
-For the first time running the demo code, you should calibrate the robot to get the absolute encoder value.
-
-Right now, the `demo_set_home.py` still have some bugs, please manually copy the absolute encoder value of each joint
-from the `bin` folder running our onboard software to the `sensor_offset.json` file.
-
-Sorry for the inconvenience. 😢 (We are now working on it.)
+```
+python demo_set_home.py ./config/config_xxx.yaml
+```
 
 ## Info level
 
