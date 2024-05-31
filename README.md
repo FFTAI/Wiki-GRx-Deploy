@@ -83,6 +83,8 @@ For more demos description, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
 
+---
+
 ## Change Log
 
 - 2024-05-31:
