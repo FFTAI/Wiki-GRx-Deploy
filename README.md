@@ -159,6 +159,22 @@ python demo.py ./config/config_xxx.yaml
 
 ---
 
+## RL Demos
+
+### Preparation
+
+To run the rl demo codes (`rl_stand.py` and `rl_walk.py`), you should follow the steps below:
+
+1. Reinstall the robot IMU sensor, because the robot IMU sensor is installed upside down by default.
+   But in our current repository lib, we set the IMU sensor to be installed upright.
+
+![](./pictures/imu_upright.png)
+
+(Need sometime to finish the compatibility of the IMU sensor installation upside down, working on it. 💪🏻)
+
+2. Run the `demo_rl_stand.py` to make the robot stand up.
+3. Run the `demo_rl_walk.py` to make the robot walk.
+
 ### demo_rl_stand.py
 
 Before you run the demo code `demo_rl_walk.py`, you should run the `demo_rl_stand.py` to make the robot stand up.
@@ -226,8 +242,6 @@ This framework provides a robust foundation for further development and refineme
     - Update Joint Target Positions:
         - The predicted actions are converted to the joint target positions.
         - The positions are adjusted based on the default joint positions and are returned as a list.
-
-#### Running the Demo
 
 To run the demo, execute the script using the command:
 
