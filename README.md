@@ -94,7 +94,7 @@ For more demo details, please refer to the `DEMOS.md` file.
     - **Change** state estimator not be enabled in default, because we found that the state estimator is not accurate enough as we expected. So we disable it in default.
         - Current state estimator is based on the joint position, velocity and torque, and the IMU data. But the IMU data can have high noise during walking, which will cause the state estimator not
           accurate enough.
-    - **Update** the lib `robot_rcs` and `robot_rcs_gr` to the latest version.
+    - **Update** the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
 
 ---
 
