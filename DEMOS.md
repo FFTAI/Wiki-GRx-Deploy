@@ -26,8 +26,6 @@ The print level of the information are separated into 5 levels:
 - Error Level: white color word, red background, for error information. (**When happen, should stop the program and check the error.**
   )
 
----
-
 ## GRx Series Robot
 
 Different robot models have different configurations, and the demo code is divided into different parts according to the robot model.
@@ -110,8 +108,6 @@ To run the demo, execute the script using the command:
 ```
 python demo.py ./config/config_xxx.yaml
 ```
-
----
 
 ## RL Demos
 
