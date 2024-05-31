@@ -27,8 +27,6 @@ For more demo details, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
 
----
-
 ## Change Logs
 
 - 2024-05-31:
@@ -38,8 +36,6 @@ For more demo details, please refer to the `DEMOS.md` file.
         - Current state estimator is based on the joint position, velocity and torque, and the IMU data. But the IMU data can have high noise during walking, which will cause the state estimator not
           accurate enough.
     - **Update**: the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
-
----
 
 ## Known Issues
 
