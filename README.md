@@ -86,9 +86,9 @@ For more demo details, please refer to the `DEMOS.md` file.
 
 ---
 
-## Change Log
+## Change Logs
 
-- **2024-05-31**:
+- 2024-05-31:
     - **Change** when run into developer mode, the robot will not servo on. In the last version, the robot will servo on when call the `ControlSystem().dev_mode()`.
     - **Fix** the bug of running calibration will cause robot moving crazily. Now the robot will not be servo on when running calibration, which will be more safe. And the moving crazily bug is fixed.
     - **Change** state estimator not be enabled in default, because we found that the state estimator is not accurate enough as we expected. So we disable it in default.
