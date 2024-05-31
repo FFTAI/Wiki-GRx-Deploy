@@ -25,8 +25,8 @@ You can now run the demos in the repository.
 
 ## Calibration
 
-> **Warning**:
-> - If you first run the demo code, and have not calibrated before, be sure to delete the `sensor_offset.json` file already in this repository!
+> **Notification**:
+> - If you first run the codes of this repository, and have not calibrated before, be sure to delete the `sensor_offset.json` file already in this repository!
 > - If not, the demo code will use the value in the `sensor_offset.json` file, which may cause the robot to move to an unexpected position.
 
 The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,

@@ -165,15 +165,13 @@ robot_calibration_command = 0x020109  # defined inside the RobotInterface() lib.
 def algorithm_calibration():
     global robot_calibration_command
 
-    # Notice:
-    # Be careful when uncomment this, this will change the home position!!!
-    # Besure when running this algorithm, the robot is in home position.
-
     # backup the last sensor_offset.txt
     if os.path.exists("sensor_offset.json"):
         os.rename("sensor_offset.json", "sensor_offset.json.bak")
 
-    # set command
+    # Notice:
+    # Be careful when uncomment this, this will change the home position!!!
+    # Besure when running this algorithm, the robot is in home position.
     RobotInterface().instance.flag_task_state_update = 1  # set update command flag
     RobotInterface().instance.task_command = robot_calibration_command  # calibration command (set home command)
 
