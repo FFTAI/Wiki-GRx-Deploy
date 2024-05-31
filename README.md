@@ -12,7 +12,7 @@
 
 2. Create conda environment:
     - Notice: we should create the environment with Python 3.11, because all the libraries are created with such version.
-        - `conda create -n wiki-grx python=3.11`
+        - `conda create -n wiki-grx-deploy python=3.11`
 
 3. Install necessary environment:
     - Use `requirements.txt`:
@@ -32,27 +32,32 @@ You can now run the demos in the repository.
 [//]: # (> - If not, the demo code will use the value in the `sensor_offset.json` file, which may cause the robot to move to an unexpected position.)
 
 [//]: # ()
+
 [//]: # (The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,)
 
 [//]: # (instead of the value in this repository.)
 
 [//]: # ()
+
 [//]: # (Every machine has its own home position encoder value,)
 
 [//]: # (which should be set with the machine power on and the joint fixed at the pin position.)
 
 [//]: # ()
+
 [//]: # (After you have finished the machine physical calibration process &#40;move all joints to the pin position&#41;,)
 
 [//]: # (you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.)
 
 [//]: # (```)
-[//]: # (python demo_calibration.py ./config/config_xxx.yaml)
+
+[//]: # (python demo_set_home.py ./config/config_xxx.yaml)
+
 [//]: # (```)
 
 For the first time running the demo code, you should calibrate the robot to get the absolute encoder value.
 
-Right now, the `demo_calibration.py` still have some bugs, please manually copy the absolute encoder value of each joint 
+Right now, the `demo_set_home.py` still have some bugs, please manually copy the absolute encoder value of each joint
 from the `bin` folder running our onboard software to the `sensor_offset.json` file.
 
 Sorry for the inconvenience. 😢 (We are now working on it.)
@@ -150,6 +155,18 @@ To run the demo, execute the script using the command:
 
 ```
 python demo.py ./config/config_xxx.yaml
+```
+
+---
+
+### demo_rl_stand.py
+
+Before you run the demo code `demo_rl_walk.py`, you should run the `demo_rl_stand.py` to make the robot stand up.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_rl_stand.py ./config/config_xxx.yaml
 ```
 
 ### demo_rl_walk.py
