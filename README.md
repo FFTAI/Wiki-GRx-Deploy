@@ -21,13 +21,13 @@
 Till now, if no error presents, the environment for develop Fourier GRx robot is ready.
 You can now run the demos in the repository.
 
----
-
 ## Demos
 
 For more demo details, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
+
+---
 
 ## Change Logs
 
