@@ -23,76 +23,11 @@ You can now run the demos in the repository.
 
 ---
 
-## Calibration
-
-The first step to run the demo code, is to make sure the `sensor_offset.json` is filled with your machine absolute encoder value,
-instead of the value in this repository (may be different from your machine).
-
-Every machine has its own home position encoder value,
-which should be set with the machine power on and the joint fixed at the pin position.
-
-After you have finished the machine physical calibration process (move all joints to the pin position),
-you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
-
-```
-python demo_set_home.py ./config/config_xxx.yaml
-```
-
-## Info level
-
-The print level of the information are separated into 5 levels:
-
-- Info Level: white color word, for general information.
-- Highlight Level: green color word, for important information.
-- Debug Level: red color word, for debug information.
-- Warning Level: blue color word, yellow background, for warning information.
-- Error Level: white color word, red background, for error information. (**When happen, should stop the program and check the error.**
-  )
-
----
-
-## GRx Series Robot
-
-Different robot models have different configurations, and the demo code is divided into different parts according to the robot model.
-But all config files are all in the `config` folder.
-
-When you run the demo code, you should specify the config file in the command line.
-
-### GR1
-
-#### GR1-T1
-
-run demo with following command:
-
-```
-python demo_xxx.py ./config/config_GR1_T1.yaml
-```
-
-#### GR1-T2
-
-run demo with following command:
-
-```
-python demo_xxx.py ./config/config_GR1_T2.yaml
-```
-
---- 
-
 ## Demos
 
 For more demo details, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
-
----
-
-## Known Issues
-
-For known issues, please refer to the `KNOWN_ISSUES.md` file.
-
-[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
-
----
 
 ## Change Logs
 
@@ -103,6 +38,14 @@ For known issues, please refer to the `KNOWN_ISSUES.md` file.
         - Current state estimator is based on the joint position, velocity and torque, and the IMU data. But the IMU data can have high noise during walking, which will cause the state estimator not
           accurate enough.
     - **Update** the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
+
+---
+
+## Known Issues
+
+For known issues, please refer to the `KNOWN_ISSUES.md` file.
+
+[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
 
 ---
 
