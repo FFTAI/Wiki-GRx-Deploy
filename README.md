@@ -86,6 +86,14 @@ For more demo details, please refer to the `DEMOS.md` file.
 
 ---
 
+## Known Issues
+
+For known issues, please refer to the `KNOWN_ISSUES.md` file.
+
+[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
+
+---
+
 ## Change Logs
 
 - 2024-05-31:
