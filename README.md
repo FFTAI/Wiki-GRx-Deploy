@@ -55,7 +55,7 @@ For the first time running the demo code, you should calibrate the robot to get 
 Right now, the `demo_calibration.py` still have some bugs, please manually copy the absolute encoder value of each joint 
 from the `bin` folder running our onboard software to the `sensor_offset.json` file.
 
-Sorry for the inconvenience. 😢
+Sorry for the inconvenience. 😢 (We are now working on it.)
 
 ## Info level
 
