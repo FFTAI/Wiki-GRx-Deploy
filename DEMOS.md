@@ -122,7 +122,8 @@ python demo.py ./config/config_xxx.yaml
 
 > **Notice**:
 > - Currently, the RL demo codes are still under development, and the walking demo is not stable.
-> - The RL demo codes right now is just a simple demo to show how to use the RL algorithm to control the robot.
+> - The RL demo codes right now is just a simple demo to show how to use the RL algorithm to control the robot. 
+> - We just want to provide **a simplest demo** to show how to use the RL algorithm to control the robot.
 > - Its performance is not good enough, we are working on it to improve the performance.
 
 ### Preparation
