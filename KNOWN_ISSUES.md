@@ -16,6 +16,7 @@
     - Causes:
         - This issue may occur when the joystick is not properly connected or recognized by the system.
         - This issue is know to also occur when the user try to use **ssh** to connect to the robot and run the demo scripts.
+          This is because the pygame library cannot detect the joystick device number correctly in this scenario.
     - Solution:
         - Check the joystick connection and ensure that it is properly connected to the system.
         - Restart the system and reconnect the joystick to see if the issue persists.
