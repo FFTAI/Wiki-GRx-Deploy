@@ -36,7 +36,7 @@ For more demo details, please refer to the `DEMOS.md` file.
         - Current state estimator is based on the joint position, velocity and torque, and the IMU data. But the IMU data can have high noise during walking, which will cause the state estimator not
           accurate enough.
         - What is a suggest way is using neural network to estimate the state, which will be more accurate and robust. We may implement to our library in the future.
-    - **Update**: the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
+    - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
 
 ## Known Issues
 
