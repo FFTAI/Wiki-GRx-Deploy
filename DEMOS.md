@@ -24,17 +24,6 @@ On GR1T1 and GR1T2, you can press the `esc` key when the computer is booting up 
 
 In the BIOS, you can find the efficient core setting, and set the number of efficient cores to 0.
 
-## Info level
-
-The print level of the information are separated into 5 levels:
-
-- Info Level: white color word, for general information.
-- Highlight Level: green color word, for important information.
-- Debug Level: red color word, for debug information.
-- Warning Level: blue color word, yellow background, for warning information.
-- Error Level: white color word, red background, for error information. (**When happen, should stop the program and check the error.**
-  )
-
 ## GRx Series Robot
 
 Different robot models have different configurations, and the demo code is divided into different parts according to the robot model.
@@ -281,7 +270,7 @@ python pd_conversion.py
 
 > **Notice**:
 > - We may upgrade our actuators on GR1T1 and GR1T2 to FSA v2 firmware soon in the future, which supports PD control directly.
-> All our actuators on GR1T1 and GR1T2 support OTA upgrade.
+    > All our actuators on GR1T1 and GR1T2 support OTA upgrade.
 
 ---
 
@@ -291,6 +280,16 @@ More information about Robot_RCS and Robot_RCS_GR framework:
 
 (Still in progress... 💪🏻)
 
+## Info level
+
+The print level of the information are separated into 5 levels:
+
+- Info Level: white color word, for general information.
+- Highlight Level: green color word, for important information.
+- Debug Level: red color word, for debug information.
+- Warning Level: blue color word, yellow background, for warning information.
+- Error Level: white color word, red background, for error information. (**When happen, should stop the program and check the error.**
+  )
 
 ---
 
