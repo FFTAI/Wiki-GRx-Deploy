@@ -283,7 +283,7 @@ python pd_conversion.py
 
 ### More Info about Robot_RCS and Robot_RCS_GR
 
-More information about Robot_RCS and Robot_RCS_GR framework can be found in the online document:
+More information about Robot_RCS and Robot_RCS_GR framework:
 
 (Still in progress... 💪🏻)
 
