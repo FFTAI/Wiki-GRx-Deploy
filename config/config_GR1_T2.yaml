@@ -23,7 +23,7 @@ comm:
 operator:
   use_joystick: true
   joystick_connected: true
-  joystick_type: "XBOX"
+  joystick_type: "XBOX"  # support "XBOS", "PS4", "PS5"
   use_keyboard: false
   keyboard_connected: false
 
