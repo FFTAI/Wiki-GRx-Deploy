@@ -118,11 +118,59 @@ To run the demo, execute the script using the command:
 python demo.py ./config/config_xxx.yaml
 ```
 
+### demo_print_state.py
+
+This demo script demonstrates how to print the robot's state information, including IMU data, joint data, and base data.
+The script continuously prints the state information in the console, providing real-time feedback on the robot's status.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_print_state.py ./config/config_xxx.yaml
+```
+
+### demo_servo_off.py
+
+This demo script demonstrates how to turn off the robot's servo motors, effectively disabling the robot's movement.
+The script sends a command to turn off the servo motors. Once the motors are off, the robot will lie down and please make sure the robot is in a safe position.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_servo_off.py ./config/config_xxx.yaml
+```
+
+### demo_servo_on.py
+
+This demo script demonstrates how to turn on the robot's servo motors, enabling the robot to move.
+The script sends a command to turn on the servo motors. Once the motors are on, all motors will be in high impedance mode, and the robot can be controlled.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_servo_on.py ./config/config_xxx.yaml
+```
+
+### demo_stand.py
+
+> **Notice**:
+> - This demo only shows how to make the robot joints move to the standing position.
+> - It does not show how to make the robot stand up and balance itself.
+
+This demo script demonstrates how to make the robot move to the standing position.
+The script sends commands to set the desired joint positions for the robot to stand up.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_stand.py ./config/config_xxx.yaml
+```
+
 ## RL Demos
 
 > **Notice**:
 > - Currently, the RL demo codes are still under development, and the walking demo is not stable.
-> - The RL demo codes right now is just a simple demo to show how to use the RL algorithm to control the robot. 
+> - The RL demo codes right now is just a simple demo to show how to use the RL algorithm to control the robot.
 > - We just want to provide **a simplest demo** to show how to use the RL algorithm to control the robot.
 > - Its performance is not good enough, we are working on it to improve the performance.
 
