@@ -280,7 +280,7 @@ python pd_conversion.py
 ```
 
 > **Notice**:
-> - We may upgrade our actuators on GR1T1 and GR1T2 to FSA v2 firmware in the future, which supports PD control directly.
+> - We may upgrade our actuators on GR1T1 and GR1T2 to FSA v2 firmware soon in the future, which supports PD control directly.
 > All our actuators on GR1T1 and GR1T2 support OTA upgrade.
 
 ---
