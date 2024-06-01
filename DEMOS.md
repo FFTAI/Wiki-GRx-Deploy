@@ -15,6 +15,15 @@ you can run the demo code in this repository, this demo code will record its abs
 python demo_set_home.py ./config/config_xxx.yaml
 ```
 
+## Efficient Core Disable
+
+To have a better performance of the robot control system, we suggest disable the efficient cores of the computer.
+
+To disable the efficient cores, you need to enter the BIOS of your computer, and disable the efficient core.
+On GR1T1 and GR1T2, you can press the `esc` key when the computer is booting up to enter the BIOS.
+
+In the BIOS, you can find the efficient core setting, and set the number of efficient cores to 0.
+
 ## Info level
 
 The print level of the information are separated into 5 levels:
