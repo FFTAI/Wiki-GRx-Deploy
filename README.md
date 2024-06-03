@@ -13,9 +13,11 @@
 2. Create conda environment:
     - Notice: we should create the environment with Python 3.11, because all the libraries are created with such version.
         - `conda create -n wiki-grx-deploy python=3.11`
+        - `conda activate wiki-grx-deploy`
 
 3. Install necessary environment:
-    - Use `requirements.txt`:
+    - Change directory to the workspace directory.
+    - Use `requirements.txt` to install required libraries:
         - `pip install -r ./requirements.txt`
 
 Till now, if no error presents, the environment for develop Fourier GRx robot is ready.
