@@ -75,7 +75,7 @@ def main(argv):
         joint_measured_position = joint_position
 
         # algorithm (user customized...)
-        joint_target_position, finish_flag = algorithm_move_default_position(joint_measured_position)
+        joint_target_position, finish_flag = algorithm_move_position(joint_measured_position)
 
         if finish_flag is True:
             print("move default position movement finish!")
@@ -168,7 +168,7 @@ move_period = 100
 joint_start_position = None
 
 
-def algorithm_move_default_position(joint_measured_position) -> (list, int):
+def algorithm_move_position(joint_measured_position) -> (list, int):
     global move_count, joint_start_position
 
     if joint_start_position is None:
