@@ -22,6 +22,10 @@ import numpy
 
 from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
+"""
+Current policy is still under development, and the robot may not be able to stand stably.
+"""
+
 
 def main(argv):
     # TODO: upgrade to 1000Hz
