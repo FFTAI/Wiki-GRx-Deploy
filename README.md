@@ -29,6 +29,12 @@ For more demo details, please refer to the `DEMOS.md` file.
 
 [DEMOS.md](DEMOS.md)
 
+## Known Issues
+
+For known issues, please refer to the `KNOWN_ISSUES.md` file.
+
+[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
+
 ## Change Logs
 
 - 2024-06-05:
@@ -44,12 +50,6 @@ For more demo details, please refer to the `DEMOS.md` file.
           accurate enough.
         - What is a suggest way is using neural network to estimate the state, which will be more accurate and robust. We may implement to our library in the future.
     - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
-
-## Known Issues
-
-For known issues, please refer to the `KNOWN_ISSUES.md` file.
-
-[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
 
 ---
 
