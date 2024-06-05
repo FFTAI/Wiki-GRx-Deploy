@@ -32,7 +32,7 @@ def main(argv):
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    ControlSystem().developer_mode()
+    ControlSystem().developer_mode(servo_on=False)
 
     # print version info
     info_dict = ControlSystem().get_info()

@@ -31,12 +31,7 @@ def main(argv):
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    ControlSystem().developer_mode()
-
-    # servo on
-    from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
-    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_ON)
-    time.sleep(1)
+    ControlSystem().developer_mode(servo_on=True)
 
     # prepare dict
     state_dict = {}
@@ -80,10 +75,10 @@ def main(argv):
         joint_measured_position = joint_position
 
         # algorithm (user customized...)
-        joint_target_position, finish_flag = algorithm_stand(joint_measured_position)
+        joint_target_position, finish_flag = algorithm_move_default_position(joint_measured_position)
 
         if finish_flag is True:
-            print("stand movement finish!")
+            print("move default position movement finish!")
             break
 
         """
@@ -117,9 +112,9 @@ def main(argv):
             ],
             "kp": [
                 # left leg
-                1.04, 0.25, 0.7, 0.7, 0.1, 0.1,
+                0.875, 0.426, 0.875, 0.875, 0.416, 0.416,
                 # right leg
-                1.04, 0.25, 0.7, 0.7, 0.1, 0.1,
+                0.875, 0.426, 0.875, 0.875, 0.416, 0.416,
                 # waist
                 0.25, 0.25, 0.25,
                 # head
@@ -131,9 +126,9 @@ def main(argv):
             ],
             "kd": [
                 # left leg
-                0.04, 0.14, 0.4, 0.4, 0.005, 0.005,
+                0.023, 0.017, 0.365, 0.365, 0.007, 0.007,
                 # right leg
-                0.04, 0.14, 0.4, 0.4, 0.005, 0.005,
+                0.023, 0.017, 0.365, 0.365, 0.007, 0.007,
                 # waist
                 0.14, 0.14, 0.14,
                 # head
@@ -173,7 +168,7 @@ move_period = 100
 joint_start_position = None
 
 
-def algorithm_stand(joint_measured_position) -> (list, int):
+def algorithm_move_default_position(joint_measured_position) -> (list, int):
     global move_count, joint_start_position
 
     if joint_start_position is None:

@@ -39,12 +39,7 @@ def main(argv):
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    ControlSystem().developer_mode()
-
-    # servo on
-    from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
-    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_ON)
-    time.sleep(1)
+    ControlSystem().developer_mode(servo_on=True)
 
     # prepare dict
     state_dict = {}

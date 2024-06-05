@@ -24,7 +24,7 @@ from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as 
 
 def main(argv):
     # dev mode
-    ControlSystem().developer_mode()
+    ControlSystem().developer_mode(servo_on=False)
 
     # print version info
     info_dict = ControlSystem().get_info()

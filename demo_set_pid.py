@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 """
 
 import sys
-import time
 
 from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
@@ -30,7 +29,7 @@ def main(argv):
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    ControlSystem().developer_mode()
+    ControlSystem().developer_mode(servo_on=False)
 
     control_dict = {}
 

@@ -24,7 +24,7 @@ from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as 
 
 def main(argv):
     # dev mode
-    ControlSystem().developer_mode()
+    ControlSystem().developer_mode(servo_on=False)
 
     # print version info
     info_dict = ControlSystem().get_info()
@@ -36,11 +36,6 @@ def main(argv):
 
 def algorithm_set_home():
     from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
-
-    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_OFF)
-
-    # wait for servo off
-    time.sleep(1)
 
     ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SET_HOME)
 

@@ -29,22 +29,15 @@ Current policy is still under development, and the robot may not be able to stan
 
 def main(argv):
     # TODO: upgrade to 1000Hz
-    # control frequency
-    # request : < 500Hz
+    """
+    control frequency
+    request : < 500Hz
+    """
     target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # dev mode
-    """
-    dev mode will need 1 second to make sure all process and threads is ready,
-    and to allow the developer to run control algorithm on the robot.
-    """
-    ControlSystem().developer_mode()
-
-    # servo on
-    from robot_rcs.robot.fi_robot_base_task import RobotBaseTask
-    ControlSystem().robot_control_set_task_command(task_command=RobotBaseTask.TASK_SERVO_ON)
-    time.sleep(1)
+    ControlSystem().developer_mode(servo_on=True)
 
     # prepare dict
     state_dict = {}
