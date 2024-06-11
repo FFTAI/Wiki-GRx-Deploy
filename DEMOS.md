@@ -118,6 +118,16 @@ To run the demo, execute the script using the command:
 python demo_print_state.py ./config/config_xxx.yaml
 ```
 
+### demo_set_home.py
+
+This demo script demonstrates how to set the robot's home position by recording the current joint positions as the home position.
+
+To run the demo, execute the script using the command:
+
+```
+python demo_set_home.py ./config/config_xxx.yaml
+```
+
 ### demo_servo_off.py
 
 This demo script demonstrates how to turn off the robot's servo motors, effectively disabling the robot's movement.
@@ -140,19 +150,15 @@ To run the demo, execute the script using the command:
 python demo_servo_on.py ./config/config_xxx.yaml
 ```
 
-### demo_stand.py
+### demo_move_position.py
 
-> **Notice**:
-> - This demo only shows how to make the robot joints move to the standing position.
-> - It does not show how to make the robot stand up and balance itself.
-
-This demo script demonstrates how to make the robot move to the standing position.
-The script sends commands to set the desired joint positions for the robot to stand up.
+This demo script demonstrates how to make the robot move to the default standing position.
+The script sends commands to set the desired joint positions for the robot to move.
 
 To run the demo, execute the script using the command:
 
 ```
-python demo_stand.py ./config/config_xxx.yaml
+python demo_move_position.py ./config/config_xxx.yaml
 ```
 
 ## RL Demos
@@ -167,15 +173,20 @@ python demo_stand.py ./config/config_xxx.yaml
 
 To run the rl demo codes (`rl_stand.py` and `rl_walk.py`), you should follow the steps below:
 
-1. Reinstall the robot IMU sensor, because the robot IMU sensor is installed upside down by default.
-   But in our current repository lib, we set the IMU sensor to be installed upright.
+[//]: # (1. Reinstall the robot IMU sensor, because the robot IMU sensor is installed upside down by default.)
 
-![](./pictures/imu_upright.png)
+[//]: # (   But in our current repository lib, we set the IMU sensor to be installed upright.)
 
-(Need sometime to finish the compatibility of the IMU sensor installation upside down, working on it. 💪🏻)
+[//]: # ()
 
-2. Run the `demo_rl_stand.py` to make the robot stand up.
-3. Run the `demo_rl_walk.py` to make the robot walk.
+[//]: # (![]&#40;./pictures/imu_upright.png&#41;)
+
+[//]: # ()
+
+[//]: # (&#40;Need sometime to finish the compatibility of the IMU sensor installation upside down, working on it. 💪🏻&#41;)
+
+1. Run the `demo_rl_stand.py` to make the robot stand up.
+2. Run the `demo_rl_walk.py` to make the robot walk.
 
 ### demo_rl_stand.py
 

@@ -37,6 +37,11 @@ For known issues, please refer to the `KNOWN_ISSUES.md` file.
 
 ## Change Logs
 
+- 2024-06-11:
+  - **Fix**: fix the bug calculating the IMU quaternion. In last version, we use the euler angles to calculate the quaternion, which will cause the quaternion not continuous. 
+  Now we use the IMU original quaternion to calculate the new quaternion, which will be continuous.
+  - **Update**: adapt the upside down installation of the IMU. Now the IMU data at GR1T1 and GR1T2 will be correct, without the necessity of changing the IMU installation. 😊
+
 - 2024-06-05:
     - **Fix**: fix the bug calculating the parallel wrist using the wrong joint angles. In last version, we use the wrong joint indexes to get the joint angles, which will cause the parallel wrist calculation wrong.
     - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
