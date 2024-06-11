@@ -38,14 +38,17 @@ For known issues, please refer to the `KNOWN_ISSUES.md` file.
 ## Change Logs
 
 - 2024-06-11:
-  - **Fix**: fix the bug calculating the IMU quaternion. In last version, we use the euler angles to calculate the quaternion, which will cause the quaternion not continuous. 
-  Now we use the IMU original quaternion to calculate the new quaternion, which will be continuous.
-  - **Update**: adapt the upside down installation of the IMU. Now the IMU data at GR1T1 and GR1T2 will be correct, without the necessity of changing the IMU installation. 😊
+    - **Fix**: fix the bug calculating the IMU quaternion. In last version, we use the euler angles to calculate the quaternion, which will cause the quaternion not continuous.
+      Now we use the IMU original quaternion to calculate the new quaternion, which will be continuous.
+    - **Update**: adapt the upside down installation of the IMU. Now the IMU data at GR1T1 and GR1T2 will be correct, without the necessity of changing the IMU installation. 😊
+    - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
 
 - 2024-06-05:
-    - **Fix**: fix the bug calculating the parallel wrist using the wrong joint angles. In last version, we use the wrong joint indexes to get the joint angles, which will cause the parallel wrist calculation wrong.
+    - **Fix**: fix the bug calculating the parallel wrist using the wrong joint angles. In last version, we use the wrong joint indexes to get the joint angles, which will cause the parallel wrist
+      calculation wrong.
     - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
-    - **Update**: allow use `ControlSystem().developer_mode(servo_on=True)` to **servo on/off** the robot at the same time when call the developer mode. In default, the robot will servo off when call the developer mode.
+    - **Update**: allow use `ControlSystem().developer_mode(servo_on=True)` to **servo on/off** the robot at the same time when call the developer mode. In default, the robot will servo off when call
+      the developer mode.
 
 - 2024-05-31:
     - **Fix**: fix the bug of running calibration will cause robot moving crazily. Now the robot will not be servo on when running calibration, which will be more safe.
