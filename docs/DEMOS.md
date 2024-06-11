@@ -264,27 +264,6 @@ python demo_rl_walk.py ./config/config_xxx.yaml
 
 ---
 
-### PD Conversion
-
-The actuators on GR1T1 and GR1T2 are with FSA v1 firmware, which only supports position, velocity, and current control.
-So, if you want to use the PD control, you should convert the PD control parameters to the position control parameters.
-Which means you should convert the PD control's kp and kd to the position control loop's kp and velocity control loop's kp.
-
-We provide a script to convert the PD control parameters to the position control parameters in the `tools` folder named `pd_conversion.py`.
-
-You can input the PD control's kp and kd in your simulation environment,
-and then use this script to do the conversion.
-
-```
-python pd_conversion.py
-```
-
-> **Notice**:
-> - We may upgrade our actuators on GR1T1 and GR1T2 to FSA v2 firmware soon in the future, which supports PD control directly.
-    > All our actuators on GR1T1 and GR1T2 support OTA upgrade.
-
----
-
 ### More Info about Robot_RCS and Robot_RCS_GR
 
 More information about Robot_RCS and Robot_RCS_GR framework:

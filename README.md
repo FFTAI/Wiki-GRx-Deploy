@@ -27,13 +27,19 @@ You can now run the demos in the repository.
 
 For more demo details, please refer to the `DEMOS.md` file.
 
-[DEMOS.md](DEMOS.md)
+[DEMOS.md](docs/DEMOS.md)
+
+## Tools
+
+For more tools details, please refer to the `TOOLS.md` file.
+
+[TOOLS.md](docs/TOOLS.md)
 
 ## Known Issues
 
 For known issues, please refer to the `KNOWN_ISSUES.md` file.
 
-[KNOWN_ISSUES.md](KNOWN_ISSUES.md)
+[KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md)
 
 ## Change Logs
 
