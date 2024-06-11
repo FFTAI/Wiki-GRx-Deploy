@@ -19,9 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 import sys
 import time
 
-# import robot_rcs and robot_rcs_gr
-from robot_rcs.control_system.fi_control_system import ControlSystem
-from robot_rcs_gr.robot.fi_robot_interface import RobotInterface  # Note: must be imported!
+from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
 
 def main(argv):
@@ -52,7 +50,7 @@ def main(argv):
         """
         state:
         - imu:
-          - quat
+          - quat (x, y, z, w)
           - euler angle (rpy) [deg]
           - angular velocity [deg/s]
           - linear acceleration [m/s^2]
@@ -79,6 +77,7 @@ def main(argv):
         base_vel_xyz = state_dict["base_estimate_xyz_vel"]
 
         # algorithm (user customized...)
+        algorithm_user_customized()
 
         """
         control:
@@ -178,6 +177,11 @@ def main(argv):
         #     time_offset_in_s = time.time() - time_to_sleep_mark_in_s
         #     if time_offset_in_s >= time_to_sleep_in_s:
         #         break
+
+
+def algorithm_user_customized():
+    # user customized algorithm
+    pass
 
 
 if __name__ == "__main__":

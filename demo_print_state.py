@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 import sys
 import time
+import numpy
 
 from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as ControlSystem
 
@@ -77,15 +78,15 @@ def main(argv):
 
         # print state
         print("#################################################")
-        print("imu_quat = ", imu_quat)
-        print("imu_euler_angle = ", imu_euler_angle)
-        print("imu_angular_velocity = ", imu_angular_velocity)
-        print("imu_acceleration = ", imu_acceleration)
-        print("joint_position = ", joint_position)
-        print("joint_velocity = ", joint_velocity)
-        print("joint_kinetic = ", joint_kinetic)
-        print("base_xyz = ", base_xyz)
-        print("base_vel_xyz = ", base_vel_xyz)
+        print("imu_quat = \n", numpy.round(imu_quat, 3))
+        print("imu_euler_angle = \n", numpy.round(imu_euler_angle, 3))
+        print("imu_angular_velocity = \n", numpy.round(imu_angular_velocity, 3))
+        print("imu_acceleration = \n", numpy.round(imu_acceleration, 3))
+        print("joint_position = \n", numpy.round(joint_position, 3))
+        print("joint_velocity = \n", numpy.round(joint_velocity, 3))
+        print("joint_kinetic = \n", numpy.round(joint_kinetic, 3))
+        print("base_xyz = \n", numpy.round(base_xyz, 3))
+        print("base_vel_xyz = \n", numpy.round(base_vel_xyz, 3))
 
         # control loop wait time
         time_end_of_robot_control_loop_in_s = time.time()

@@ -28,7 +28,6 @@ from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as 
 Current policy is still under development, and the robot may not be able to walk stably.
 """
 
-
 def main(argv):
     # TODO: upgrade to 1000Hz
     """
@@ -94,15 +93,6 @@ def main(argv):
                                                   joint_measured_position,
                                                   joint_measured_velocity)
 
-        # joint_target_position = numpy.array([
-        #     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
-        #     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
-        #     0.0, 0.0, 0.0,  # waist (3)
-        #     0.0, 0.0, 0.0,  # head (3)
-        #     0.0, 0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # left arm (7)
-        #     0.0, -0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # right arm (7)
-        # ]) / numpy.pi * 180
-
         """
         control:
         - control_mode
@@ -142,9 +132,9 @@ def main(argv):
                 # head
                 0.005, 0.005, 0.005,
                 # left arm
-                0.2, 0.2, 0.2, 0.2, 0.005, 0.005, 0.005,
+                0.2, 0.2, 0.2, 0.2, 0.2, 0.005, 0.005,
                 # right arm
-                0.2, 0.2, 0.2, 0.2, 0.005, 0.005, 0.005,
+                0.2, 0.2, 0.2, 0.2, 0.2, 0.005, 0.005,
             ],
             "kd": [
                 # left leg
@@ -156,9 +146,9 @@ def main(argv):
                 # head
                 0.005, 0.005, 0.005,
                 # left arm
-                0.02, 0.02, 0.02, 0.02, 0.005, 0.005, 0.005,
+                0.02, 0.02, 0.02, 0.02, 0.02, 0.005, 0.005,
                 # right arm
-                0.02, 0.02, 0.02, 0.02, 0.005, 0.005, 0.005,
+                0.02, 0.02, 0.02, 0.02, 0.02, 0.005, 0.005,
             ],
             # position (in urdf):
             # - unit: degree
@@ -198,11 +188,11 @@ last_action = None
 action_max = torch.tensor([[
     0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
     0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
-]]) + 60 / 100 * torch.pi / 3
+]]) + 60 / 180 * torch.pi / 3
 action_min = torch.tensor([[
     -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
     -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
-]]) - 60 / 100 * torch.pi / 3
+]]) - 60 / 180 * torch.pi / 3
 joint_default_position = torch.tensor([[
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
@@ -211,7 +201,6 @@ joint_default_position = torch.tensor([[
     0.0, 0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # left arm (7)
     0.0, -0.2, 0.0, -0.3, 0.0, 0.0, 0.0,  # right arm (7)
 ]], dtype=torch.float32)
-base_height_target = 0.90
 gravity_vector = torch.tensor([[0.0, 0.0, -1.0]])
 
 num_joint = 32
@@ -255,7 +244,7 @@ def algorithm_rl_walk(imu_quat,
     if actor is None:
         from robot_rcs.rl.rl_actor_critic_mlp import ActorCriticMLP
 
-        model_file_path = os.path.dirname(os.path.abspath(__file__)) + "/data/model_4000.pt"
+        model_file_path = os.path.dirname(os.path.abspath(__file__)) + "/data/walk_model.pt"
         print("algorithm_rl_walk model_file_path = ", model_file_path)
 
         model = torch.load(model_file_path, map_location=torch.device("cpu"))

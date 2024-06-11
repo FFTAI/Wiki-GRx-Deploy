@@ -25,8 +25,10 @@ from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as 
 
 def main(argv):
     # TODO: upgrade to 1000Hz
-    # control frequency
-    # request : < 500Hz
+    """
+    control frequency
+    request : < 500Hz
+    """
     target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
