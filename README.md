@@ -15,6 +15,9 @@
         - `conda create -n wiki-grx-deploy python=3.11`
         - `conda activate wiki-grx-deploy`
 
+3. Install [RBDL](https://github.com/rbdl/rbdl):
+    The RBDL dependencies requires some extra setup, please refer to the [[docs/rbdl_installation.md]] guide for more details.
+
 3. Install necessary environment:
     - Change directory to the workspace directory.
     - Use `requirements.txt` to install required libraries:
@@ -22,6 +25,7 @@
 
 Till now, if no error presents, the environment for develop Fourier GRx robot is ready.
 You can now run the demos in the repository.
+
 
 ## Demos
 
