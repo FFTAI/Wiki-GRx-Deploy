@@ -16,7 +16,7 @@
         - `conda activate wiki-grx-deploy`
 
 3. Install [RBDL](https://github.com/rbdl/rbdl):
-    The RBDL dependencies requires some extra setup, please refer to the [[docs/rbdl_installation.md]] guide for more details.
+    The RBDL dependencies requires some extra setup, please refer to the [this guide](docs/rbdl_installation.md) for more details.
 
 3. Install necessary environment:
     - Change directory to the workspace directory.
