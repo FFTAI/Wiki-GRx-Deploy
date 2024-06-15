@@ -21,3 +21,14 @@
         - Check the joystick connection and ensure that it is properly connected to the system.
         - Restart the system and reconnect the joystick to see if the issue persists.
         - For users who are using **ssh** to connect to the robot, it is recommended to run the demo scripts directly on the robot computer.
+
+## Package Metadata Issue
+
+1. `Package Metadata` not found Issue:
+    - When running the demo scripts, users may encounter an issue where the package metadata is not found.
+    - Causes:
+        - This issue may occur when the package metadata is not properly installed or is missing from the system.
+        - This issue can also occur when the package files provided is not compiled on the similar system.
+    - Solution:
+        - Reinstall the package metadata by running the installation script provided in the repository.
+        - **Contact us for re-uploading the package metadata files if the issue persists.**
