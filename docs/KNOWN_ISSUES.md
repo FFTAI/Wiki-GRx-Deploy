@@ -1,6 +1,32 @@
 # Wiki-GRx-Deploy Known Issues
 
-## IMU Serial Port Issue
+## GLIBC Issues
+
+1. `GLIBC` Version Issue:
+    - When running the demo scripts, users may encounter an issue where the `GLIBC` version is not compatible with the system.
+        - `libc.so.6: version 'GLIBC_2.33' not found`
+    - Causes:
+        - This issue may occur when the `GLIBC` version required by the package is not compatible with the system.
+        - This issue can also occur when the `GLIBC` version is not properly installed or is missing from the system.
+    - Solution:
+        - Check the `GLIBC` version required by the package and ensure that it is compatible with the system.
+        - Reinstall the `GLIBC` version required by the package to see if the issue persists.
+    - GLIBC upgrade:
+        - `ldd --version`: Check the current GLIBC version.
+        - `sudo apt-get update`: Update the system.
+        - `sudo apt-get upgrade libc6`: Upgrade the GLIBC version.
+        - `sudo reboot`: Reboot the system.
+        - `ldd --version`: Check the new GLIBC version again.
+
+> **Notice**:
+> - Upgrade the `GLIBC` version with caution, as it may affect the system stability.
+> - If you still meet the issue after upgrading the `GLIBC` version, please contact us for further assistance.
+
+## RBDL Issues
+
+Please refer to the [RBDL Installation Guide](./rbdl_installation.md) for more details.
+
+## IMU Serial Port Issues
 
 1. `IMU Error Frame` Issue:
     - When running the demo scripts, users may encounter an issue where the IMU serial port is broken or overloaded.
@@ -9,7 +35,7 @@
     - This issue can be resolved by restarting the system or reconnecting the IMU sensor.
     - As the GRx robot controller is covered inside, reboot the machine may be a better solution.
 
-## Joystick Issue
+## Joystick Issues
 
 1. `pygame error: Invalid joystick device number` Issue:
     - When running the demo scripts, users may encounter an issue where the joystick device number is invalid.
@@ -22,7 +48,7 @@
         - Restart the system and reconnect the joystick to see if the issue persists.
         - For users who are using **ssh** to connect to the robot, it is recommended to run the demo scripts directly on the robot computer.
 
-## Package Metadata Issue
+## Package Metadata Issues
 
 1. `Package Metadata` not found Issue:
     - When running the demo scripts, users may encounter an issue where the package metadata is not found.
