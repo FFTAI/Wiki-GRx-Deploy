@@ -79,10 +79,6 @@ def main(argv):
         # algorithm (user customized...)
         joint_target_position, finish_flag = algorithm_move_position(joint_measured_position)
 
-        if finish_flag is True:
-            print("move default position movement finish!")
-            break
-
         """
         control:
         - control_mode
@@ -149,6 +145,11 @@ def main(argv):
 
         # output control
         ControlSystem().robot_control_loop_set_control(control_dict)
+
+        # finish process
+        if finish_flag is True:
+            print("move default position movement finish!")
+            break
 
         # control loop wait time
         time_end_of_robot_control_loop_in_s = time.time()
