@@ -28,6 +28,7 @@ from robot_rcs_gr.control_system.fi_control_system_gr import ControlSystemGR as 
 Current policy is still under development, and the robot may not be able to walk stably.
 """
 
+
 def main(argv):
     # TODO: upgrade to 1000Hz
     """
@@ -124,9 +125,9 @@ def main(argv):
             ],
             "kp": [
                 # left leg
-                0.583, 0.284, 0.583, 0.583, 0.283, 0.283,
+                0.2333, 0.1138, 0.2333, 0.2333, 0.1111, 0.1111,
                 # right leg
-                0.583, 0.284, 0.583, 0.583, 0.283, 0.283,
+                0.2333, 0.1138, 0.2333, 0.2333, 0.1111, 0.1111,
                 # waist
                 0.25, 0.25, 0.25,
                 # head
@@ -138,9 +139,9 @@ def main(argv):
             ],
             "kd": [
                 # left leg
-                0.017, 0.013, 0.273, 0.273, 0.005, 0.005,
+                0.0577, 0.0425, 0.9907, 0.9907, 0.0359, 0.0359,
                 # right leg
-                0.017, 0.013, 0.273, 0.273, 0.005, 0.005,
+                0.0577, 0.0425, 0.9907, 0.9907, 0.0359, 0.0359,
                 # waist
                 0.14, 0.14, 0.14,
                 # head
@@ -188,11 +189,11 @@ last_action = None
 action_max = torch.tensor([[
     0.79, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
     0.09, 0.7, 0.7, 1.92, 0.52,  # left leg (5), no ankle roll, more simple state_estimator
-]]) + 60 / 180 * torch.pi / 3
+]]) + 45 / 180 * torch.pi / 3
 action_min = torch.tensor([[
     -0.09, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
     -0.79, -0.7, -1.75, -0.09, -1.05,  # left leg (5), no ankle roll, more simple state_estimator
-]]) - 60 / 180 * torch.pi / 3
+]]) - 45 / 180 * torch.pi / 3
 joint_default_position = torch.tensor([[
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # left leg (6)
     0.0, 0.0, -0.2618, 0.5236, -0.2618, 0.0,  # right leg (6)
