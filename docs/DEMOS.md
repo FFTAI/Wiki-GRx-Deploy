@@ -12,7 +12,7 @@ After you have finished the machine physical calibration process (move all joint
 you can run the demo code in this repository, this demo code will record its absolute encoder value and stored in the `sensor_offset.json` file.
 
 ```
-python demo_set_home.py ./config/config_xxx.yaml
+python demo_set_home.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ## Efficient Core Disable
@@ -38,7 +38,7 @@ When you run the demo code, you should specify the config file in the command li
 run demo with following command:
 
 ```
-python demo_xxx.py ./config/config_GR1_T1.yaml
+python demo_xxx.py --rcs_config=./config/config_GR1_T1.yaml
 ```
 
 #### GR1-T2
@@ -46,7 +46,7 @@ python demo_xxx.py ./config/config_GR1_T1.yaml
 run demo with following command:
 
 ```
-python demo_xxx.py ./config/config_GR1_T2.yaml
+python demo_xxx.py --rcs_config=./config/config_GR1_T2.yaml
 ```
 
 ---
@@ -104,7 +104,7 @@ The control loop is configured to run indefinitely, continuously adjusting the r
 To run the demo, execute the script using the command:
 
 ```
-python demo.py ./config/config_xxx.yaml
+python demo.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_print_state.py
@@ -115,7 +115,7 @@ The script continuously prints the state information in the console, providing r
 To run the demo, execute the script using the command:
 
 ```
-python demo_print_state.py ./config/config_xxx.yaml
+python demo_print_state.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_set_home.py
@@ -125,7 +125,7 @@ This demo script demonstrates how to set the robot's home position by recording 
 To run the demo, execute the script using the command:
 
 ```
-python demo_set_home.py ./config/config_xxx.yaml
+python demo_set_home.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_servo_off.py
@@ -136,7 +136,7 @@ The script sends a command to turn off the servo motors. Once the motors are off
 To run the demo, execute the script using the command:
 
 ```
-python demo_servo_off.py ./config/config_xxx.yaml
+python demo_servo_off.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_servo_on.py
@@ -147,7 +147,7 @@ The script sends a command to turn on the servo motors. Once the motors are on, 
 To run the demo, execute the script using the command:
 
 ```
-python demo_servo_on.py ./config/config_xxx.yaml
+python demo_servo_on.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_move_position.py
@@ -158,7 +158,7 @@ The script sends commands to set the desired joint positions for the robot to mo
 To run the demo, execute the script using the command:
 
 ```
-python demo_move_position.py ./config/config_xxx.yaml
+python demo_move_position.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ## RL Demos
@@ -173,18 +173,6 @@ python demo_move_position.py ./config/config_xxx.yaml
 
 To run the rl demo codes (`rl_stand.py` and `rl_walk.py`), you should follow the steps below:
 
-[//]: # (1. Reinstall the robot IMU sensor, because the robot IMU sensor is installed upside down by default.)
-
-[//]: # (   But in our current repository lib, we set the IMU sensor to be installed upright.)
-
-[//]: # ()
-
-[//]: # (![]&#40;./pictures/imu_upright.png&#41;)
-
-[//]: # ()
-
-[//]: # (&#40;Need sometime to finish the compatibility of the IMU sensor installation upside down, working on it. 💪🏻&#41;)
-
 1. Run the `demo_rl_stand.py` to make the robot stand up.
 2. Run the `demo_rl_walk.py` to make the robot walk.
 
@@ -195,7 +183,7 @@ Before you run the demo code `demo_rl_walk.py`, you should run the `demo_rl_stan
 To run the demo, execute the script using the command:
 
 ```
-python demo_rl_stand.py ./config/config_xxx.yaml
+python demo_rl_stand.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ### demo_rl_walk.py
@@ -259,7 +247,7 @@ This framework provides a robust foundation for further development and refineme
 To run the demo, execute the script using the command:
 
 ```
-python demo_rl_walk.py ./config/config_xxx.yaml
+python demo_rl_walk.py --rcs_config=./config/config_xxx.yaml
 ```
 
 ---

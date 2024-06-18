@@ -16,7 +16,7 @@
         - `conda activate wiki-grx-deploy`
 
 3. Install [RBDL](https://github.com/rbdl/rbdl):
-    The RBDL dependencies requires some extra setup, please refer to the [this guide](docs/rbdl_installation.md) for more details.
+   The RBDL dependencies requires some extra setup, please refer to the [this guide](docs/rbdl_installation.md) for more details.
 
 3. Install necessary environment:
     - Change directory to the workspace directory.
@@ -25,7 +25,6 @@
 
 Till now, if no error presents, the environment for develop Fourier GRx robot is ready.
 You can now run the demos in the repository.
-
 
 ## Demos
 
@@ -46,6 +45,11 @@ For known issues, please refer to the `KNOWN_ISSUES.md` file.
 [KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md)
 
 ## Change Logs
+
+- 2024-06-18:
+    - **Fix**: fix the bug of the calculating the parallel wrist.
+    - **Update**: refine the method of assigning the rcs_config file path, now we can assign the rcs_config file path using `--rcs_config` argument.
+    - **Update**: update the library files `robot_rcs` and `robot_rcs_gr` to the latest version.
 
 - 2024-06-11:
     - **Fix**: fix the bug calculating the IMU quaternion. In last version, we use the euler angles to calculate the quaternion, which will cause the quaternion not continuous.
