@@ -21,8 +21,8 @@ comm:
   use_sim: false
 
 operator:
-  use_joystick: true
-  joystick_connected: true
+  use_joystick: false
+  joystick_connected: false
   joystick_type: "XBOX"
   use_keyboard: false
   keyboard_connected: false

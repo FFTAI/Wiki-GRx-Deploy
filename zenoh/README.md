@@ -26,7 +26,7 @@
     ```
 
 4. Install neccessary environment:
-    > **Notice**: We should download the whl file before installing, all the neccessary rnvironment will be installed with whl file provided.
+    > **Notice**: We should download the .whl file before installing it. The .whl files must be installed sequentially.
     ```
     python -m pip install robot_rcs-0.4.0.7-cp311-cp311-manylinux_2_30_x86_64.whl
     python -m pip install robot_rcs_gr-1.9.1.4-cp311-cp311-manylinux_2_30_x86_64.whl

@@ -9,7 +9,7 @@ def main(config: str, freq: int, debug_interval: int, verbose: bool):
 
         Logger().state = Logger().STATE_OFF
 
-    robot = RobotServer(freq, debug_interval)
+    robot = RobotServer(config, freq, debug_interval)
     robot.spin()
 
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('config', type=str, help = 'configuration file')
     parser.add_argument('--freq', type = int, default=500, help="Main loop frequency in hz. defaults to 400hz.")
     parser.add_argument('--debug_interval', type = int, default=0, help="Debug loop print interval")
-    parser.add_argument('--verbose',  action='store_true', help="Print internal debug info")
+    parser.add_argument('--verbose',  action='store_true', default=True, help="Print internal debug info, default = True")
 
     args = parser.parse_args()
 
