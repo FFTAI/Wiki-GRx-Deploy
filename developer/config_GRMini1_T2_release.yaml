@@ -1,0 +1,51 @@
+# log level can be set to: "none", "trace", "debug", "warning", "error"
+# - "none": all log message will be shown
+# - "trace": all log message except normal print info will be shown
+# - "debug": all log message except normal print info, trace info will be shown
+# - "warning": all log message except normal print info, trace info, debug info will be shown
+# - "error": all log message except normal print info, trace info, debug info, warning info will be shown
+log_level: "none" # Notice: for client use, please set log_level to "error"
+
+# Control System Layer --------------------------------------------------------
+device_connected: true
+mode: "debug"  # support "debug", "release"
+
+resource:
+  path: "~/fourier-grx/resource/grmini1"
+
+# Robot Layer -----------------------------------------------------------------
+peripheral:
+  use_joystick: false
+  joystick_type: "XBOX"  # support "XBOS", "PS4", "PS5"
+  use_keyboard: false
+  keyboard_type: "NORMAL" # support "NORMAL"
+  use_virtual_joystick: false
+  use_virtual_teleoperation: false
+
+robot:
+  name: "GRMini1"
+  mechanism: "T2"
+
+# Component Layer -------------------------------------------------------------
+sensor_usb_imu:
+  comm_enable: [
+    true
+  ]
+
+actuator:
+  comm_enable: [
+    # left leg
+    true, true, true, true, true, true,
+    # right leg
+    true, true, true, true, true, true,
+    # waist
+    true,
+    # left arm
+    true, true, true, true, true,
+    # right arm
+    true, true, true, true, true,
+  ]
+
+# Hardware Layer ---------------------------------------------------------------
+fi_fsa:
+  version: "v2_async"
