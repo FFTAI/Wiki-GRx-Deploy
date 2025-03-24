@@ -2,8 +2,6 @@
 
 # Fourier-GRX GRMini Development Interface Documentation
 
-## Reference Documents
-
 Please refer to the document [Fourier-GRX](https://fourier-grx.github.io) for more details.
 
 ---

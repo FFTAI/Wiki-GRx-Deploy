@@ -2,8 +2,6 @@
 
 # Fourier-GRX 开发部署框架
 
-## 参考文档
-
 请参阅文档 [Fourier-GRX](https://fourier-grx.github.io) 以获取更多详细信息。
 
 ---
