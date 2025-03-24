@@ -1,3 +1,5 @@
+[English](README.en.md) | 简体中文
+
 # Fourier-GRX GRMini 开发接口说明
 
 ## 机器人系统
