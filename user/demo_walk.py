@@ -68,7 +68,7 @@ def demo_task():
 
     # 构建消息
     message = {
-        "robot_task_command": fourier_grx.TaskCommand.TASK_RL_WALK,
+        "robot_task_command": fourier_grx.TaskCommand.TASK_WALK,
         "flag_task_command_update": True,
     }
 

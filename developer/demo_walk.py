@@ -58,7 +58,7 @@ def main():
     # Load Model
     policy_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "policy_jit_rl_walk.pt",
+        "policy_jit_walk.pt",
     )
 
     policy_model = torch.jit.load(policy_file_path, map_location=torch.device('cpu'))
