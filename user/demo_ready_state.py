@@ -28,7 +28,7 @@ import time
 import zenoh
 import msgpack
 
-import fourier_grx.user as fourier_grx
+import fourier_grx.sdk.user as fourier_grx
 
 
 def demo_task():
