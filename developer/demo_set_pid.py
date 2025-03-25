@@ -27,7 +27,7 @@ Run this script by:
 
 import numpy
 
-import fourier_grx.sdk.grmini1.developer as fourier_grx
+import fourier_grx.developer as fourier_grx
 
 control_system = fourier_grx.ControlSystem()
 

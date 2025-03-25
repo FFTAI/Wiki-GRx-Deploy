@@ -38,7 +38,7 @@ import msgpack
 import pygame
 import threading
 
-import fourier_grx.sdk.grmini1.user as fourier_grx
+import fourier_grx.user as fourier_grx
 
 joystick = None
 axis_left = (0.0, 0.0)
