@@ -1,4 +1,4 @@
-[English](README.en.md) | 简体中文
+[English](README.en.md) | 简体中文 | [日本語](README.ja.md)
 
 # Fourier-GRX 开发部署框架
 

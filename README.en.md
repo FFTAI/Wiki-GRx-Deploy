@@ -1,4 +1,4 @@
-[简体中文](README.md) | English
+[简体中文](README.md) | English | [日本語](README.ja.md)
 
 # Fourier-N1 Development Interface Documentation
 
