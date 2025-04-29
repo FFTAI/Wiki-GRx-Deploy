@@ -11,7 +11,7 @@ device_connected: true
 mode: "debug"  # support "debug", "release"
 
 resource:
-  path: "~/fourier-grx/resource/grmini1"
+  path: "~/fourier-grx/resource/n1"
 
 # Robot Layer -----------------------------------------------------------------
 peripheral:
@@ -23,8 +23,8 @@ peripheral:
   use_virtual_teleoperation: false
 
 robot:
-  name: "GRMini1"
-  mechanism: "T2"
+  name: "N1"
+  mechanism: ""
 
 # Component Layer -------------------------------------------------------------
 sensor_usb_imu:
