@@ -9,3 +9,8 @@ Please refer to the document [Fourier-GRX](https://fourier-grx-N1.github.io) for
 ## Acknowledgments
 
 - Zenoh team for the distributed data framework: https://zenoh.io/
+
+---
+
+Thank you for your interest in Fourier's N1 robot project!
+We hope this resource will provide strong support for your robotics development!
