@@ -54,12 +54,16 @@ def algorithm():
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
         # waist
         fourier_grx.JointControlMode.PD,
+        # head
+        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
         # left arm
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        fourier_grx.JointControlMode.PD,
         # right arm
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        fourier_grx.JointControlMode.PD,
     ])
     joint_target_kp = numpy.array([
         # left leg
@@ -68,10 +72,12 @@ def algorithm():
         180.0, 120.0, 90.0, 120.0, 45.0, 45.0,
         # waist
         90.0,
+        # head
+        30.0, 30.0,
         # left arm
-        90.0, 45.0, 45.0, 45.0, 45.0,
+        90.0, 45.0, 45.0, 45.0, 45.0, 30.0, 30.0,
         # right arm
-        90.0, 45.0, 45.0, 45.0, 45.0,
+        90.0, 45.0, 45.0, 45.0, 45.0, 30.0, 30.0,
     ])
     joint_target_kd = numpy.array([
         # left leg
@@ -80,10 +86,12 @@ def algorithm():
         10.0, 10.0, 8.0, 8.0, 2.5, 2.5,
         # waist
         8.0,
+        # head
+        1.5, 1.5,
         # left arm
-        8.0, 2.5, 2.5, 2.5, 2.5,
+        8.0, 2.5, 2.5, 2.5, 2.5, 1.5, 1.5,
         # right arm
-        8.0, 2.5, 2.5, 2.5, 2.5,
+        8.0, 2.5, 2.5, 2.5, 2.5, 1.5, 1.5,
     ])
 
     """
