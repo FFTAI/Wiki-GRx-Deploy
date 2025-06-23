@@ -2,7 +2,7 @@
 
 # Fourier-N1 Development Interface Documentation
 
-Please refer to the document [Fourier-GRX](https://fourier-grx-N1.github.io) for more details.
+Please refer to the document [Fourier-GRX](https://fftai.github.io/fourier-grx-N1/) for more details.
 
 ## Acknowledgments
 
