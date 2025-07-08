@@ -25,7 +25,7 @@ Run this script by:
 
 """
 
-import numpy
+import time
 
 import fourier_grx.sdk.developer as fourier_grx
 
@@ -44,40 +44,12 @@ def main():
 
 
 def algorithm():
-    # 控制参数如不需修改，则只需要发送一次即可
-    joint_target_control_mode = numpy.array([
-        # left leg
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # right leg
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-    ])
-    joint_target_kp = numpy.array([
-        # left leg
-        200.0, 200.0,
-        # right leg
-        200.0, 200.0,
-    ])
-    joint_target_kd = numpy.array([
-        # left leg
-        20.0, 20.0,
-        # right leg
-        20.0, 20.0,
-    ])
+    control_system.robot_control_set_task_command(
+        task_command=fourier_grx.TaskCommand.TASK_SERVO_REBOOT
+    )
 
-    """
-    control:
-    - control_mode
-    - pd_control_kp
-    - pd_control_kd
-    """
-    control_dict = {
-        "control_mode": joint_target_control_mode,
-        "pd_control_kp": joint_target_kp,
-        "pd_control_kd": joint_target_kd,
-    }
-
-    # 输出控制
-    control_system.robot_control_loop_set_control(control_dict=control_dict)
+    # wait for servo off
+    time.sleep(1)
 
 
 if __name__ == "__main__":

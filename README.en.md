@@ -1,8 +1,8 @@
 [简体中文](README.md) | English
 
-# Fourier-N1 Development Interface Documentation
+# Fourier-M4 Development Interface Documentation
 
-Please refer to the document [Fourier-GRX-N1](https://fftai.github.io/fourier-grx-N1/) for more details.
+Please refer to the document [Fourier-GRX-M4](https://fftai.github.io/fourier-grx-M4/) for more details.
 
 ## Acknowledgments
 
@@ -10,5 +10,5 @@ Please refer to the document [Fourier-GRX-N1](https://fftai.github.io/fourier-gr
 
 ---
 
-Thank you for your interest in Fourier's N1 robot project!
+Thank you for your interest in Fourier's M4 robot project!
 We hope this resource will provide strong support for your robotics development!

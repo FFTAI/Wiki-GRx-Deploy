@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 --------------------------------------------------
 
-Demo code for move to ready state of the robot
+Demo code for setting servo off of the robot
 
 Run this script by:
     python demo_xxx.py
@@ -47,7 +47,7 @@ def demo_task():
 
     # 构建消息
     message = {
-        "robot_task_command": fourier_grx.TaskCommand.TASK_READY_STATE,
+        "robot_task_command": fourier_grx.TaskCommand.TASK_SERVO_REBOOT,
         "flag_task_command_update": True,
     }
 

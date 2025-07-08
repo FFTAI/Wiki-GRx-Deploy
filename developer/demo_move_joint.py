@@ -60,30 +60,21 @@ def algorithm():
     # update state
     """
     state:
-    - imu:
-      - quat
-      - euler angle (rpy) [deg]
-      - angular velocity [deg/s]
-      - linear acceleration [m/s^2]
     - joint (in urdf):
-      - position [deg]
-      - velocity [deg/s]
+      - position [rad]
+      - velocity [rad/s]
       - torque [Nm]
     """
     state_dict = control_system.robot_control_loop_get_state()
 
     # --------------------------------------------------
 
-    robot_num_of_joints = 23
+    robot_number_of_joint = 2 + 2
 
     # parse state
-    imu_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
-    imu_euler_angle = state_dict.get("imu_euler_angle", [0, 0, 0])
-    imu_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
-    imu_acceleration = state_dict.get("imu_acceleration", [0, 0, 0])
-    joint_position = state_dict.get("joint_position", [0] * robot_num_of_joints)
-    joint_velocity = state_dict.get("joint_velocity", [0] * robot_num_of_joints)
-    joint_kinetic = state_dict.get("joint_kinetic", [0] * robot_num_of_joints)
+    joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
+    joint_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
+    joint_effort = state_dict.get("joint_effort", [0] * robot_number_of_joint)
 
     joint_measured_position = joint_position
 
@@ -92,27 +83,20 @@ def algorithm():
         joint_start_position = numpy.array(joint_measured_position)
         print("joint_start_position = \n", numpy.round(joint_start_position, 1))
 
-    joint_end_position = \
-        numpy.rad2deg(
-            numpy.array([
-                # left leg
-                -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
-                # right leg
-                -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
-                # waist
-                0.0,
-                # left arm
-                0.0, 0.0, 0.0, 0.0, 0.0,
-                # right arm
-                0.0, 0.0, 0.0, 0.0, 0.0,
-            ]))
+    joint_final_position = \
+        numpy.array([
+            # left leg
+            -0.2, 0.2,
+            # right leg
+            -0.2, 0.2,
+        ])  # [rad]
 
     # update move ratio
     move_ratio = min(move_count / move_period, 1)
 
     # update target position
     joint_target_position = joint_start_position \
-                            + (joint_end_position - joint_start_position) * move_ratio
+                            + (joint_final_position - joint_start_position) * move_ratio
 
     # update count
     move_count += 1
@@ -134,43 +118,21 @@ def algorithm():
     # 控制参数如不需修改，则只需要发送一次即可
     joint_target_control_mode = numpy.array([
         # left leg
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # right leg
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # waist
-        fourier_grx.JointControlMode.PD,
-        # left arm
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # right arm
-        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        # right leg
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
     ])
     joint_target_kp = numpy.array([
         # left leg
-        180.0, 120.0, 90.0, 120.0, 45.0, 45.0,
+        200.0, 200.0,
         # right leg
-        180.0, 120.0, 90.0, 120.0, 45.0, 45.0,
-        # waist
-        90.0,
-        # left arm
-        90.0, 45.0, 45.0, 45.0, 45.0,
-        # right arm
-        90.0, 45.0, 45.0, 45.0, 45.0,
+        200.0, 200.0,
     ])
     joint_target_kd = numpy.array([
         # left leg
-        10.0, 10.0, 8.0, 8.0, 2.5, 2.5,
+        20.0, 20.0,
         # right leg
-        10.0, 10.0, 8.0, 8.0, 2.5, 2.5,
-        # waist
-        8.0,
-        # left arm
-        8.0, 2.5, 2.5, 2.5, 2.5,
-        # right arm
-        8.0, 2.5, 2.5, 2.5, 2.5,
+        20.0, 20.0,
     ])
 
     # --------------------------------------------------
@@ -180,7 +142,7 @@ def algorithm():
     - control_mode
     - pd_control_kp
     - pd_control_kd
-    - position [deg]
+    - position [rad]
     """
     control_dict = {
         "control_mode": joint_target_control_mode,

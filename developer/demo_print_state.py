@@ -57,11 +57,6 @@ def schedule_task():
 
     """
     Robot States:
-    - imu:
-      - quat
-      - euler angle (rpy) [deg]
-      - angular velocity [deg/s]
-      - linear acceleration [m/s^2]
     - joint (in urdf):
       - position [deg]
       - velocity [deg/s]
@@ -71,26 +66,18 @@ def schedule_task():
 
     # --------------------------------------------------
 
-    robot_num_of_joints = 23
+    robot_number_of_joint = 2 + 2
 
     # parse state
-    imu_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
-    imu_euler_angle = state_dict.get("imu_euler_angle", [0, 0, 0])
-    imu_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
-    imu_acceleration = state_dict.get("imu_acceleration", [0, 0, 0])
-    joint_position = state_dict.get("joint_position", [0] * robot_num_of_joints)
-    joint_velocity = state_dict.get("joint_velocity", [0] * robot_num_of_joints)
-    joint_kinetic = state_dict.get("joint_kinetic", [0] * robot_num_of_joints)
+    joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
+    joint_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
+    joint_effort = state_dict.get("joint_effort", [0] * robot_number_of_joint)
 
     # print state
     print("#################################################")
-    print("imu_quat = \n", numpy.round(imu_quat, 3))
-    print("imu_euler_angle = \n", numpy.round(imu_euler_angle, 3))
-    print("imu_angular_velocity = \n", numpy.round(imu_angular_velocity, 3))
-    print("imu_acceleration = \n", numpy.round(imu_acceleration, 3))
     print("joint_position = \n", numpy.round(joint_position, 3))
     print("joint_velocity = \n", numpy.round(joint_velocity, 3))
-    print("joint_kinetic = \n", numpy.round(joint_kinetic, 3))
+    print("joint_effort = \n", numpy.round(joint_effort, 3))
 
     # --------------------------------------------------
 
