@@ -33,6 +33,8 @@ from ischedule import run_loop, schedule
 
 prefix = "fourier-grx"
 state_dict = {}
+control_dict = {}
+task_dict = {}
 
 
 def demo_task():
@@ -67,7 +69,7 @@ def demo_task():
     )
 
     # 设置机器人算法频率
-    target_control_frequency = 1  # 机器人控制频率, 50Hz
+    target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
 
     # 设置定时任务
@@ -92,7 +94,7 @@ def state_handler(sample: zenoh.Sample):
       - position [deg]
       - velocity [deg/s]
       - torque [Nm]
-      
+
     Task States:
     - task_execute
     - component_execute
@@ -147,7 +149,7 @@ def state_handler(sample: zenoh.Sample):
 
 
 def algorithm():
-    print(f"state_dict = {state_dict}")
+    pass
 
 
 if __name__ == "__main__":
