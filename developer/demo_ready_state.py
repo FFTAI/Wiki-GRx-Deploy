@@ -74,16 +74,16 @@ def algorithm():
 
     # --------------------------------------------------
 
-    robot_num_of_joints = 23
+    robot_number_of_joint = 6 + 6 + 1 + 5 + 5
 
     # parse state
     imu_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
     imu_euler_angle = state_dict.get("imu_euler_angle", [0, 0, 0])
     imu_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
     imu_acceleration = state_dict.get("imu_acceleration", [0, 0, 0])
-    joint_position = state_dict.get("joint_position", [0] * robot_num_of_joints)
-    joint_velocity = state_dict.get("joint_velocity", [0] * robot_num_of_joints)
-    joint_kinetic = state_dict.get("joint_kinetic", [0] * robot_num_of_joints)
+    joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
+    joint_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
+    joint_effort = state_dict.get("joint_effort", [0] * robot_number_of_joint)
 
     joint_measured_position = joint_position
 
@@ -92,27 +92,27 @@ def algorithm():
         joint_start_position = numpy.array(joint_measured_position)
         print("joint_start_position = \n", numpy.round(joint_start_position, 1))
 
-    joint_end_position = \
+    joint_final_position = \
         numpy.rad2deg(
             numpy.array([
                 # left leg
-                -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
+                -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
                 # right leg
-                -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
+                -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
                 # waist
                 0.0,
                 # left arm
                 0.0, 0.0, 0.0, 0.0, 0.0,
                 # right arm
                 0.0, 0.0, 0.0, 0.0, 0.0,
-            ]))
+            ]))  # [deg]
 
     # update move ratio
     move_ratio = min(move_count / move_period, 1)
 
     # update target position
     joint_target_position = joint_start_position \
-                            + (joint_end_position - joint_start_position) * move_ratio
+                            + (joint_final_position - joint_start_position) * move_ratio
 
     # update count
     move_count += 1

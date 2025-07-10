@@ -58,7 +58,7 @@ def main():
     # Load Model
     policy_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "policy_jit_walk.pt",
+        "policy_jit_rl_walk.pt",
     )
 
     policy_model = torch.jit.load(policy_file_path, map_location=torch.device('cpu'))
@@ -89,8 +89,9 @@ def algorithm():
 
     # --------------------------------------------------
 
-    robot_num_of_joints = 23
-    policy_control_num_of_joints = 13  # left leg + right leg + waist
+    robot_number_of_joint = 6 + 6 + 1 + 5 + 5
+
+    policy_control_number_of_joint = 6 + 6 + 1  # left leg + right leg + waist
     policy_control_index_of_joints = numpy.array([
         0, 1, 2, 3, 4, 5,  # left leg
         6, 7, 8, 9, 10, 11,  # right leg
@@ -100,8 +101,8 @@ def algorithm():
     # get states
     imu_measured_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
     imu_measured_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
-    joint_measured_position = state_dict.get("joint_position", [0] * robot_num_of_joints)
-    joint_measured_velocity = state_dict.get("joint_velocity", [0] * robot_num_of_joints)
+    joint_measured_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
+    joint_measured_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
 
     # --------------------------------------------------
 
@@ -118,14 +119,22 @@ def algorithm():
         0.0, 0.0, -1.0
     ])
     action_clip_max = numpy.array([
-        3.1416, 2.0946, 2.0946, 2.8796, 0.9596, 1.3616,
-        3.1416, 0.7856, 2.0946, 2.8796, 0.9596, 1.3616,
-        3.1416
+        2.618, 1.571, 1.571, 2.356, 0.436, 0.785,  # left leg
+        2.618, 0.262, 1.571, 2.356, 0.436, 0.785,  # right leg
+        2.618,  # waist
+    ]) + numpy.array([
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # left leg
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # right leg
+        0.5,  # waist
     ])
     action_clip_min = numpy.array([
-        -3.1416, -0.7856, -2.0946, -0.6106, -0.9596, -1.4836,
-        -3.1416, -2.0946, -2.0946, -0.6106, -0.9596, -1.4836,
-        -3.1416
+        -2.618, -0.262, -1.571, -0.087, -0.436, -0.785,  # left leg
+        -2.618, -1.571, -1.571, -0.087, -0.436, -0.785,  # right leg
+        -2.618,  # waist
+    ]) - numpy.array([
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # left leg
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # right leg
+        0.5,  # waist
     ])
 
     # --------------------------------------------------
@@ -136,25 +145,19 @@ def algorithm():
     # [lin_vel_x, lin_vel_y, ang_vel_yaw], unit: m/s, m/s, rad/s
     commands = numpy.array([0.0, 0.0, 0.0, ])
 
-    base_measured_quat = numpy.array([0.0, 0.0, 0.0, 1.0, ])
-    base_measured_angular_velocity = numpy.array([0.0, 0.0, 0.0, ])
+    base_measured_quat = imu_measured_quat
+    base_measured_angular_velocity = numpy.deg2rad(imu_measured_angular_velocity)
 
-    for i in range(4):
-        base_measured_quat[i] = imu_measured_quat[i]
+    joint_measured_position_for_policy = numpy.zeros(policy_control_number_of_joint)
+    joint_measured_velocity_for_policy = numpy.zeros(policy_control_number_of_joint)
 
-    for i in range(3):
-        base_measured_angular_velocity[i] = numpy.deg2rad(imu_measured_angular_velocity[i])
-
-    joint_measured_position_for_policy = numpy.zeros(policy_control_num_of_joints)
-    joint_measured_velocity_for_policy = numpy.zeros(policy_control_num_of_joints)
-
-    for i in range(policy_control_num_of_joints):
+    for i in range(policy_control_number_of_joint):
         index = policy_control_index_of_joints[i]
         joint_measured_position_for_policy[i] = numpy.deg2rad(joint_measured_position[index])
         joint_measured_velocity_for_policy[i] = numpy.deg2rad(joint_measured_velocity[index])
 
     if policy_action is None:
-        policy_action = numpy.zeros(policy_control_num_of_joints)
+        policy_action = numpy.zeros(policy_control_number_of_joint)
 
     # run algorithm
     torch_commands = torch.from_numpy(commands).float().unsqueeze(0)
@@ -274,9 +277,9 @@ def algorithm():
         # right arm
         8.0, 2.5, 2.5, 2.5, 2.5,
     ])
-    joint_target_position = numpy.zeros(robot_num_of_joints)
+    joint_target_position = numpy.zeros(robot_number_of_joint)
 
-    for i in range(policy_control_num_of_joints):
+    for i in range(policy_control_number_of_joint):
         index = policy_control_index_of_joints[i]
         joint_target_position[index] = joint_target_position_from_policy[i]
 
