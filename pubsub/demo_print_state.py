@@ -32,10 +32,16 @@ import json
 from ischedule import run_loop, schedule
 
 prefix = "fourier-grx"
+
+robot_state_zenoh_subscriber = None
+task_state_zenoh_subscriber = None
+
 state_dict = {}
 
 
 def demo_task():
+    global robot_state_zenoh_subscriber, task_state_zenoh_subscriber
+
     # 初始化 zenoh 会话
     zenoh_config = zenoh.Config.from_json5(
         json=json.dumps(
@@ -77,9 +83,7 @@ def demo_task():
 
 
 def state_handler(sample: zenoh.Sample):
-    """
-    Update and print state
-    """
+    global state_dict
 
     """
     Robot States:

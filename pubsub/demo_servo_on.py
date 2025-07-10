@@ -29,7 +29,7 @@ import zenoh
 import msgpack
 import json
 
-import fourier_grx.sdk.user as fourier_grx
+import fourier_grx.sdk.pubsub as fourier_grx
 
 prefix = "fourier-grx"
 
