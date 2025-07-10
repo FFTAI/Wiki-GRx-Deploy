@@ -80,6 +80,20 @@ def demo_task():
     # 等待 1s (确保消息被发送)
     time.sleep(1)
 
+    # 构建消息
+    message = {
+        "robot_component_command": 3407,  # 设置为自然摆臂模式
+        "flag_component_command_update": True,
+    }
+
+    print("Sending message: ", message)
+
+    # 发布消息
+    zenoh_grx_publisher.put(msgpack.packb(message))
+
+    # 等待 1s (确保消息被发送)
+    time.sleep(1)
+
     # 创建子线程, 用于监听摇杆输入
     pygame.init()
     pygame.joystick.init()
