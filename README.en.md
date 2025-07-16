@@ -8,6 +8,10 @@ Please refer to the document [Fourier-GRX-N1](https://fftai.github.io/fourier-gr
 > 
 > Since version 4.0.0, the interface unit has changed from degrees to radians. Please ensure to convert units accordingly when using the interface.
 > The developer interface has been updated, while the User API remains unchanged.
+> 
+> Two versions of example code are provided:
+> - The `developer` directory contains example code for `fourier-grx` versions **less than 4.0.0**.
+> - The `developer_radian` directory contains example code for `fourier-grx` versions **greater than 4.0.0**.
 
 ## Acknowledgments
 
