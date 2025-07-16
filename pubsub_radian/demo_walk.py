@@ -24,8 +24,10 @@ Run this script by:
 
 """
 
-import numpy
+import os
 import time
+import numpy
+import torch
 import zenoh
 import msgpack
 import json
@@ -44,14 +46,16 @@ state_dict = {}
 control_dict = {}
 task_dict = {}
 
-move_count = 0
-move_period = 100
-joint_start_position = None
+policy_file_path = None
+policy_model = None
+policy_action = None
+obs_buf_stack = None
 
 
 def demo_task():
     global robot_state_zenoh_subscriber, task_state_zenoh_subscriber
     global robot_control_zenoh_publisher, task_control_zenoh_publisher
+    global policy_file_path, policy_model
 
     # 初始化 zenoh 会话
     zenoh_config = zenoh.Config.from_json5(
@@ -118,6 +122,14 @@ def demo_task():
     # 设置机器人算法频率
     target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
+
+    # Load Model
+    policy_file_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "policy_jit_rl_walk.pt",
+    )
+
+    policy_model = torch.jit.load(policy_file_path, map_location=torch.device('cpu'))
 
     # 设置定时任务
     schedule(algorithm, interval=target_control_period_in_s)
@@ -195,63 +207,154 @@ def state_handler(sample: zenoh.Sample):
 
 def algorithm():
     global state_dict, control_dict, task_dict
-    global move_count, move_period, joint_start_position
+    global policy_model, policy_action, obs_buf_stack
 
     # --------------------------------------------------
 
     robot_number_of_joint = 6 + 6 + 1 + 5 + 5
 
+    policy_control_number_of_joint = 6 + 6 + 1  # left leg + right leg + waist
+    policy_control_index_of_joints = numpy.array([
+        0, 1, 2, 3, 4, 5,  # left leg
+        6, 7, 8, 9, 10, 11,  # right leg
+        12,  # waist
+    ])
+
     # parse state
-    imu_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
-    imu_euler_angle = state_dict.get("imu_euler_angle", [0, 0, 0])
-    imu_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
-    imu_acceleration = state_dict.get("imu_acceleration", [0, 0, 0])
-    joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
-    joint_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
-    joint_effort = state_dict.get("joint_effort", [0] * robot_number_of_joint)
+    imu_measured_quat = state_dict.get("imu_quat", [0, 0, 0, 1])
+    imu_measured_angular_velocity = state_dict.get("imu_angular_velocity", [0, 0, 0])
+    joint_measured_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
+    joint_measured_velocity = state_dict.get("joint_velocity", [0] * robot_number_of_joint)
 
-    joint_measured_position = joint_position
+    # --------------------------------------------------
 
-    # algorithm (user customized...)
-    if joint_start_position is None:
-        joint_start_position = numpy.array(joint_measured_position)
-        print("joint_start_position = \n", numpy.round(joint_start_position, 1))
+    # constants
+    default_joint_position = numpy.array([
+        # left leg
+        -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
+        # right leg
+        -0.2468, 0.0, 0.0, 0.5181, 0.0, -0.2408,
+        # waist
+        0.0,
+    ])
+    gravity_vector = numpy.array([
+        0.0, 0.0, -1.0
+    ])
+    action_clip_max = numpy.array([
+        2.618, 1.571, 1.571, 2.356, 0.436, 0.785,  # left leg
+        2.618, 0.262, 1.571, 2.356, 0.436, 0.785,  # right leg
+        2.618,  # waist
+    ]) + numpy.array([
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # left leg
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # right leg
+        0.5,  # waist
+    ])
+    action_clip_min = numpy.array([
+        -2.618, -0.262, -1.571, -0.087, -0.436, -0.785,  # left leg
+        -2.618, -1.571, -1.571, -0.087, -0.436, -0.785,  # right leg
+        -2.618,  # waist
+    ]) - numpy.array([
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # left leg
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5,  # right leg
+        0.5,  # waist
+    ])
 
-    joint_final_position = \
-        numpy.array([
-            # left leg
-            -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
-            # right leg
-            -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
-            # waist
-            0.0,
-            # left arm
-            0.0, 0.0, 0.0, 0.0, 0.0,
-            # right arm
-            0.0, 0.0, 0.0, 0.0, 0.0,
-        ])  # [rad]
+    # --------------------------------------------------
 
-    # update move ratio
-    move_ratio = min(move_count / move_period, 1)
+    # prepare input
 
-    # update target position
-    joint_target_position = joint_start_position \
-                            + (joint_final_position - joint_start_position) * move_ratio
+    # 指令速度: (可修改为摇杆控制)
+    # [lin_vel_x, lin_vel_y, ang_vel_yaw], unit: m/s, m/s, rad/s
+    commands = numpy.array([0.0, 0.0, 0.0, ])
 
-    # update count
-    move_count += 1
+    base_measured_quat = imu_measured_quat
+    base_measured_angular_velocity = imu_measured_angular_velocity
 
-    # print info
-    print("move_ratio = ", numpy.round(move_ratio * 100, 1), "%")
+    joint_measured_position_for_policy = numpy.zeros(policy_control_number_of_joint)
+    joint_measured_velocity_for_policy = numpy.zeros(policy_control_number_of_joint)
 
-    if move_ratio < 1:
-        finish_flag = False
-    else:
-        finish_flag = True
+    for i in range(policy_control_number_of_joint):
+        index = policy_control_index_of_joints[i]
+        joint_measured_position_for_policy[i] = joint_measured_position[index]
+        joint_measured_velocity_for_policy[i] = joint_measured_velocity[index]
 
-    if finish_flag is True:
-        print("move default position movement finish!")
-        exit(0)
+    if policy_action is None:
+        policy_action = numpy.zeros(policy_control_number_of_joint)
+
+    # run algorithm
+    torch_commands = torch.from_numpy(commands).float().unsqueeze(0)
+    torch_base_measured_quat = torch.from_numpy(base_measured_quat).float().unsqueeze(0)
+    torch_base_measured_angular_velocity = torch.from_numpy(base_measured_angular_velocity).float().unsqueeze(0)
+    torch_joint_measured_position_for_policy = torch.from_numpy(joint_measured_position_for_policy).float().unsqueeze(0)
+    torch_joint_measured_velocity_for_policy = torch.from_numpy(joint_measured_velocity_for_policy).float().unsqueeze(0)
+    torch_default_joint_position = torch.from_numpy(default_joint_position).float().unsqueeze(0)
+
+    def torch_quat_rotate_inverse(q, v):
+        """
+        Rotate a vector (tensor) by the inverse of a quaternion (tensor).
+
+        :param q: A quaternion tensor in the form of [x, y, z, w] in shape of [N, 4].
+        :param v: A vector tensor in the form of [x, y, z] in shape of [N, 3].
+        :return: The rotated vector tensor in shape of [N, 3].
+        """
+        q_w = q[:, -1:]
+        q_vec = q[:, :3]
+
+        # Compute the dot product of q_vec and v
+        q_vec_dot_v = torch.bmm(q_vec.view(-1, 1, 3), v.view(-1, 3, 1)).squeeze(-1)
+
+        # Compute the cross product of q_vec and v
+        q_vec_cross_v = torch.cross(q_vec, v, dim=-1)
+
+        # Compute the rotated vector
+        a = v * (2.0 * q_w ** 2 - 1.0)
+        b = q_vec_cross_v * q_w * 2.0
+        c = q_vec * q_vec_dot_v * 2.0
+
+        return a - b + c
+
+    torch_gravity_vector = torch.from_numpy(gravity_vector).float().unsqueeze(0)
+    torch_base_project_gravity = torch_quat_rotate_inverse(torch_base_measured_quat, torch_gravity_vector)
+    torch_measured_position_offset_for_policy = torch_joint_measured_position_for_policy \
+                                                - torch_default_joint_position
+    torch_action = torch.from_numpy(policy_action).float().unsqueeze(0)
+
+    obs_buf = torch.cat([
+        torch_commands,
+        torch_base_measured_angular_velocity,
+        torch_base_project_gravity,
+        torch_measured_position_offset_for_policy,
+        torch_joint_measured_velocity_for_policy * 0.1,
+        torch_action,
+    ], dim=-1)
+
+    obs_len = obs_buf.shape[-1]
+    stack_size = 5
+
+    if obs_buf_stack is None:
+        obs_buf_stack = torch.cat([obs_buf] * stack_size, dim=1).float()
+
+    obs_buf_stack = torch.cat([
+        obs_buf_stack[:, obs_len:],
+        obs_buf,
+    ], dim=1).float()
+
+    torch_policy_action = policy_model(obs_buf_stack).detach()
+
+    torch_policy_action = torch.clip(
+        torch_policy_action,
+        min=torch.from_numpy(action_clip_min).float().unsqueeze(0),
+        max=torch.from_numpy(action_clip_max).float().unsqueeze(0),
+    )
+
+    # 记录上一次的 action
+    policy_action = torch_policy_action.numpy().squeeze(0)
+
+    torch_joint_target_position_from_policy = torch_policy_action \
+                                              + torch_default_joint_position
+
+    joint_target_position_from_policy = torch_joint_target_position_from_policy.numpy().squeeze(0)  # unit : rad
+    joint_target_position_from_policy = joint_target_position_from_policy  # unit : rad
 
     # --------------------------------------------------
 
@@ -296,6 +399,11 @@ def algorithm():
         # right arm
         8.0, 2.5, 2.5, 2.5, 2.5,
     ])
+    joint_target_position = numpy.zeros(robot_number_of_joint)
+
+    for i in range(policy_control_number_of_joint):
+        index = policy_control_index_of_joints[i]
+        joint_target_position[index] = joint_target_position_from_policy[i]
 
     # --------------------------------------------------
 
