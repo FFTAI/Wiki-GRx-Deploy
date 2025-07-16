@@ -72,7 +72,7 @@ def demo_task():
     # 发布消息
     zenoh_publisher.put(msgpack.packb(message))
 
-    # 等待 1s (确保消息被发送)
+    # 等待一段时间，确保任务切换成功
     time.sleep(1)
 
     # 关闭 zenoh 会话

@@ -102,7 +102,7 @@ def demo_task():
 
     task_control_zenoh_publisher.put(msgpack.packb(task_dict))
 
-    # 等待一段时间，确保任务使能成功
+    # 等待一段时间，确保任务切换成功
     time.sleep(1)
 
     # 设置远程控制
