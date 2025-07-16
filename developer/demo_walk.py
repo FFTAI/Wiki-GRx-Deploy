@@ -42,7 +42,7 @@ policy_action = None
 obs_buf_stack = None
 
 
-def main():
+def demo_task():
     global policy_file_path, policy_model
 
     # 设置机器人算法频率
@@ -74,7 +74,7 @@ def algorithm():
 
     # update state
     """
-    state:
+    Robot States:
     - imu:
       - quat (x, y, z, w)
       - euler angle (rpy) [deg]
@@ -287,7 +287,7 @@ def algorithm():
 
     # set control
     """
-    control:
+    Robot Control:
     - control_mode
     - pd_control_kp
     - pd_control_kd
@@ -305,4 +305,4 @@ def algorithm():
 
 
 if __name__ == "__main__":
-    main()
+    demo_task()

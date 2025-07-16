@@ -37,7 +37,7 @@ move_period = 100
 joint_start_position = None
 
 
-def main():
+def demo_task():
     # 设置机器人算法频率
     target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
@@ -59,7 +59,7 @@ def algorithm():
 
     # update state
     """
-    state:
+    Robot States:
     - imu:
       - quat
       - euler angle (rpy) [deg]
@@ -176,7 +176,7 @@ def algorithm():
     # --------------------------------------------------
 
     """
-    control:
+    Robot Control:
     - control_mode
     - pd_control_kp
     - pd_control_kd
@@ -194,4 +194,4 @@ def algorithm():
 
 
 if __name__ == "__main__":
-    main()
+    demo_task()

@@ -32,7 +32,7 @@ import fourier_grx.sdk.developer as fourier_grx
 control_system = fourier_grx.ControlSystem()
 
 
-def main():
+def demo_task():
     # 切换为开发者模式
     control_system.developer_mode(servo_on=False)
 
@@ -87,7 +87,7 @@ def algorithm():
     ])
 
     """
-    control:
+    Robot Control:
     - control_mode
     - pd_control_kp
     - pd_control_kd
@@ -103,4 +103,4 @@ def algorithm():
 
 
 if __name__ == "__main__":
-    main()
+    demo_task()

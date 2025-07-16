@@ -300,7 +300,7 @@ def algorithm():
     # --------------------------------------------------
 
     """
-    control:
+    Robot Control:
     - control_mode
     - kp
     - kd

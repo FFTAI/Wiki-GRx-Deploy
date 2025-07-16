@@ -20,17 +20,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 Demo code for Fourier robots
 
 Run this script by:
-    python demo_xxx.py --config=config_xxx.yaml
-    - config_xxx.yaml is the configuration file for the Fourier robots
+    python demo_xxx.py
 
 """
 
 import numpy
+import time
+import zenoh
+import msgpack
+import json
 from ischedule import run_loop, schedule
 
-import fourier_grx.sdk.developer as fourier_grx
+import fourier_grx.sdk.pubsub as fourier_grx
 
-control_system = fourier_grx.ControlSystem()
+prefix = "fourier-grx"
+
+robot_state_zenoh_subscriber = None
+task_state_zenoh_subscriber = None
+robot_control_zenoh_publisher = None
+task_control_zenoh_publisher = None
+
+state_dict = {}
+control_dict = {}
+task_dict = {}
 
 move_count = 0
 move_period = 100
@@ -38,15 +50,74 @@ joint_start_position = None
 
 
 def demo_task():
+    global robot_state_zenoh_subscriber, task_state_zenoh_subscriber
+    global robot_control_zenoh_publisher, task_control_zenoh_publisher
+
+    # 初始化 zenoh 会话
+    zenoh_config = zenoh.Config.from_json5(
+        json=json.dumps(
+            {
+                "mode": "peer",
+                "transport": {
+                    "auth": {
+                        "usrpwd": {
+                            "user": "fourier-grx",  # 修改为匹配当前通信环境的 username
+                            "password": "fourier-grx",  # 修改为匹配当前通信环境的 password
+                            "dictionary_file": "./credentials.txt",
+                        }
+                    },
+                },
+            }
+        )
+    )
+
+    zenoh_session: zenoh.Session = zenoh.open(zenoh_config)
+
+    # 构建接收者
+    robot_state_zenoh_subscriber = zenoh_session.declare_subscriber(
+        key_expr=f"{prefix}/robot/state",  # 目标发布者的 key 表达式
+        handler=state_handler,
+    )
+    task_state_zenoh_subscriber = zenoh_session.declare_subscriber(
+        key_expr=f"{prefix}/task/state",  # 目标发布者的 key 表达式
+        handler=state_handler,
+    )
+
+    # 构建发布者
+    robot_control_zenoh_publisher = zenoh_session.declare_publisher(
+        key_expr=f"{prefix}/robot/control",  # 发布者的 key 表达式
+        priority=zenoh.Priority.REAL_TIME,
+        congestion_control=zenoh.CongestionControl.DROP,
+    )
+    task_control_zenoh_publisher = zenoh_session.declare_publisher(
+        key_expr=f"{prefix}/task/control",  # 发布者的 key 表达式
+        priority=zenoh.Priority.REAL_TIME,
+        congestion_control=zenoh.CongestionControl.DROP,
+    )
+
+    # 设置使能
+    task_dict = {
+        "task_command": fourier_grx.TaskCommand.TASK_SERVO_ON,
+    }
+
+    task_control_zenoh_publisher.put(msgpack.packb(task_dict))
+
+    # 等待一段时间，确保任务切换成功
+    time.sleep(1)
+
+    # 设置远程控制
+    control_dict = {
+        "task_command": fourier_grx.TaskCommand.TASK_REMOTE_CONTROL,
+    }
+
+    task_control_zenoh_publisher.put(msgpack.packb(control_dict))
+
+    # 等待一段时间，确保任务切换成功
+    time.sleep(1)
+
     # 设置机器人算法频率
     target_control_frequency = 50  # 机器人控制频率, 50Hz
     target_control_period_in_s = 1.0 / target_control_frequency  # 机器人控制周期
-
-    # 切换为开发者模式，设置机器人数据更新频率
-    control_system.developer_mode(servo_on=True, control_frequency=100)
-
-    # 打印版本信息
-    print(control_system.get_info())
 
     # 设置定时任务
     schedule(algorithm, interval=target_control_period_in_s)
@@ -54,8 +125,8 @@ def demo_task():
     run_loop()
 
 
-def algorithm():
-    global move_count, move_period, joint_start_position
+def state_handler(sample: zenoh.Sample):
+    global state_dict, control_dict, task_dict
 
     """
     Robot States:
@@ -68,8 +139,63 @@ def algorithm():
       - position [rad]
       - velocity [rad/s]
       - torque [Nm]
+
+    Task States:
+    - task_execute
+    - component_execute
     """
-    state_dict = control_system.robot_control_loop_get_state()
+
+    key_expr = sample.key_expr
+    key_expr_str = str(key_expr)
+
+    # change from builtins.ZBytes to bytes-like object
+    sample_value = sample.payload.to_bytes()
+
+    # get the data_dict from the sample_value
+    data_dict = msgpack.unpackb(sample_value)
+
+    # Convert data_dict to a format suitable for Python processing
+    for key, value in data_dict.items():
+        if isinstance(value, bytes):
+            data_dict[key] = value.decode('utf-8')  # 默认用 utf-8 解码
+
+    # check if the key_expr_str is in the zenoh_keys for robot subscribers
+    if data_dict:
+        if key_expr_str == f"{prefix}/robot/state":
+            # print the robot state
+            robot_number_of_joint = 6 + 6 + 1 + 5 + 5
+
+            # parse state
+            imu_quat = data_dict.get("imu_quat", [0, 0, 0, 1])
+            imu_euler_angle = data_dict.get("imu_euler_angle", [0, 0, 0])
+            imu_angular_velocity = data_dict.get("imu_angular_velocity", [0, 0, 0])
+            imu_acceleration = data_dict.get("imu_acceleration", [0, 0, 0])
+            joint_position = data_dict.get("joint_position", [0] * robot_number_of_joint)
+            joint_velocity = data_dict.get("joint_velocity", [0] * robot_number_of_joint)
+            joint_effort = data_dict.get("joint_effort", [0] * robot_number_of_joint)
+
+            state_dict["imu_quat"] = imu_quat
+            state_dict["imu_euler_angle"] = imu_euler_angle
+            state_dict["imu_angular_velocity"] = imu_angular_velocity
+            state_dict["imu_acceleration"] = imu_acceleration
+            state_dict["joint_position"] = joint_position
+            state_dict["joint_velocity"] = joint_velocity
+            state_dict["joint_effort"] = joint_effort
+
+        if key_expr_str == f"{prefix}/task/state":
+            # print the task state
+
+            # parse state
+            task_execute = data_dict.get("task_execute", False)
+            component_execute = data_dict.get("component_execute", False)
+
+            state_dict["task_execute"] = task_execute
+            state_dict["component_execute"] = component_execute
+
+
+def algorithm():
+    global state_dict, control_dict, task_dict
+    global move_count, move_period, joint_start_position
 
     # --------------------------------------------------
 
@@ -174,21 +300,21 @@ def algorithm():
     # --------------------------------------------------
 
     """
-    Robot Control:
+    control:
     - control_mode
-    - pd_control_kp
-    - pd_control_kd
+    - kp
+    - kd
     - position [rad]
     """
     control_dict = {
-        "control_mode": joint_target_control_mode,
-        "pd_control_kp": joint_target_kp,
-        "pd_control_kd": joint_target_kd,
-        "position": joint_target_position,
+        "control_mode": joint_target_control_mode.copy().tolist(),
+        "kp": joint_target_kp.copy().tolist(),
+        "kd": joint_target_kd.copy().tolist(),
+        "position": joint_target_position.copy().tolist(),
     }
 
     # output control
-    control_system.robot_control_loop_set_control(control_dict=control_dict)
+    robot_control_zenoh_publisher.put(msgpack.packb(control_dict))
 
 
 if __name__ == "__main__":

@@ -55,6 +55,7 @@ def schedule_task():
     Update and print state
     """
 
+    # update state
     """
     Robot States:
     - imu:
