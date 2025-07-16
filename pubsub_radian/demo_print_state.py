@@ -89,12 +89,12 @@ def state_handler(sample: zenoh.Sample):
     Robot States:
     - imu:
       - quat
-      - euler angle (rpy) [deg]
-      - angular velocity [deg/s]
+      - euler angle (rpy) [rad]
+      - angular velocity [rad/s]
       - linear acceleration [m/s^2]
     - joint (in urdf):
-      - position [deg]
-      - velocity [deg/s]
+      - position [rad]
+      - velocity [rad/s]
       - torque [Nm]
       
     Task States:

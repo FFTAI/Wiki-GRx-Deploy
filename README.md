@@ -4,6 +4,11 @@
 
 请参阅文档 [Fourier-GRX](https://fftai.github.io/fourier-grx-N1/) 以获取更多详细信息。
 
+> **注意**：
+>
+> 自 4.0.0 版本起，接口单位由原来的角度（度）改为弧度（rad），请注意在使用时进行单位转换。
+> 主要是 developer 接口需要变更，用户接口（User API）保持不变。
+
 ## 感谢
 
 - Zenoh 团队提供的 zenoh 分布式系统的数据共享和协作平台。https://zenoh.io/

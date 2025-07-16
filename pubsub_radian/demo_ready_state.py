@@ -132,12 +132,12 @@ def state_handler(sample: zenoh.Sample):
     Robot States:
     - imu:
       - quat
-      - euler angle (rpy) [deg]
-      - angular velocity [deg/s]
+      - euler angle (rpy) [rad]
+      - angular velocity [rad/s]
       - linear acceleration [m/s^2]
     - joint (in urdf):
-      - position [deg]
-      - velocity [deg/s]
+      - position [rad]
+      - velocity [rad/s]
       - torque [Nm]
 
     Task States:
@@ -218,19 +218,18 @@ def algorithm():
         print("joint_start_position = \n", numpy.round(joint_start_position, 1))
 
     joint_final_position = \
-        numpy.rad2deg(
-            numpy.array([
-                # left leg
-                -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
-                # right leg
-                -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
-                # waist
-                0.0,
-                # left arm
-                0.0, 0.0, 0.0, 0.0, 0.0,
-                # right arm
-                0.0, 0.0, 0.0, 0.0, 0.0,
-            ]))  # [deg]
+        numpy.array([
+            # left leg
+            -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
+            # right leg
+            -0.2468, 0.0, 0.0, +0.5181, 0.0, -0.2408,
+            # waist
+            0.0,
+            # left arm
+            0.0, 0.0, 0.0, 0.0, 0.0,
+            # right arm
+            0.0, 0.0, 0.0, 0.0, 0.0,
+        ])  # [rad]
 
     # update move ratio
     move_ratio = min(move_count / move_period, 1)
@@ -305,7 +304,7 @@ def algorithm():
     - control_mode
     - kp
     - kd
-    - position [deg]
+    - position [rad]
     """
     control_dict = {
         "control_mode": joint_target_control_mode.copy().tolist(),
