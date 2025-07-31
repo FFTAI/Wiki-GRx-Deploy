@@ -48,7 +48,7 @@ def demo_task():
                         "usrpwd": {
                             "user": "fourier-grx",  # 修改为匹配当前通信环境的 username
                             "password": "fourier-grx",  # 修改为匹配当前通信环境的 password
-                            "dictionary_file": "./credentials.txt",
+                            "dictionary_file": "./credentials.txt",  # 修改为匹配目标 fourier-grx 的 credentials.txt 路径
                         }
                     },
                 },
