@@ -126,7 +126,7 @@ def demo_task():
     # Load Model
     policy_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "policy_jit_rl_walk.pt",
+        "policy_jit_walk.pt",
     )
 
     policy_model = torch.jit.load(policy_file_path, map_location=torch.device('cpu'))
@@ -267,8 +267,8 @@ def algorithm():
     # [lin_vel_x, lin_vel_y, ang_vel_yaw], unit: m/s, m/s, rad/s
     commands = numpy.array([0.0, 0.0, 0.0, ])
 
-    base_measured_quat = imu_measured_quat
-    base_measured_angular_velocity = imu_measured_angular_velocity
+    base_measured_quat = numpy.array(imu_measured_quat)
+    base_measured_angular_velocity = numpy.array(imu_measured_angular_velocity)
 
     joint_measured_position_for_policy = numpy.zeros(policy_control_number_of_joint)
     joint_measured_velocity_for_policy = numpy.zeros(policy_control_number_of_joint)

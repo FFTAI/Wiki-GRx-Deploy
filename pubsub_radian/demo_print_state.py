@@ -24,7 +24,6 @@ Run this script by:
 
 """
 
-import numpy
 import time
 import zenoh
 import msgpack
