@@ -25,6 +25,7 @@ Run this script by:
 """
 
 import time
+import json
 import zenoh
 import msgpack
 
@@ -34,8 +35,28 @@ import fourier_grx.sdk.user as fourier_grx
 def demo_task():
     prefix = "fourier-grx"
 
-    # 初始化 zenoh 会话
-    zenoh_config = zenoh.Config()
+    # 初始化 zenoh 配置 （旧版本）
+    # zenoh_config = zenoh.Config()
+
+    # 初始化 zenoh 配置 （新版本）
+    zenoh_config = zenoh.Config.from_json5(
+        json=json.dumps(
+            {
+                "mode": "peer",
+                "transport": {
+                    "auth": {
+                        "usrpwd": {
+                            "user": "fourier-grx",  # 修改为匹配当前通信环境的 username
+                            "password": "fourier-grx",  # 修改为匹配当前通信环境的 password
+                            "dictionary_file": "./credentials.txt",
+                        }
+                    },
+                },
+            }
+        )
+    )
+
+    # 创建 zenoh 会话
     zenoh_session: zenoh.Session = zenoh.open(zenoh_config)
 
     # 构建发布者
