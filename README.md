@@ -7,7 +7,7 @@
 > [!IMPORTANT]
 >
 > 自 `fourier-grx` 4.0.0 版本起，接口单位由原来的角度（deg）改为弧度（rad），请注意在使用时进行单位转换。
-> 主要是 developer 接口需要变更，用户接口（User API）保持不变。
+> 主要是 developer 接口需要变更，用户接口（User API）不涉及单位转换，保持不变。
 > 
 > 提供了两个版本的示例代码：
 > - `developer` 目录下的示例代码适用于 `fourier-grx` 版本 **小于 4.0.0** 的版本。
