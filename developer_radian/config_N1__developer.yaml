@@ -2,13 +2,9 @@ log_level: "none" # Notice: for client use, please set log_level to "error"
 
 # Control System Layer --------------------------------------------------------
 device_connected: true
-mode: "debug"  # support "debug", "release"
 
 hardware_type: "X64"
 hardware_layer: "fourier-core"
-
-dynalink:
-  enable: true
 
 resource:
   path: "~/fourier-grx/resource/n1"
@@ -16,14 +12,7 @@ resource:
 zenoh:
   path: "~/fourier-grx/resource/zenoh"
 
-record:
-  enable: false
-  path: "~/fourier-grx/record/n1"
-
 # Robot Layer -----------------------------------------------------------------
-peripheral:
-  use_virtual_joystick: true
-
 robot:
   name: "N1"
   mechanism: ""
