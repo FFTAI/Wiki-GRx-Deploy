@@ -24,6 +24,7 @@ Run this script by:
 
 """
 
+import os
 import time
 import zenoh
 import msgpack
@@ -35,6 +36,10 @@ prefix = "fourier-grx"
 
 
 def demo_task():
+    # 获取当前文件所在目录路径
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    credentials_path = os.path.join(current_dir, "credentials.txt")
+
     # 初始化 zenoh 会话
     zenoh_config = zenoh.Config.from_json5(
         json=json.dumps(
@@ -45,7 +50,7 @@ def demo_task():
                         "usrpwd": {
                             "user": "fourier-grx",  # 修改为匹配当前通信环境的 username
                             "password": "fourier-grx",  # 修改为匹配当前通信环境的 password
-                            "dictionary_file": "./credentials.txt",  # 修改为匹配目标 fourier-grx 的 credentials.txt 路径
+                            "dictionary_file": credentials_path,  # 修改为匹配目标 fourier-grx 的 credentials.txt 路径
                         }
                     },
                 },
