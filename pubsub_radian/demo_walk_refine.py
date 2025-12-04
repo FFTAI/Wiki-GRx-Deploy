@@ -343,7 +343,7 @@ def algorithm():
     ], dim=-1)
 
     obs_len = obs_buf.shape[-1]
-    stack_size = 5
+    stack_size = 20
 
     if obs_buf_stack is None:
         obs_buf_stack = torch.cat([obs_buf] * stack_size, dim=1).float()
