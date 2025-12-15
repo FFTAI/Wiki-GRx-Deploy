@@ -16,7 +16,7 @@ zenoh:
 robot:
   name: "N1"
   mechanism: ""
-  control_period: 0.0025
+  # control_period: 0.0025 # must set when use as develop mode init input
 
 # Component Layer -------------------------------------------------------------
 sensor_usb_imu:
