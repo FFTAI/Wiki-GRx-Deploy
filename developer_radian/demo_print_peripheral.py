@@ -39,7 +39,7 @@ def demo_task():
     control_period = 1.0 / control_frequency  # 机器人控制周期
 
     # 切换为开发者模式
-    control_system.developer_mode(servo_on=True)
+    control_system.developer_mode(servo_on=False)
 
     # 打印版本信息
     print(control_system.get_info())
