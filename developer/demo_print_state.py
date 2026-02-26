@@ -58,15 +58,15 @@ def schedule_task():
     """
     Robot States:
     - joint (in urdf):
-      - position [deg]
-      - velocity [deg/s]
+      - position [rad or m]
+      - velocity [rad/s or m/s]
       - torque [Nm]
     """
     state_dict = control_system.robot_control_loop_get_state()
 
     # --------------------------------------------------
 
-    robot_number_of_joint = 2 + 2
+    robot_number_of_joint = 2 + 2 + 2 + 2
 
     # parse state
     joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)

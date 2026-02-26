@@ -46,22 +46,34 @@ def main():
 def algorithm():
     # 控制参数如不需修改，则只需要发送一次即可
     joint_target_control_mode = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # right leg
+        # right leg (rotary joint)
+        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        # left leg (prismatic joint)
+        fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        # right leg (prismatic joint)
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
     ])
     joint_target_kp = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         200.0, 200.0,
-        # right leg
+        # right leg (rotary joint)
         200.0, 200.0,
+        # left leg (prismatic joint)
+        10.0, 10.0,
+        # right leg (prismatic joint)
+        10.0, 10.0,
     ])
     joint_target_kd = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         20.0, 20.0,
-        # right leg
+        # right leg (rotary joint)
         20.0, 20.0,
+        # left leg (prismatic joint)
+        1.0, 1.0,
+        # right leg (prismatic joint)
+        1.0, 1.0,
     ])
 
     """

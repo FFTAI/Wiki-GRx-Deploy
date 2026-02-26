@@ -10,5 +10,5 @@ Please refer to the document [Fourier-GRX-M4](https://fftai.github.io/fourier-gr
 
 ---
 
-Thank you for your interest in Fourier's M4 robot project!
+Thank you for your interest in Fourier's M4L robot project!
 We hope this resource will provide strong support for your robotics development!

@@ -1,0 +1,43 @@
+log_level: "none" # Notice: for client use, please set log_level to "error"
+
+# Control System Layer --------------------------------------------------------
+device_connected: true
+
+hardware_type: "X64"
+hardware_layer: "fourier-core"
+
+resource:
+  path: "~/fourier-grx/resource/m4l"
+
+zenoh:
+  authentication: false
+  path: "~/fourier-grx/resource/zenoh"
+
+# Robot Layer -----------------------------------------------------------------
+peripheral:
+  use_joystick: false
+  joystick_type: "XBOX"  # support "XBOX", "PS4", "PS5"
+  use_keyboard: false
+  keyboard_type: "STANDARD"
+
+robot:
+  name: "M4LT1"
+  backend: "Real"
+  control_period: 0.02
+
+# Component Layer -------------------------------------------------------------
+actuator:
+  comm_enable: [
+    # left leg (rotary joint)
+    true, true,
+    # right leg (rotary joint)
+    true, true,
+    # left leg (prismatic joint)
+    true, true,
+    # right leg (prismatic joint)
+    true, true
+  ]
+
+# Hardware Layer ---------------------------------------------------------------
+fi_fsa:
+  version: "v2_async"

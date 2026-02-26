@@ -69,7 +69,7 @@ def algorithm():
 
     # --------------------------------------------------
 
-    robot_number_of_joint = 2 + 2
+    robot_number_of_joint = 2 + 2 + 2 + 2
 
     # parse state
     joint_position = state_dict.get("joint_position", [0] * robot_number_of_joint)
@@ -85,11 +85,15 @@ def algorithm():
 
     joint_final_position = \
         numpy.array([
-            # left leg
+            # left leg (rotary joint)
             -0.2, 0.2,
-            # right leg
+            # right leg (rotary joint)
             -0.2, 0.2,
-        ])  # [rad]
+            # left leg (prismatic joint)
+            0.0, 0.0,
+            # right leg (prismatic joint)
+            0.0, 0.0,
+        ])  # [rad or m]
 
     # update move ratio
     move_ratio = min(move_count / move_period, 1)
@@ -117,22 +121,34 @@ def algorithm():
 
     # 控制参数如不需修改，则只需要发送一次即可
     joint_target_control_mode = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
-        # right leg
+        # right leg (rotary joint)
         fourier_grx.JointControlMode.PD, fourier_grx.JointControlMode.PD,
+        # left leg (prismatic joint)
+        fourier_grx.JointControlMode.NONE, fourier_grx.JointControlMode.NONE,
+        # right leg (prismatic joint)
+        fourier_grx.JointControlMode.NONE, fourier_grx.JointControlMode.NONE,
     ])
     joint_target_kp = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         200.0, 200.0,
-        # right leg
+        # right leg (rotary joint)
         200.0, 200.0,
+        # left leg (prismatic joint)
+        10.0, 10.0,
+        # right leg (prismatic joint)
+        10.0, 10.0,
     ])
     joint_target_kd = numpy.array([
-        # left leg
+        # left leg (rotary joint)
         20.0, 20.0,
-        # right leg
+        # right leg (rotary joint)
         20.0, 20.0,
+        # left leg (prismatic joint)
+        1.0, 1.0,
+        # right leg (prismatic joint)
+        1.0, 1.0,
     ])
 
     # --------------------------------------------------
