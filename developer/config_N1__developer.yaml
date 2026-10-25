@@ -21,7 +21,7 @@ peripheral:
 
 robot:
   name: "N1"
-  mechanism: ""
+  backend: "Real"
   # control_period: 0.0025
 
 # Component Layer -------------------------------------------------------------

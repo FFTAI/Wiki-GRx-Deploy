@@ -185,7 +185,7 @@ def state_handler(sample: zenoh.Sample):
             imu_quat = data_dict.get("imu_quat", [0, 0, 0, 1])
             imu_euler_angle = data_dict.get("imu_euler_angle", [0, 0, 0])
             imu_angular_velocity = data_dict.get("imu_angular_velocity", [0, 0, 0])
-            imu_acceleration = data_dict.get("imu_acceleration", [0, 0, 0])
+            imu_acceleration = data_dict.get("imu_linear_acceleration", [0, 0, 0])
             joint_position = data_dict.get("joint_position", [0] * robot_number_of_joint)
             joint_velocity = data_dict.get("joint_velocity", [0] * robot_number_of_joint)
             joint_effort = data_dict.get("joint_effort", [0] * robot_number_of_joint)
@@ -193,7 +193,7 @@ def state_handler(sample: zenoh.Sample):
             state_dict["imu_quat"] = imu_quat
             state_dict["imu_euler_angle"] = imu_euler_angle
             state_dict["imu_angular_velocity"] = imu_angular_velocity
-            state_dict["imu_acceleration"] = imu_acceleration
+            state_dict["imu_linear_acceleration"] = imu_acceleration
             state_dict["joint_position"] = joint_position
             state_dict["joint_velocity"] = joint_velocity
             state_dict["joint_effort"] = joint_effort

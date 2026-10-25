@@ -87,7 +87,7 @@ def demo_task():
         congestion_control=zenoh.CongestionControl.DROP,
     )
     zenoh_grx_publisher = zenoh_session.declare_publisher(
-        key_expr=f"{prefix}/dynalink_interface/grx/client",  # 目标发布者的 key 表达式
+        key_expr=f"{prefix}/dynalink_interface/grx/client",  # 虚拟外设数据使用 grx/client
         priority=zenoh.Priority.REAL_TIME,
         congestion_control=zenoh.CongestionControl.DROP,
     )
@@ -114,8 +114,8 @@ def demo_task():
 
     print("Sending message: ", message)
 
-    # 发布消息
-    zenoh_grx_publisher.put(msgpack.packb(message))
+    # 发布消息（模块指令与任务指令同属 task/client）
+    zenoh_task_publisher.put(msgpack.packb(message))
 
     # 等待 1s (确保消息被发送)
     time.sleep(1)

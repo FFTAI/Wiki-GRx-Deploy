@@ -23,7 +23,7 @@ Run this script by:
     python demo_xxx.py --config=config_xxx.yaml
     - config_xxx.yaml is the configuration file for the Fourier robots
 
-这个 demo 要求连接摇杆, 用摇杆控制机器人走路速度
+这个 demo 以固定速度指令控制机器人行走, 可自行接入手柄/摇杆输入
 
 """
 
